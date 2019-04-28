@@ -1,1 +1,2 @@
 # autobox
+Automatic jukebox player
