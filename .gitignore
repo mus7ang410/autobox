@@ -5,3 +5,5 @@ autobox-desktop/packages/
 Autobox.Core/obj/
 Autobox.Core/bin/
 packages/
+Autobox.Desktop/bin/
+Autobox.Desktop/obj/
