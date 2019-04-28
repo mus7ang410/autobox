@@ -1,0 +1,7 @@
+autobox-desktop/.vs/
+autobox-desktop/autobox-desktop/bin/
+autobox-desktop/autobox-desktop/obj/
+autobox-desktop/packages/
+Autobox.Core/obj/
+Autobox.Core/bin/
+packages/
