@@ -88,6 +88,13 @@ namespace Autobox.Core.Services.VideoLibrary
             return track;
         }
 
+        // ##### GetTrackVideoFilePath
+        // Get absolute path for the video file
+        public string GetTrackVideoFilePath(Track track)
+        {
+            return Directory.GetCurrentDirectory() + "/" + track.VideoFilePath;
+        }
+
         // ##### UpdateTrackAsync
         // Update track metadata
         public Task UpdateTrackAsync(Track track) { return UpdateTrackMetadataAsync(track); }

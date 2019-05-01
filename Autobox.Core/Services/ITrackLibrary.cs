@@ -15,6 +15,8 @@ namespace Autobox.Core.Services
         Task UpdateTrackAsync(Track track);
         HashSet<string> CreateTagList(string text);
 
+        string GetTrackVideoFilePath(Track track);
+
         Dictionary<string, Track> TrackList { get; }
         Dictionary<string, Tag> TagList { get; }
     }
