@@ -69,11 +69,17 @@
     <Compile Include="Activities\Panels\AddYouTubePanel.xaml.cs">
       <DependentUpon>AddYouTubePanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Activities\Panels\ScreenPanel.xaml.cs">
+      <DependentUpon>ScreenPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Activities\Panels\TagPanel.xaml.cs">
       <DependentUpon>TagPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Activities\Panels\TrackListPanel.xaml.cs">
       <DependentUpon>TrackListPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Activities\Panels\TrackPlayerPanel.xaml.cs">
+      <DependentUpon>TrackPlayerPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Activities\Panels\TrackPreviewPanel.xaml.cs">
       <DependentUpon>TrackPreviewPanel.xaml</DependentUpon>
@@ -103,11 +109,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Activities\Panels\ScreenPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Activities\Panels\TagPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Activities\Panels\TrackListPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Activities\Panels\TrackPlayerPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -135,7 +149,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Layouts\TrackPreviewLayout.xaml">
+    <Page Include="Layouts\PlayerLayout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -195,6 +209,14 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\DiscIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\ShuffleIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\SkipIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

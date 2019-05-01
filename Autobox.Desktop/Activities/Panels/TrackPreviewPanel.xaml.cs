@@ -63,13 +63,13 @@ namespace Autobox.Desktop.Activities.Panels
                 {
                     MediaPlayer.Play();
                     State = EState.Playing;
-                    PlayButton.OpacityMask = FindResource("TrackPreview.PauseButton.ImageBrush") as Brush;
+                    PlayButton.OpacityMask = FindResource("Player.Brushes.Pause") as Brush;
                 }
                 else
                 {
                     MediaPlayer.Pause();
                     State = EState.Idle;
-                    PlayButton.OpacityMask = FindResource("TrackPreview.PlayButton.ImageBrush") as Brush;
+                    PlayButton.OpacityMask = FindResource("Player.Brushes.Play") as Brush;
                 }
             }
         }
@@ -85,13 +85,13 @@ namespace Autobox.Desktop.Activities.Panels
         private void MediaPlayer_MediaFailed(object sender, ExceptionRoutedEventArgs e)
         {
             State = EState.Failed;
-            PlayButton.OpacityMask = FindResource("TrackPreview.PlayButton.ImageBrush") as Brush;
+            PlayButton.OpacityMask = FindResource("Player.Brushes.Play") as Brush;
         }
 
         private void MediaPlayer_MediaEnded(object sender, RoutedEventArgs e)
         {
             State = EState.Idle;
-            PlayButton.OpacityMask = FindResource("TrackPreview.PlayButton.ImageBrush") as Brush;
+            PlayButton.OpacityMask = FindResource("Player.Brushes.Pause") as Brush;
         }
 
         private void SoundSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
