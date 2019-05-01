@@ -7,13 +7,9 @@
         xmlns:Activities="clr-namespace:Autobox.Desktop.Activities"
         mc:Ignorable="d"
         Title="Autobox" Height="600" Width="900">
-    <Grid Background="{DynamicResource BackColor}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <Rectangle Fill="{DynamicResource PrimaryColor}"/>
-        <Activities:LibraryActivity Grid.Row="1"/>
+    <Grid>
+        <Activities:ActivityManager/>
+
     </Grid>
 </Window>
 

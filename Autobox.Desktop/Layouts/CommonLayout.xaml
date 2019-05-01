@@ -7,6 +7,7 @@
     <system:Double x:Key="H2.Double">15</system:Double>
     <system:Double x:Key="H3.Double">5</system:Double>
 
+    <GridLength x:Key="H0.GridLength">50</GridLength>
     <GridLength x:Key="H1.GridLength">30</GridLength>
     <GridLength x:Key="H2.GridLength">15</GridLength>
     <GridLength x:Key="H3.GridLength">5</GridLength>
@@ -32,5 +33,6 @@
     <SolidColorBrush x:Key="TextPrimaryColor" Color="#111315"/>
     <SolidColorBrush x:Key="TextSecondaryColor" Color="#1a242a"/>
     <SolidColorBrush x:Key="TextLightColor" Color="#80a2b2"/>
+    <SolidColorBrush x:Key="TextDarkColor" Color="#15191b"/>
 
 </ResourceDictionary>

@@ -7,6 +7,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Layouts/CommonLayout.xaml"/>
+                <ResourceDictionary Source="Layouts/RibbonLayout.xaml"/>
                 <ResourceDictionary Source="Layouts/TagLayout.xaml"/>
                 <ResourceDictionary Source="Layouts/CardLayout.xaml"/>
                 <ResourceDictionary Source="Layouts/TrackPreviewLayout.xaml"/>

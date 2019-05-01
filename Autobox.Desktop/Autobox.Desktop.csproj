@@ -60,6 +60,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Activities\ActivityManager.xaml.cs">
+      <DependentUpon>ActivityManager.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Activities\LibraryActivity.xaml.cs">
       <DependentUpon>LibraryActivity.xaml</DependentUpon>
     </Compile>
@@ -75,6 +78,9 @@
     <Compile Include="Activities\Panels\TrackPreviewPanel.xaml.cs">
       <DependentUpon>TrackPreviewPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Activities\PlayerActivity.xaml.cs">
+      <DependentUpon>PlayerActivity.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -85,6 +91,10 @@
     <Compile Include="Services\ITrackFilter.cs" />
     <Compile Include="Services\ServiceProvider.cs" />
     <Compile Include="Services\TrackFilter.cs" />
+    <Page Include="Activities\ActivityManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Activities\LibraryActivity.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -105,11 +115,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Activities\PlayerActivity.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Layouts\CardLayout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Layouts\CommonLayout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Layouts\RibbonLayout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -160,16 +178,24 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\autobox.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\PauseIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\PlayIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\LibraryIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\PlayerIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\DiscIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

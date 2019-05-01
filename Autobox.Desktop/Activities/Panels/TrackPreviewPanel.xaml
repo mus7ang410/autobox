@@ -34,27 +34,9 @@
                     <Button.OpacityMask>
                         <ImageBrush ImageSource="/Autobox.Desktop;component/Assets/PlayIcon.png" Stretch="Uniform"/>
                     </Button.OpacityMask>
-                    <Image>
-                        <Image.OpacityMask>
-                            <ImageBrush ImageSource="/Autobox.Desktop;component/Assets/PauseIcon.png"/>
-                        </Image.OpacityMask>
-                    </Image>
                 </Button>
                 <Separator Width="{StaticResource H3.Double}" Background="Transparent"/>
-                <Slider x:Name="SoundSlider" TickFrequency="0.1" Value="0.2" Maximum="1" VerticalAlignment="Center" ValueChanged="SoundSlider_ValueChanged">
-                    <Slider.Resources>
-                        <SolidColorBrush x:Key="SliderSelectionBackground" Color="Green" />
-                        <SolidColorBrush x:Key="SliderSelectionBorder" Color="Green" />
-                        <SolidColorBrush x:Key="SliderThumbBackground" Color="Green" />
-                        <SolidColorBrush x:Key="SliderThumbBackgroundDisabled" Color="Green" />
-                        <SolidColorBrush x:Key="SliderThumbBackgroundDragging" Color="Green" />
-                        <SolidColorBrush x:Key="SliderThumbBackgroundHover" Color="Green" />
-                        <SolidColorBrush x:Key="SliderThumbBorder" Color="Green" />
-                        <SolidColorBrush x:Key="SliderThumbBorderDisabled" Color="Green" />
-                        <SolidColorBrush x:Key="SliderThumbBorderDragging" Color="Green" />
-                        <SolidColorBrush x:Key="SliderThumbBorderHover" Color="Green" />
-                    </Slider.Resources>
-                </Slider>
+                <Slider x:Name="SoundSlider" TickFrequency="0.1" Value="0.2" Maximum="1" VerticalAlignment="Center" ValueChanged="SoundSlider_ValueChanged"/>
             </DockPanel>
         </Grid>
     </Grid>
