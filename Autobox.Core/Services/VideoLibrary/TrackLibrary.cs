@@ -35,7 +35,7 @@ namespace Autobox.Core.Services.VideoLibrary
             foreach (string metadataFile in Index.MetadataFiles)
             {
                 string json = File.ReadAllText(metadataFile);
-                Track track = JsonConvert.DeserializeObject<Track>(json);
+                Track track = ProcessLoadedTrack(JsonConvert.DeserializeObject<Track>(json));
                 if (!TrackList.ContainsKey(track.Title))
                 {
                     TrackList.Add(track.Title, track);
@@ -44,6 +44,14 @@ namespace Autobox.Core.Services.VideoLibrary
             }
 
             return Task.CompletedTask;
+        }
+
+        // ##### ProcessLoadedTrack
+        // Process a newly loaded track to ensure is content is compatible
+        private Track ProcessLoadedTrack(Track track)
+        {
+            track.Tags = new HashSet<string>(track.Tags.ToList().ConvertAll(str => str.ToUpper()));
+            return track;
         }
 
         // ##### CreateTrack

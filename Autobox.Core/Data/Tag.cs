@@ -18,7 +18,11 @@ namespace Autobox.Core.Data
             foreach (string token in tokens)
             {
                 Regex rgx = new Regex("[^a-zA-Z0-9 -]");
-                tags.Add(rgx.Replace(token, ""));
+                string computed = rgx.Replace(token, "").ToUpper();
+                if (computed.Length >= 3)
+                {
+                    tags.Add(computed);
+                }
             }
             return tags;
         }
