@@ -1,0 +1,36 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib"
+                    xmlns:local="clr-namespace:Autobox.Desktop.Layouts">
+
+    <system:Double x:Key="H1.Double">30</system:Double>
+    <system:Double x:Key="H2.Double">15</system:Double>
+    <system:Double x:Key="H3.Double">5</system:Double>
+
+    <GridLength x:Key="H1.GridLength">30</GridLength>
+    <GridLength x:Key="H2.GridLength">15</GridLength>
+    <GridLength x:Key="H3.GridLength">5</GridLength>
+
+    <Thickness x:Key="H1.Thickness">30</Thickness>
+    <Thickness x:Key="H2.Thickness">15</Thickness>
+    <Thickness x:Key="H3.Thickness">5</Thickness>
+
+    <LinearGradientBrush x:Key="BackColor" StartPoint="0,1" EndPoint="1,0" MappingMode="RelativeToBoundingBox">
+        <LinearGradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#476161" />
+                <GradientStop Color="#3b4b59" Offset="1"/>
+            </GradientStopCollection>
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <SolidColorBrush x:Key="PrimaryColor" Color="#2a3944"/>
+    <SolidColorBrush x:Key="SecondaryColor" Color="#445561"/>
+    <SolidColorBrush x:Key="LightColor" Color="#668195"/>
+    <SolidColorBrush x:Key="AccentColor" Color="#2f3e49"/>
+
+    <SolidColorBrush x:Key="TextPrimaryColor" Color="#111315"/>
+    <SolidColorBrush x:Key="TextSecondaryColor" Color="#1a242a"/>
+    <SolidColorBrush x:Key="TextLightColor" Color="#80a2b2"/>
+
+</ResourceDictionary>
