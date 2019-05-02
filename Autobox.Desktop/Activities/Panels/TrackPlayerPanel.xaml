@@ -18,6 +18,8 @@
                 <ColumnDefinition  Width="{StaticResource H3.GridLength}"/>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="{StaticResource H3.GridLength}"/>
+                <ColumnDefinition Width="{StaticResource H1.GridLength}"/>
+                <ColumnDefinition Width="{StaticResource H3.GridLength}"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="{StaticResource H3.GridLength}"/>
@@ -43,9 +45,9 @@
                     </Button.OpacityMask>
                 </Button>
                 <Separator Width="{StaticResource H3.Double}" Background="Transparent"/>
-                <Slider x:Name="SoundSlider" TickFrequency="0.1" Value="0.5" Maximum="1" VerticalAlignment="Center" ValueChanged="SoundSlider_ValueChanged"/>
             </DockPanel>
             <local:ScreenPanel x:Name="ScreenPanel" Grid.Column="1" Grid.Row="1"/>
+            <local:SoundSliderPanel x:Name="SoundSliderPanel" Grid.Column="3" Grid.Row="1" Grid.RowSpan="3" ValueChanged="SoundSliderPanel_ValueChanged"/>
         </Grid>
     </Grid>
 </UserControl>

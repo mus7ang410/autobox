@@ -29,72 +29,44 @@ namespace Autobox.Desktop.Activities.Panels
         public TrackPlayerPanel()
         {
             InitializeComponent();
-            Library = ServiceProvider.GetService<ITrackLibrary>();
-            Playlist = ServiceProvider.GetService<IPlaylistManager>();
-            ScreenPanel.TrackTransitionStarted += ScreenPanel_TrackTransitionStarted;
         }
 
         private void ShuffleButton_Click(object sender, RoutedEventArgs e)
         {
-            Playlist.Shuffle();
-            ScreenPanel.Init(Playlist.PreviousTrack, Playlist.CurrentTrack, Playlist.NextTrack);
+            ScreenPanel.Shuffle();
         }
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
-            if (State == EState.Paused)
+            if (State == EState.Pause)
             {
-                Play();
+                ScreenPanel.Play();
+                PlayButton.OpacityMask = FindResource("Player.Brushes.Pause") as Brush;
+                State = EState.Play;
             }
-            else if (State == EState.Playing)
+            else if (State == EState.Play)
             {
-                Pause();
+                ScreenPanel.Pause();
+                PlayButton.OpacityMask = FindResource("Player.Brushes.Play") as Brush;
+                State = EState.Pause;
             }
         }
 
         private void SkipButton_Click(object sender, RoutedEventArgs e)
         {
-            Skip();
+            ScreenPanel.Skip();
         }
 
-        private void SoundSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void SoundSliderPanel_ValueChanged(object sender, double e)
         {
-            Slider slider = sender as Slider;
             if (ScreenPanel != null)
             {
-                ScreenPanel.Volume = slider.Value;
+                ScreenPanel.Volume = e;
             }
-            
-        }
-
-        private void Play()
-        {
-            ScreenPanel.PlayCurrent();
-            PlayButton.OpacityMask = FindResource("Player.Brushes.Pause") as Brush;
-        }
-
-        private void Pause()
-        {
-            ScreenPanel.PauseCurrent();
-            PlayButton.OpacityMask = FindResource("Player.Brushes.Play") as Brush;
-        }
-
-        private void Skip()
-        {
-            ScreenPanel.PlayNext(Playlist.NextTrack);
-            Playlist.Forward();
-        }
-
-        private void ScreenPanel_TrackTransitionStarted(object sender, EventArgs e)
-        {
-            ScreenPanel.PlayNext(Playlist.NextTrack);
-            Playlist.Forward();
         }
 
         // ##### Attributes
-        private readonly ITrackLibrary Library;
-        private readonly IPlaylistManager Playlist;
-        private enum EState { Paused, Playing };
-        private EState State = EState.Paused;
+        private enum EState { Play, Pause };
+        private EState State = EState.Pause;
     }
 }

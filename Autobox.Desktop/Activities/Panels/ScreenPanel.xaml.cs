@@ -29,200 +29,293 @@ namespace Autobox.Desktop.Activities.Panels
         {
             InitializeComponent();
             Library = ServiceProvider.GetService<ITrackLibrary>();
-            ScreenCanvas.SizeChanged += ScreenCanvas_SizeChanged;
-            for (int i = 0; i < 3; i++)
+            Playlist = ServiceProvider.GetService<IPlaylistManager>();
+
+            TravelingTimer = new DispatcherTimer
             {
-                MediaPlayerContainer mediaPlayer = new MediaPlayerContainer
-                {
-                    Container = new Grid(),
-                    Player = new MediaElement()
-                };
-                mediaPlayer.Player.LoadedBehavior = MediaState.Manual;
-                mediaPlayer.Container.Children.Add(mediaPlayer.Player);
-                ScreenCanvas.Children.Add(mediaPlayer.Container);
-                Canvas.SetTop(mediaPlayer.Container, 0);
-                MediaPlayers.Add(mediaPlayer);
-            }
-            CurrentOffset = 0.5;
-
-            TravelingTimer = new DispatcherTimer();
+                Interval = TravelingTickInterval
+            };
             TravelingTimer.Tick += TravelingTimer_Tick;
-            TravelingTimer.Interval = TimeSpan.FromMilliseconds(16);
-
-            TransitionTimer = new DispatcherTimer();
-            TransitionTimer.Tick += TransitionTimer_Tick;
-
-            TrackTimer = new DispatcherTimer();
-            TrackTimer.Tick += TrackTimer_Tick;
         }
 
         private void ScreenCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            foreach (MediaPlayerContainer mediaPlayer in MediaPlayers)
-            {
-                mediaPlayer.Container.Height = ScreenCanvas.ActualHeight;
-                mediaPlayer.Container.Width = ScreenCanvas.ActualWidth / 2;
-            }
+            RecomputeContainerPositions();
         }
 
-        public void Init(Track previousTrack, Track currentTrack, Track nextTrack)
+        public void Shuffle()
         {
-            PreviousMediaPlayer.Player.Source = new Uri(Library.GetFilePath(previousTrack.VideoFilename));
-            CurrentMediaPlayer.Player.Source = new Uri(Library.GetFilePath(currentTrack.VideoFilename));
-            NextMediaPlayer.Player.Source = new Uri(Library.GetFilePath(nextTrack.VideoFilename));
-        }
-
-        public void PlayCurrent()
-        {
-            State = EState.Playing;
-            CurrentMediaPlayer.Player.Play();
-            TravelingTimer.Start();
-            ConfigureCurrentTrack();
-            if (TransitionTimer.Interval != TimeSpan.Zero)
+            Playlist.Shuffle();
+            if (Playlist.Count > 0)
             {
-                TransitionTimer.Start();
-            }
-        }
+                ScreenCanvas.Children.Clear();
+                CurrentTrackContainer = new TrackContainer(Playlist.CurrentTrack, EndTransitionDuration);
+                ScreenCanvas.Children.Add(CurrentTrackContainer.LayoutGrid);
+                if (Playlist.NextTracks.Count > 0)
+                {
+                    NextTrackContainer = new TrackContainer(Playlist.NextTracks.First(), EndTransitionDuration);
+                    ScreenCanvas.Children.Add(NextTrackContainer.LayoutGrid);
+                }
+                CurrentOffset = 0;
 
-        private void ConfigureCurrentTrack()
-        {
-            if (CurrentMediaPlayer.Player.NaturalDuration != Duration.Automatic)
-            {
-                ConfigureTrackTimer(true);
+                RecomputeContainerPositions();
             }
             else
             {
-                CurrentMediaPlayer.Player.MediaOpened += CurrentMediaPlayer_MediaOpened;
+                PreviousTrackContainer = null;
+                CurrentTrackContainer = null;
+                NextTrackContainer = null;
             }
-        }
 
-        private void ConfigureTrackTimer(bool start)
-        {
-            double duration = CurrentMediaPlayer.Player.NaturalDuration.TimeSpan.TotalMilliseconds * (1 - TransitionDuration) - CurrentMediaPlayer.Player.Position.TotalMilliseconds;
-            ExpectedTerminatedTime = DateTime.UtcNow + TimeSpan.FromMilliseconds(duration);
-            TrackTimer.Interval = TimeSpan.FromMilliseconds(duration);
-            if (start)
+            if (State == EState.Play)
             {
-                TrackTimer.Start();
+                State = EState.Pause;
+                Play();
             }
         }
 
-        private void CurrentMediaPlayer_MediaOpened(object sender, RoutedEventArgs e)
+        public void Play()
         {
-            CurrentMediaPlayer.Player.MediaOpened -= CurrentMediaPlayer_MediaOpened;
-            ConfigureTrackTimer(true);
-            if (TransitionTimer.Interval != TimeSpan.Zero)
+            if (State == EState.Pause)
             {
-                TransitionTimer.Start();
+                if (CurrentTrackContainer == null)
+                {
+                    Shuffle();
+                }
+
+                if (CurrentTrackContainer != null)
+                {
+                    MediaElement player = CurrentTrackContainer.MediaPlayer;
+                    CurrentTrackContainer.Play(delegate (TimeSpan duration)
+                    {
+                        ExpectedTerminatedTime = DateTime.UtcNow.Add(duration - player.Position);
+                        LastTravelingTickDate = DateTime.UtcNow;
+
+                        TravelingTimer.Start();
+                        State = EState.Play;
+                    });
+                }
             }
         }
 
-        public void PlayNext(Track nextTrack)
+        public void Pause()
         {
-            if (++CurrentMediaPlayerIndex > MediaPlayers.Count - 1)
+            if (State == EState.Play)
             {
-                CurrentMediaPlayerIndex = 0;
+                CurrentTrackContainer.Pause();
+                TravelingTimer.Stop();
+                State = EState.Pause;
             }
-            CurrentOffset += 0.5;
-            NextMediaPlayer.Player.Source = new Uri(Library.GetFilePath(nextTrack.VideoFilename));
-            CurrentMediaPlayer.Player.Play();
-            ConfigureCurrentTrack();
-
-            double duration = PreviousMediaPlayer.Player.NaturalDuration.TimeSpan.TotalMilliseconds * TransitionDuration / TransitionStepCount;
-            TransitionStep = TransitionStepCount;
-            TransitionTimer.Interval = TimeSpan.FromMilliseconds(duration);
-            TransitionTimer.Start();
         }
 
-        public void PauseCurrent()
+        public void Skip()
         {
-            State = EState.Paused;
-            CurrentMediaPlayer.Player.Pause();
-            TravelingTimer.Stop();
-            TrackTimer.Stop();
-            TransitionTimer.Stop();
+
         }
 
         private void TravelingTimer_Tick(object sender, EventArgs e)
         {
-            if (State == EState.Playing && CurrentMediaPlayer.Player.NaturalDuration != Duration.Automatic)
-            {
-                if (ExpectedTerminatedTime >= DateTime.UtcNow)
-                {
-                    double totalWidth = ScreenCanvas.ActualWidth;
-                    double remainingWidth = 1 - CurrentOffset;
-                    TimeSpan remainingTime = ExpectedTerminatedTime - DateTime.UtcNow;
-                    double delta = (remainingWidth * TravelingTickInterval.TotalMilliseconds) / remainingTime.TotalMilliseconds;
-                    CurrentOffset -= delta;
-                    double x = CurrentOffset * ScreenCanvas.ActualWidth;
+            TimeSpan remainingTime = ExpectedTerminatedTime - DateTime.UtcNow;
+            double remainingWidth = (1 - CurrentOffset);
+            TimeSpan dt = DateTime.UtcNow - LastTravelingTickDate;
+            double dx = dt.TotalMilliseconds * remainingWidth / remainingTime.TotalMilliseconds;
+            CurrentOffset += dx;
+            LastTravelingTickDate = DateTime.UtcNow;
+            RecomputeContainerPositions();
+        }
 
-                    Canvas.SetLeft(PreviousMediaPlayer.Container, x - totalWidth / 2.0);
-                    Canvas.SetLeft(CurrentMediaPlayer.Container, x);
-                    Canvas.SetLeft(NextMediaPlayer.Container, x + totalWidth / 2.0);
+        private void RecomputeContainerPositions()
+        {
+            if (CurrentTrackContainer.LayoutGrid.ActualWidth != 0)
+            {
+                double totalWidth = ScreenCanvas.ActualWidth;
+                double currentX = (totalWidth / 2) - (CurrentTrackContainer.LayoutGrid.ActualWidth * CurrentOffset);
+                CurrentTrackContainer.LayoutGrid.Height = ScreenCanvas.ActualHeight;
+                Canvas.SetLeft(CurrentTrackContainer.LayoutGrid, currentX);
+
+                if (PreviousTrackContainer != null)
+                {
+                    PreviousTrackContainer.LayoutGrid.Height = ScreenCanvas.ActualHeight;
+                    double previousX = currentX - PreviousTrackContainer.LayoutGrid.ActualWidth;
+                    Canvas.SetLeft(PreviousTrackContainer.LayoutGrid, previousX);
+                }
+
+                if (NextTrackContainer != null)
+                {
+                    NextTrackContainer.LayoutGrid.Height = ScreenCanvas.ActualHeight;
+                    double nextX = currentX + CurrentTrackContainer.LayoutGrid.ActualWidth;
+                    Canvas.SetLeft(NextTrackContainer.LayoutGrid, nextX);
                 }
             }
         }
 
-        private void TransitionTimer_Tick(object sender, EventArgs e)
-        {
-            if (--TransitionStep <= 0)
-            {
-                TransitionTimer.Stop();
-                PreviousMediaPlayer.Player.Pause();
-            }
-            else
-            {
-                PreviousMediaPlayer.Player.Volume = TransitionStep / TransitionStepCount;
-            }
-        }
-
-        private void TrackTimer_Tick(object sender, EventArgs e)
-        {
-            TrackTimer.Interval = TimeSpan.Zero;
-            TrackTimer.Stop();
-            TrackTransitionStarted?.Invoke(this, null);
-        }
-
-        // ##### Configuration
-        private TimeSpan TravelingTickInterval = TimeSpan.FromMilliseconds(16);
-        private double TransitionDuration = 0.02;
-        private double TransitionStepCount = 50;
         // ##### Properties
-        private double _Volume = 0.5;
+        public static readonly DependencyProperty VolumeProperty = DependencyProperty.Register(
+            "Volume",
+            typeof(double),
+            typeof(ScreenPanel),
+            new PropertyMetadata());
+
         public double Volume
         {
-            get { return _Volume; }
+            get { return (double)GetValue(VolumeProperty); }
             set
             {
-                _Volume = value;
-                foreach (MediaPlayerContainer mediaPlayer in MediaPlayers)
-                {
-                    mediaPlayer.Player.Volume = _Volume;
-                }
+                SetValue(VolumeProperty, value);
+                CurrentTrackContainer.Volume = value;
             }
         }
-
-        // ##### Events
-        public EventHandler TrackTransitionStarted;
+        // ##### Configuration
+        private readonly TimeSpan TravelingTickInterval = TimeSpan.FromMilliseconds(16);
+        private readonly TimeSpan EndTransitionDuration = TimeSpan.FromSeconds(5);
         // ##### Attributes
-        private readonly ITrackLibrary Library;
-        private class MediaPlayerContainer
+        private class TrackContainer
         {
-            public Grid Container { get; set; }
-            public MediaElement Player { get; set; }
+            public TrackContainer(Track track, TimeSpan endTrensitionDuration)
+            {
+                ITrackLibrary library = ServiceProvider.GetService<ITrackLibrary>();
+                ContainedTrack = track;
+                LayoutGrid = new Grid();
+                ThumbnailImage = new Image
+                {
+                    Source = new BitmapImage(new Uri(library.GetFilePath(ContainedTrack.ThumbnailFilename)))
+                };
+                Panel.SetZIndex(ThumbnailImage, -1);
+                LayoutGrid.Children.Add(ThumbnailImage);
+                Canvas.SetTop(LayoutGrid, 0);
+                MediaPlayer = new MediaElement();
+                MediaPlayer.Source = new Uri(library.GetFilePath(ContainedTrack.VideoFilename));
+                MediaPlayer.LoadedBehavior = MediaState.Manual;
+                MediaPlayer.MediaOpened += MediaPlayer_MediaOpened;
+                MediaPlayer.Pause();
+                MediaPlayer.Visibility = Visibility.Hidden;
+                LayoutGrid.Children.Add(MediaPlayer);
+
+                // Transition
+                TransitionVolume = 1.0;
+                TransitionTimer = new DispatcherTimer
+                {
+                    Interval = endTrensitionDuration
+                };
+            }
+
+            public delegate void OnMediaLoaded(TimeSpan duration);
+            public void Play(OnMediaLoaded onMediaLoaded)
+            {
+                MediaPlayer.Visibility = Visibility.Visible;
+                MediaPlayer.Play();
+                if (TrackTimer != null)
+                {
+                    TrackTimer.Start();
+                }
+                
+                if (TransitionStep > 0)
+                {
+                    TransitionTimer.Start();
+                }
+
+                if (MediaPlayer.NaturalDuration != Duration.Automatic)
+                {
+                    onMediaLoaded(MediaPlayer.NaturalDuration.TimeSpan);
+                }
+                else
+                {
+                    MediaLoadedCallback = onMediaLoaded;
+                }
+            }
+
+            public void Pause()
+            {
+                MediaPlayer.Visibility = Visibility.Hidden;
+                MediaPlayer.Pause();
+                TrackTimer.Stop();
+                if (TransitionStep > 0)
+                {
+                    TransitionTimer.Stop();
+                }
+            }
+
+            private void MediaPlayer_MediaOpened(object sender, RoutedEventArgs e)
+            {
+                LayoutGrid.Width = MediaPlayer.Width;
+                TrackTimer = new DispatcherTimer
+                {
+                    Interval = MediaPlayer.NaturalDuration.TimeSpan
+                };
+                TrackTimer.Tick += Timer_Tick;
+                if (State == EState.Play)
+                {
+                    TrackTimer.Start();
+                }
+
+                MediaLoadedCallback?.Invoke(MediaPlayer.NaturalDuration.TimeSpan);
+                MediaLoadedCallback = null;
+            }
+
+            private void Timer_Tick(object sender, EventArgs e)
+            {
+                TrackTimer.Stop();
+                TrackAlmostFinished?.Invoke(this, ContainedTrack);
+                TransitionTimer.Start();
+                TransitionTimer.Tick += TransitionTimer_Tick;
+                TransitionStep = TransitionStepCount;
+            }
+
+            private void TransitionTimer_Tick(object sender, EventArgs e)
+            {
+                if (TransitionStep > 0)
+                {
+                    --TransitionStep;
+                    TransitionVolume = (double)TransitionStepCount / (double)TransitionStep;
+                }
+                else
+                {
+                    TransitionTimer.Stop(); ;
+                }
+            }
+
+            // ##### Events
+            public EventHandler<Track> TrackAlmostFinished;
+            // ##### Configuration
+            private readonly int TransitionStepCount = 50;
+            // ##### Properties
+            public enum EState { Play, Pause };
+            public EState State = EState.Pause;
+            public double _Volume;
+            public double Volume
+            {
+                get { return _Volume; }
+                set
+                {
+                    _Volume = value;
+                    MediaPlayer.Volume = value * TransitionVolume;
+                }
+            }
+            // ##### Attributes
+            private readonly Track ContainedTrack;
+            public readonly Grid LayoutGrid;
+            private readonly Image ThumbnailImage;
+            public readonly MediaElement MediaPlayer;
+            private OnMediaLoaded MediaLoadedCallback = null;
+            private DispatcherTimer TrackTimer;
+            // Final transition
+            private DispatcherTimer TransitionTimer;
+            private double TransitionVolume = 1.0;
+            private int TransitionStep = 0;
         }
-        private readonly List<MediaPlayerContainer> MediaPlayers = new List<MediaPlayerContainer>();
-        private double CurrentOffset;
-        private int CurrentMediaPlayerIndex = 0;
-        private MediaPlayerContainer PreviousMediaPlayer { get { return MediaPlayers[CurrentMediaPlayerIndex <= 0 ? MediaPlayers.Count -1 : CurrentMediaPlayerIndex - 1]; } }
-        private MediaPlayerContainer CurrentMediaPlayer { get { return MediaPlayers[CurrentMediaPlayerIndex]; } }
-        private MediaPlayerContainer NextMediaPlayer { get { return MediaPlayers[CurrentMediaPlayerIndex >= MediaPlayers.Count - 1 ? 0 : CurrentMediaPlayerIndex + 1]; } }
-        private enum EState { Paused, Playing };
-        private EState State = EState.Paused;
-        private DispatcherTimer TravelingTimer;
+
+        private ITrackLibrary Library;
+        private IPlaylistManager Playlist;
+        public enum EState { Play, Pause };
+        public EState State { get; private set; } = EState.Pause;
+        // Container
+        private TrackContainer PreviousTrackContainer = null;
+        private TrackContainer CurrentTrackContainer;
+        private TrackContainer NextTrackContainer;
+        // Traveling
+        private double CurrentOffset = 0;
         private DateTime ExpectedTerminatedTime;
-        private DispatcherTimer TransitionTimer;
-        private double TransitionStep;
-        private DispatcherTimer TrackTimer;
+        private DispatcherTimer TravelingTimer;
+        private DateTime LastTravelingTickDate;
     }
 }

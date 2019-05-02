@@ -14,8 +14,8 @@ namespace Autobox.Core.Services
         void Forward();
 
         // ##### Attributes
-        Track PreviousTrack { get; }
+        int Count { get; }
         Track CurrentTrack { get; }
-        Track NextTrack { get; }
+        List<Track> NextTracks { get; }
     }
 }

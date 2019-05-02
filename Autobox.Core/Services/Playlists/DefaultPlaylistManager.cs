@@ -21,36 +21,34 @@ namespace Autobox.Core.Services.Playlists
         public void Shuffle()
         {
             Random random = new Random();
-            TrackList = TrackLibrary.TrackList.Values.ToList();
-            int n = TrackList.Count;
+            NextTracks = TrackLibrary.TrackList.Values.ToList();
+            int n = NextTracks.Count;
             while (n > 1)
             {
                 n--;
                 int k = random.Next(n + 1);
-                Track value = TrackList[k];
-                TrackList[k] = TrackList[n];
-                TrackList[n] = value;
+                Track value = NextTracks[k];
+                NextTracks[k] = NextTracks[n];
+                NextTracks[n] = value;
             }
-            CurrentTrackIndex = 0;
+            Forward();
         }
 
         // ##### Forward
         // Go to next track or to first one if list is over
         public void Forward()
         {
-            ++CurrentTrackIndex;
-            if (CurrentTrackIndex >= TrackList.Count)
+            if (NextTracks.Count > 0)
             {
-                CurrentTrackIndex = 0;
+                CurrentTrack = NextTracks.First();
+                NextTracks.RemoveAt(0);
             }
         }
 
         // ##### Attributes
         private readonly ITrackLibrary TrackLibrary;
-        private List<Track> TrackList = new List<Track>();
-        private int CurrentTrackIndex = 0;
-        public Track PreviousTrack => CurrentTrackIndex > 0 ? TrackList[CurrentTrackIndex - 1] : TrackList[TrackList.Count - 1];
-        public Track CurrentTrack => TrackList[CurrentTrackIndex];
-        public Track NextTrack => CurrentTrackIndex < TrackList.Count - 1 ? TrackList[CurrentTrackIndex + 1] : TrackList[0];
+        public int Count => CurrentTrack != null ? 1 + (NextTracks != null ? NextTracks.Count : 0) : 0;
+        public Track CurrentTrack { get; private set; }
+        public List<Track> NextTracks { get; private set; } = new List<Track>();
     }
 }
