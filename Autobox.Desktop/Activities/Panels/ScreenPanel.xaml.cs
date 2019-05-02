@@ -67,9 +67,9 @@ namespace Autobox.Desktop.Activities.Panels
 
         public void Init(Track previousTrack, Track currentTrack, Track nextTrack)
         {
-            PreviousMediaPlayer.Player.Source = new Uri(Library.GetTrackVideoFilePath(previousTrack));
-            CurrentMediaPlayer.Player.Source = new Uri(Library.GetTrackVideoFilePath(currentTrack));
-            NextMediaPlayer.Player.Source = new Uri(Library.GetTrackVideoFilePath(nextTrack));
+            PreviousMediaPlayer.Player.Source = new Uri(Library.GetFilePath(previousTrack.VideoFilename));
+            CurrentMediaPlayer.Player.Source = new Uri(Library.GetFilePath(currentTrack.VideoFilename));
+            NextMediaPlayer.Player.Source = new Uri(Library.GetFilePath(nextTrack.VideoFilename));
         }
 
         public void PlayCurrent()
@@ -124,7 +124,7 @@ namespace Autobox.Desktop.Activities.Panels
                 CurrentMediaPlayerIndex = 0;
             }
             CurrentOffset += 0.5;
-            NextMediaPlayer.Player.Source = new Uri(Library.GetTrackVideoFilePath(nextTrack));
+            NextMediaPlayer.Player.Source = new Uri(Library.GetFilePath(nextTrack.VideoFilename));
             CurrentMediaPlayer.Player.Play();
             ConfigureCurrentTrack();
 

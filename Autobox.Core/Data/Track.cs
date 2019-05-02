@@ -8,12 +8,17 @@ namespace Autobox.Core.Data
 {
     public class Track
     {
-        // ##### Attribute
+        // ##### Configuration
+        public static readonly string MetadataFileExt = ".metadata.json";
+        public static readonly string ThumbnailFileExt = ".thumbnail.jpg";
+
+        // ##### Attributes
         public string Id { get; set; }
         public string Title { get; set; }
-        public List<string> Artists { get; set; } = new List<string>();
-        public string VideoFilePath { get; set; }
-        public string MetadataFilePath { get; set; }
+        public int Rating { get; set; } = 0;
+        public string VideoFilename { get; set; }
+        public string ThumbnailFilename { get; set; }
+        public string MetadataFilename { get; set; }
         public HashSet<string> Tags { get; set; } = new HashSet<string>();
     }
 }

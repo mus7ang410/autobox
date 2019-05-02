@@ -15,6 +15,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using Autobox.Core.Data;
+using Autobox.Core.Services;
+using Autobox.Desktop.Services;
 
 namespace Autobox.Desktop.Activities.Panels
 {
@@ -26,6 +28,8 @@ namespace Autobox.Desktop.Activities.Panels
         public TrackPreviewPanel()
         {
             InitializeComponent();
+
+            Library = ServiceProvider.GetService<ITrackLibrary>();
 
             LoadTrack(null);
             MediaPlayer.Loaded += MediaPlayer_Loaded;
@@ -39,7 +43,7 @@ namespace Autobox.Desktop.Activities.Panels
             if (SelectedTrack != null)
             {
                 TitleLabel.Content = SelectedTrack.Title.ToUpper();
-                MediaPlayer.Source = new Uri(Directory.GetCurrentDirectory() + "/" +SelectedTrack.VideoFilePath);
+                MediaPlayer.Source = new Uri(Library.GetFilePath(SelectedTrack.VideoFilename));
                 if (State != EState.Idle)
                 {
                     MediaPlayer.Pause();
@@ -101,6 +105,7 @@ namespace Autobox.Desktop.Activities.Panels
         }
 
         // ##### Attributes
+        private readonly ITrackLibrary Library;
         private Track SelectedTrack = null;
         private enum EState { Idle, Playing, Failed }
         private EState State = EState.Idle;
