@@ -69,8 +69,14 @@
     <Compile Include="Activities\Panels\AddYouTubePanel.xaml.cs">
       <DependentUpon>AddYouTubePanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Activities\Panels\RatingPanel.xaml.cs">
+      <DependentUpon>RatingPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Activities\Panels\ScreenPanel.xaml.cs">
       <DependentUpon>ScreenPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Activities\Panels\SoundSliderPanel.xaml.cs">
+      <DependentUpon>SoundSliderPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Activities\Panels\TagPanel.xaml.cs">
       <DependentUpon>TagPanel.xaml</DependentUpon>
@@ -109,7 +115,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Activities\Panels\RatingPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Activities\Panels\ScreenPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Activities\Panels\SoundSliderPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -217,6 +231,22 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\SkipIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\MutedIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\SoundIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\StarFIlledIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\StarIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

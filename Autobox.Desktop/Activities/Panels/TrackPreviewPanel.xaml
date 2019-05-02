@@ -19,6 +19,8 @@
                 <ColumnDefinition Width="{StaticResource H3.GridLength}"/>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="{StaticResource H3.GridLength}"/>
+                <ColumnDefinition Width="{StaticResource H1.GridLength}"/>
+                <ColumnDefinition Width="{StaticResource H3.GridLength}"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="{StaticResource H3.GridLength}"/>
@@ -27,17 +29,23 @@
                 <RowDefinition Height="{StaticResource H1.GridLength}"/>
                 <RowDefinition Height="{StaticResource H3.GridLength}"/>
             </Grid.RowDefinitions>
-            <Rectangle Grid.Column="1" Fill="Black" Grid.Row="1" Stroke="Black"/>
+            <Rectangle Grid.Column="1" Panel.ZIndex="-2" Fill="Black" Grid.Row="1" Stroke="Black"/>
+            <Image x:Name="ThumbnailPlaceholder" Panel.ZIndex="-1" Grid.Column="1" Grid.Row="1"/>
             <MediaElement x:Name="MediaPlayer" Grid.Column="1" Grid.Row="1" LoadedBehavior="Manual"/>
+
             <DockPanel Grid.Column="1" Grid.Row="3" LastChildFill="True" >
-                <Button x:Name="PlayButton" HorizontalAlignment="Left" Background="{DynamicResource TextSecondaryColor}" BorderBrush="{x:Null}" Foreground="{x:Null}" Width="40" Click="PlayButton_Click">
+                <Button x:Name="PlayButton" Background="{DynamicResource TextSecondaryColor}" BorderBrush="{x:Null}" Foreground="{x:Null}" Width="{StaticResource H1.Double}" Click="PlayButton_Click">
                     <Button.OpacityMask>
                         <ImageBrush ImageSource="/Autobox.Desktop;component/Assets/PlayIcon.png" Stretch="Uniform"/>
                     </Button.OpacityMask>
                 </Button>
-                <Separator Width="{StaticResource H3.Double}" Background="Transparent"/>
-                <Slider x:Name="SoundSlider" TickFrequency="0.1" Value="0.2" Maximum="1" VerticalAlignment="Center" ValueChanged="SoundSlider_ValueChanged"/>
+                <DockPanel FlowDirection="RightToLeft">
+                    <local:RatingPanel x:Name="RatingPanel" RatingChanged="RatingPanel_RatingChanged"/>
+                    <Separator Background="{x:Null}"/>
+                </DockPanel>
             </DockPanel>
+            <Separator Width="{StaticResource H3.Double}" Background="{x:Null}" />
+            <local:SoundSliderPanel x:Name="SoundSliderPanel" Grid.Column="3" Grid.Row="1" Grid.RowSpan="3" ValueChanged="SoundSliderPanel_ValueChanged"/>
         </Grid>
     </Grid>
 </UserControl>

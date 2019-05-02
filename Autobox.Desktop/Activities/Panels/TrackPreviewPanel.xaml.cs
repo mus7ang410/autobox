@@ -43,21 +43,24 @@ namespace Autobox.Desktop.Activities.Panels
             if (SelectedTrack != null)
             {
                 TitleLabel.Content = SelectedTrack.Title.ToUpper();
+                RatingPanel.CanRate = true;
+                RatingPanel.Rating = SelectedTrack.Rating;
+                ThumbnailPlaceholder.Source = new BitmapImage(new Uri(Library.GetFilePath(SelectedTrack.ThumbnailFilename)));
                 MediaPlayer.Source = new Uri(Library.GetFilePath(SelectedTrack.VideoFilename));
+                MediaPlayer.Visibility = Visibility.Hidden;
                 if (State != EState.Idle)
                 {
                     MediaPlayer.Pause();
                     State = EState.Idle;
-                    PlayButton.OpacityMask = FindResource("TrackPreview.PlayButton.ImageBrush") as Brush;
+                    PlayButton.OpacityMask = FindResource("Player.Brushes.Play") as Brush;
                 }
             }
             else
             {
                 TitleLabel.Content = "NO SELECTED TRACK";
+                RatingPanel.CanRate = false;
             }
         }
-
-        
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
@@ -65,12 +68,14 @@ namespace Autobox.Desktop.Activities.Panels
             {
                 if (State == EState.Idle)
                 {
+                    MediaPlayer.Visibility = Visibility.Visible;
                     MediaPlayer.Play();
                     State = EState.Playing;
                     PlayButton.OpacityMask = FindResource("Player.Brushes.Pause") as Brush;
                 }
                 else
                 {
+                    MediaPlayer.Visibility = Visibility.Hidden;
                     MediaPlayer.Pause();
                     State = EState.Idle;
                     PlayButton.OpacityMask = FindResource("Player.Brushes.Play") as Brush;
@@ -82,7 +87,7 @@ namespace Autobox.Desktop.Activities.Panels
         {
             if (SelectedTrack != null)
             {
-                MediaPlayer.Volume = SoundSlider.Value;
+                MediaPlayer.Volume = SoundSliderPanel.Value;
             }
         }
 
@@ -98,9 +103,18 @@ namespace Autobox.Desktop.Activities.Panels
             PlayButton.OpacityMask = FindResource("Player.Brushes.Pause") as Brush;
         }
 
-        private void SoundSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private async void RatingPanel_RatingChanged(object sender, int rating)
         {
-            Slider slider = sender as Slider;
+            if (SelectedTrack != null)
+            {
+                SelectedTrack.Rating = rating;
+                await Library.UpdateTrackAsync(SelectedTrack);
+            }
+        }
+
+        private void SoundSliderPanel_ValueChanged(object sender, double e)
+        {
+            SoundSliderPanel slider = sender as SoundSliderPanel;
             MediaPlayer.Volume = slider.Value;
         }
 

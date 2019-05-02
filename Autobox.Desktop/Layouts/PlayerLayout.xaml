@@ -4,5 +4,9 @@
 
     <ImageBrush x:Key="Player.Brushes.Play" ImageSource="/Autobox.Desktop;component/Assets/PlayIcon.png" Stretch="Uniform"/>
     <ImageBrush x:Key="Player.Brushes.Pause" ImageSource="/Autobox.Desktop;component/Assets/PauseIcon.png" Stretch="Uniform"/>
-
+    <ImageBrush x:Key="Player.Brushes.Sound" ImageSource="/Autobox.Desktop;component/Assets/SoundIcon.png" Stretch="Uniform"/>
+    <ImageBrush x:Key="Player.Brushes.Muted" ImageSource="/Autobox.Desktop;component/Assets/MutedIcon.png" Stretch="Uniform"/>
+    <ImageBrush x:Key="Player.Brushes.Star" ImageSource="/Autobox.Desktop;component/Assets/StarIcon.png" Stretch="Uniform"/>
+    <ImageBrush x:Key="Player.Brushes.StarFilled" ImageSource="/Autobox.Desktop;component/Assets/StarFilledIcon.png" Stretch="Uniform"/>
+    
 </ResourceDictionary>
