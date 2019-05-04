@@ -50,7 +50,7 @@ namespace Autobox.Desktop.Activities.Panels
         private void ShuffleButton_Click(object sender, RoutedEventArgs e)
         {
             Playlist.Shuffle();
-            Player.Load(Playlist.NextTracks);
+            Player.Load(Playlist.TrackList);
         }
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)

@@ -21,34 +21,20 @@ namespace Autobox.Core.Services
         public void Shuffle()
         {
             Random random = new Random();
-            NextTracks = TrackLibrary.TrackList.Values.ToList();
-            int n = NextTracks.Count;
+            TrackList = TrackLibrary.TrackList.Values.ToList();
+            int n = TrackList.Count;
             while (n > 1)
             {
                 n--;
                 int k = random.Next(n + 1);
-                Track value = NextTracks[k];
-                NextTracks[k] = NextTracks[n];
-                NextTracks[n] = value;
-            }
-            Forward();
-        }
-
-        // ##### Forward
-        // Go to next track or to first one if list is over
-        public void Forward()
-        {
-            if (NextTracks.Count > 0)
-            {
-                CurrentTrack = NextTracks.First();
-                NextTracks.RemoveAt(0);
+                Track value = TrackList[k];
+                TrackList[k] = TrackList[n];
+                TrackList[n] = value;
             }
         }
 
         // ##### Attributes
         private readonly ITrackLibrary TrackLibrary;
-        public int Count => CurrentTrack != null ? 1 + (NextTracks != null ? NextTracks.Count : 0) : 0;
-        public Track CurrentTrack { get; private set; }
-        public List<Track> NextTracks { get; private set; } = new List<Track>();
+        public List<Track> TrackList { get; private set; } = new List<Track>();
     }
 }

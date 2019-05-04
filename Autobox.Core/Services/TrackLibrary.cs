@@ -13,6 +13,14 @@ using Autobox.Core.Data;
 
 namespace Autobox.Core.Services
 {
+    public class TrackLibraryInvalidLinkException : Exception
+    {
+        public TrackLibraryInvalidLinkException(string link) : base($"<{link}> is not a valid track link")
+        {
+
+        }
+    }
+
     public class TrackLibrary : ITrackLibrary
     {
         public TrackLibrary(string rootPath)
@@ -127,7 +135,7 @@ namespace Autobox.Core.Services
             Match match = regex.Match(link);
             if (!match.Success)
             {
-                throw new InvalidTrackLinkException(link);
+                throw new TrackLibraryInvalidLinkException(link);
             }
             return match.Groups["id"].ToString();
         }

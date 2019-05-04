@@ -11,11 +11,8 @@ namespace Autobox.Core.Services
     public interface IPlaylistManager
     {
         void Shuffle();
-        void Forward();
 
         // ##### Attributes
-        int Count { get; }
-        Track CurrentTrack { get; }
-        List<Track> NextTracks { get; }
+        List<Track> TrackList { get; }
     }
 }
