@@ -53,16 +53,40 @@ namespace Autobox.Core.Services
         private ERatingValue GetNextTrackRating(Dictionary<ERatingValue, List<Track>> tracks)
         {
             int dice = Rnd.Next(TotalRatingChance);
-            if (dice < RatingChances[ERatingValue.High] && tracks[ERatingValue.High].Count > 0)
+            int highRatingChance = RatingChances[ERatingValue.High];
+            int mediumRatingChance = RatingChances[ERatingValue.High] + RatingChances[ERatingValue.Medium];
+            int lowRatingChance = RatingChances[ERatingValue.High] + RatingChances[ERatingValue.Medium] + RatingChances[ERatingValue.Low];
+
+            if (tracks[ERatingValue.High].Count == 0)
+            {
+                highRatingChance = 0;
+            }
+            if (tracks[ERatingValue.Medium].Count == 0)
+            {
+                mediumRatingChance = highRatingChance;
+            }
+            if (tracks[ERatingValue.Low].Count == 0)
+            {
+                if (tracks[ERatingValue.Medium].Count != 0)
+                {
+                    mediumRatingChance = lowRatingChance;
+                }
+                else
+                {
+                    highRatingChance = lowRatingChance;
+                }
+            }
+
+            if (dice < highRatingChance)
             {
                 return ERatingValue.High;
             }
 
-            if (dice < RatingChances[ERatingValue.High] + RatingChances[ERatingValue.Medium] && tracks[ERatingValue.Medium].Count > 0)
+            if (dice < mediumRatingChance)
             {
                 return ERatingValue.Medium;
             }
-            else if (tracks[ERatingValue.Low].Count > 0)
+            else if (dice < lowRatingChance)
             {
                 return ERatingValue.Low;
             }
