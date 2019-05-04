@@ -52,7 +52,7 @@
                 <Separator Width="{StaticResource H3.Double}" Background="Transparent"/>
             </DockPanel>
 
-            <local:ScreenPanel x:Name="ScreenPanel" Grid.Column="1" Grid.Row="1"/>
+            <Controls:WideScreenPlayer x:Name="Player" Grid.Column="1" Grid.Row="1"/>
         </Grid>
     </Grid>
 </UserControl>

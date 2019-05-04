@@ -69,6 +69,9 @@
     <Compile Include="Activities\Controls\TrackPlayer.xaml.cs">
       <DependentUpon>TrackPlayer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Activities\Controls\WideScreenPlayer.xaml.cs">
+      <DependentUpon>WideScreenPlayer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Activities\LibraryActivity.xaml.cs">
       <DependentUpon>LibraryActivity.xaml</DependentUpon>
     </Compile>
@@ -77,9 +80,6 @@
     </Compile>
     <Compile Include="Activities\Panels\RatingPanel.xaml.cs">
       <DependentUpon>RatingPanel.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Activities\Panels\ScreenPanel.xaml.cs">
-      <DependentUpon>ScreenPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Activities\Panels\TagPanel.xaml.cs">
       <DependentUpon>TagPanel.xaml</DependentUpon>
@@ -118,6 +118,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Activities\Controls\WideScreenPlayer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Activities\LibraryActivity.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -127,10 +131,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Activities\Panels\RatingPanel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Activities\Panels\ScreenPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

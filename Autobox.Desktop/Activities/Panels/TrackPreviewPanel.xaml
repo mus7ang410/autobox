@@ -23,7 +23,7 @@
                 <ColumnDefinition Width="{StaticResource H1.GridLength}"/>
                 <ColumnDefinition Width="{StaticResource H3.GridLength}"/>
             </Grid.ColumnDefinitions>
-            
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="{StaticResource H3.GridLength}"/>
                 <RowDefinition/>
@@ -31,10 +31,8 @@
                 <RowDefinition Height="{StaticResource H1.GridLength}"/>
                 <RowDefinition Height="{StaticResource H3.GridLength}"/>
             </Grid.RowDefinitions>
-            
-            <Rectangle Grid.Column="1" Panel.ZIndex="-2" Fill="Black" Grid.Row="1" Stroke="Black"/>
-            <Image x:Name="ThumbnailPlaceholder" Panel.ZIndex="-1" Grid.Column="1" Grid.Row="1"/>
-            <MediaElement x:Name="MediaPlayer" Grid.Column="1" Grid.Row="1" LoadedBehavior="Manual"/>
+
+            <Controls:TrackPlayer x:Name="TrackPlayer" Grid.Column="1" Grid.Row="1"/>
 
             <DockPanel Grid.Column="1" Grid.Row="3" LastChildFill="True" >
                 <Button x:Name="PlayButton" Style="{StaticResource IconButton}" Click="PlayButton_Click">

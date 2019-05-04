@@ -29,13 +29,9 @@ namespace Autobox.Desktop.Activities.Panels
         public TrackPreviewPanel()
         {
             InitializeComponent();
-
+            DataContext = this;
             Library = ServiceProvider.GetService<ITrackLibrary>();
-
             LoadTrack(null);
-            MediaPlayer.Loaded += MediaPlayer_Loaded;
-            MediaPlayer.MediaFailed += MediaPlayer_MediaFailed;
-            MediaPlayer.MediaEnded += MediaPlayer_MediaEnded;
         }
 
         public void LoadTrack(Track track)
@@ -46,13 +42,11 @@ namespace Autobox.Desktop.Activities.Panels
                 TitleLabel.Content = SelectedTrack.Title.ToUpper();
                 RatingPanel.CanRate = true;
                 RatingPanel.Rating = SelectedTrack.Rating;
-                ThumbnailPlaceholder.Source = new BitmapImage(new Uri(Library.GetFilePath(SelectedTrack.ThumbnailFilename)));
-                ThumbnailPlaceholder.Stretch = Stretch.Uniform;
-                MediaPlayer.Source = new Uri(Library.GetFilePath(SelectedTrack.VideoFilename));
-                MediaPlayer.Visibility = Visibility.Hidden;
+
+                TrackPlayer.CurrentTrack = SelectedTrack;
                 if (State != EState.Idle)
                 {
-                    MediaPlayer.Pause();
+                    TrackPlayer.Pause();
                     State = EState.Idle;
                     PlayButton.OpacityMask = FindResource("IconButton.Brushes.Play") as Brush;
                 }
@@ -70,15 +64,13 @@ namespace Autobox.Desktop.Activities.Panels
             {
                 if (State == EState.Idle)
                 {
-                    MediaPlayer.Visibility = Visibility.Visible;
-                    MediaPlayer.Play();
+                    TrackPlayer.Play(0);
                     State = EState.Playing;
                     PlayButton.OpacityMask = FindResource("IconButton.Brushes.Pause") as Brush;
                 }
                 else
                 {
-                    MediaPlayer.Visibility = Visibility.Hidden;
-                    MediaPlayer.Pause();
+                    TrackPlayer.Pause();
                     State = EState.Idle;
                     PlayButton.OpacityMask = FindResource("IconButton.Brushes.Play") as Brush;
                 }
@@ -89,7 +81,7 @@ namespace Autobox.Desktop.Activities.Panels
         {
             if (SelectedTrack != null)
             {
-                MediaPlayer.Volume = SoundSlider.Value;
+                TrackPlayer.Volume = SoundSlider.Value;
             }
         }
 
@@ -117,7 +109,7 @@ namespace Autobox.Desktop.Activities.Panels
         private void SoundSlider_ValueChanged(object sender, double e)
         {
             SoundSlider slider = sender as SoundSlider;
-            MediaPlayer.Volume = slider.Value;
+            TrackPlayer.Volume = slider.Value;
         }
 
         // ##### Attributes

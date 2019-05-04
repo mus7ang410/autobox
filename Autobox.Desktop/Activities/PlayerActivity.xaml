@@ -21,7 +21,9 @@
                 <RowDefinition/>
                 <RowDefinition Height="{StaticResource H2.GridLength}"/>
             </Grid.RowDefinitions>
+
             <Panels:TrackPlayerPanel Grid.Column="1" Grid.Row="1"/>
+            
             <Grid Grid.Column="1" Grid.Row="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -30,6 +32,7 @@
                     <ColumnDefinition Width="{StaticResource H2.GridLength}"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
+
                 <Panels:TagPanel x:Name="ExcludedTagPanel" Title="EXCLUDED TAGS"/>
                 <Panels:TagPanel x:Name="OptionalTagPanel" Title="OPTIONAL TAGS" Grid.Column="2"/>
                 <Panels:TagPanel x:Name="MandatoryTagPanel" Title="MANDATORY TAGS" Grid.Column="4"/>

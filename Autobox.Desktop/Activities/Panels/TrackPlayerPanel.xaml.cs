@@ -29,44 +29,48 @@ namespace Autobox.Desktop.Activities.Panels
         public TrackPlayerPanel()
         {
             InitializeComponent();
+            Playlist = ServiceProvider.GetService<IPlaylistManager>();
+            Player.Volume = SoundSlider.Value;
         }
 
         private void ShuffleButton_Click(object sender, RoutedEventArgs e)
         {
-            ScreenPanel.Shuffle();
+            Playlist.Shuffle();
+            Player.Load(Playlist.NextTracks);
         }
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
-            if (State == EState.Pause)
+            if (State == EState.Paused)
             {
-                ScreenPanel.Play();
+                Player.Play();
                 PlayButton.OpacityMask = FindResource("IconButton.Brushes.Pause") as Brush;
-                State = EState.Play;
+                State = EState.Playing;
             }
-            else if (State == EState.Play)
+            else if (State == EState.Playing)
             {
-                ScreenPanel.Pause();
+                Player.Pause();
                 PlayButton.OpacityMask = FindResource("IconButton.Brushes.Play") as Brush;
-                State = EState.Pause;
+                State = EState.Paused;
             }
         }
 
         private void SkipButton_Click(object sender, RoutedEventArgs e)
         {
-            ScreenPanel.Skip();
+            Player.Skip();
         }
 
         private void SoundSlider_ValueChanged(object sender, double e)
         {
-            if (ScreenPanel != null)
+            if (Player != null)
             {
-                ScreenPanel.Volume = e;
+                Player.Volume = e;
             }
         }
 
         // ##### Attributes
-        private enum EState { Play, Pause };
-        private EState State = EState.Pause;
+        private readonly IPlaylistManager Playlist;
+        private enum EState { Playing, Paused };
+        private EState State = EState.Paused;
     }
 }
