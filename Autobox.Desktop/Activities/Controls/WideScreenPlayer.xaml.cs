@@ -161,6 +161,7 @@ namespace Autobox.Desktop.Activities.Controls
             {
                 MoveToFadingTracks(sender as TrackPlayer);
             };
+            CurrentTrackChanged?.Invoke(this, new TrackEventArgs(CurrentTrackPlayer.CurrentTrack));
         }
 
         // ##### MoveToFadingTracks
@@ -280,6 +281,8 @@ namespace Autobox.Desktop.Activities.Controls
             }
         }
 
+        // ##### Event
+        public EventHandler<TrackEventArgs> CurrentTrackChanged { get; set; }
         // ##### Attributes
         private List<TrackPlayer> PreviousTrackPlayers = new List<TrackPlayer>();
         private List<TrackPlayer> FadingTrackPlayers = new List<TrackPlayer>();

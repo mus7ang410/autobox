@@ -50,9 +50,14 @@
                     </Button.OpacityMask>
                 </Button>
                 <Separator Width="{StaticResource H3.Double}" Background="Transparent"/>
+                <DockPanel FlowDirection="RightToLeft" LastChildFill="True">
+                    <local:RatingPanel x:Name="RatingPanel" RatingChanged="RatingPanel_RatingChanged"/>
+                    <Separator Background="{x:Null}"/>
+                    <Label x:Name="CurrentTrackTitle" Style="{StaticResource H1.Label}" Content="NO PLAYING TRACK"/>
+                </DockPanel>
             </DockPanel>
 
-            <Controls:WideScreenPlayer x:Name="Player" Grid.Column="1" Grid.Row="1"/>
+            <Controls:WideScreenPlayer x:Name="Player" Grid.Column="1" Grid.Row="1" CurrentTrackChanged="Player_CurrentTrackChanged"/>
         </Grid>
     </Grid>
 </UserControl>

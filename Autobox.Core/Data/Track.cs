@@ -67,6 +67,8 @@ namespace Autobox.Core.Data
             return true;
         }
 
+        public override string ToString() { return $"{Title} - ({Id})"; }
+
         // ##### Configuration
         public static readonly string MetadataFileExt = ".metadata.json";
         public static readonly string ThumbnailFileExt = ".thumbnail.jpg";

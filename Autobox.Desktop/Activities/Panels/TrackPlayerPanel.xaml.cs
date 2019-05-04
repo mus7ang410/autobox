@@ -29,8 +29,10 @@ namespace Autobox.Desktop.Activities.Panels
         public TrackPlayerPanel()
         {
             InitializeComponent();
+            Library = ServiceProvider.GetService<ITrackLibrary>();
             Playlist = ServiceProvider.GetService<IPlaylistManager>();
             Player.Volume = SoundSlider.Value;
+            RatingPanel.CanRate = false;
         }
 
         public void Play()
@@ -78,9 +80,36 @@ namespace Autobox.Desktop.Activities.Panels
             }
         }
 
-        // ##### Attributes
+        private void Player_CurrentTrackChanged(object sender, TrackEventArgs e)
+        {
+            CurrenTrack = e.Track;
+            if (CurrenTrack != null)
+            {
+                CurrentTrackTitle.Content = e.Track.Title.ToUpper();
+                RatingPanel.CanRate = true;
+                RatingPanel.Rating = e.Track.Rating;
+            }
+            else
+            {
+                CurrentTrackTitle.Content = "NO PLAYING TRACK";
+                RatingPanel.CanRate = false;
+            }
+        }
+
+        private async void RatingPanel_RatingChanged(object sender, RatingChangedEventArgs e)
+        {
+            if (CurrenTrack != null)
+            {
+                CurrenTrack.Rating = e.Rating;
+                await Library.UpdateTrackAsync(CurrenTrack);
+            }
+        }
+
+        // ##### Attrib
+        private readonly ITrackLibrary Library;
         private readonly IPlaylistManager Playlist;
         private enum EState { Playing, Paused };
         private EState State = EState.Paused;
+        private Track CurrenTrack = null;
     }
 }

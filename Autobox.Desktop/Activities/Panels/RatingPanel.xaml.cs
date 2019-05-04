@@ -15,6 +15,16 @@ using System.Windows.Shapes;
 
 namespace Autobox.Desktop.Activities.Panels
 {
+    public class RatingChangedEventArgs : EventArgs
+    {
+        public RatingChangedEventArgs(int rating)
+        {
+            Rating = rating;
+        }
+
+        public readonly int Rating;
+    }
+
     /// <summary>
     /// Interaction logic for RatingPanel.xaml
     /// </summary>
@@ -43,7 +53,7 @@ namespace Autobox.Desktop.Activities.Panels
                 {
                     Rating = index + 1;
                     SetStars(Rating);
-                    RatingChanged?.Invoke(this, Rating);
+                    RatingChanged?.Invoke(this, new RatingChangedEventArgs(Rating));
                 }
             }
         }
@@ -63,13 +73,13 @@ namespace Autobox.Desktop.Activities.Panels
         // ##### Events
         public static readonly DependencyProperty RatingChangedProperty = DependencyProperty.Register(
             "ValueChanged",
-            typeof(EventHandler<int>),
+            typeof(EventHandler<RatingChangedEventArgs>),
             typeof(RatingPanel),
             new PropertyMetadata());
 
-        public EventHandler<int> RatingChanged
+        public EventHandler<RatingChangedEventArgs> RatingChanged
         {
-            get { return (EventHandler<int>)GetValue(RatingChangedProperty); }
+            get { return (EventHandler<RatingChangedEventArgs>)GetValue(RatingChangedProperty); }
             set { SetValue(RatingChangedProperty, value); }
         }
 

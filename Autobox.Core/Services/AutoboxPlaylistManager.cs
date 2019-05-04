@@ -27,7 +27,7 @@ namespace Autobox.Core.Services
                 Dictionary<ERatingValue, List<Track>> sortedTracks = new Dictionary<ERatingValue, List<Track>>
                 {
                     { ERatingValue.High, Randomize(matchingTracks.Where(track => track.Rating == 0 || track.Rating >= 4).ToList()) },
-                    { ERatingValue.Medium, Randomize(matchingTracks.Where(track => track.Rating > 0 && track.Rating <= 2).ToList()) },
+                    { ERatingValue.Medium, Randomize(matchingTracks.Where(track => track.Rating > 2 && track.Rating < 4).ToList()) },
                     { ERatingValue.Low, Randomize(matchingTracks.Where(track => track.Rating > 0 && track.Rating <= 2).ToList()) }
                 };
 

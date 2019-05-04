@@ -115,11 +115,11 @@ namespace Autobox.Desktop.Activities.Panels
             TrackPlayer.Volume = SoundSlider.Value;
         }
 
-        private async void RatingPanel_RatingChanged(object sender, int rating)
+        private async void RatingPanel_RatingChanged(object sender, RatingChangedEventArgs e)
         {
             if (SelectedTrack != null)
             {
-                SelectedTrack.Rating = rating;
+                SelectedTrack.Rating = e.Rating;
                 await Library.UpdateTrackAsync(SelectedTrack);
             }
         }

@@ -36,4 +36,14 @@
     <SolidColorBrush x:Key="TextLightColor" Color="#80a2b2"/>
     <SolidColorBrush x:Key="TextDarkColor" Color="#15191b"/>
 
+    <Style x:Key="H1.Label" TargetType="Label">
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="Height" Value="{StaticResource H1.Double}"/>
+        <Setter Property="FontFamily" Value="AvenirCondensedHand CondensedHand"/>
+        <Setter Property="FontWeight" Value="ExtraBold"/>
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryColor}"/>
+    </Style>
+
 </ResourceDictionary>
