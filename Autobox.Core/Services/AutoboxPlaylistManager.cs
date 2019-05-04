@@ -96,7 +96,9 @@ namespace Autobox.Core.Services
 
         private List<Track> GetMatchingTracks()
         {
-            return Library.TrackList.Values.Where(track => track.MatchFilter(ExcludedTagList, MandatoryTagList, Track.EIncludeMatchType.All)).ToList();
+            List<Track> tracks = Library.TrackList.Values.Where(track => track.MatchFilter(NoneOfTagList, AnyOfTagList, Track.EIncludeMatchType.Any)).ToList();
+            tracks.Intersect(Library.TrackList.Values.Where(track => track.MatchFilter(NoneOfTagList, AllOfTagList, Track.EIncludeMatchType.All)).ToList());
+            return tracks;
         }
 
         private List<Track> Randomize(List<Track> tracks)
@@ -114,9 +116,9 @@ namespace Autobox.Core.Services
         }
 
         // ##### Properties
-        public TagCollection ExcludedTagList { get; set; } = new TagCollection();
-        public TagCollection OptionalTagList { get; set; } = new TagCollection();
-        public TagCollection MandatoryTagList { get; set; } = new TagCollection();
+        public TagCollection NoneOfTagList { get; set; } = new TagCollection();
+        public TagCollection AnyOfTagList { get; set; } = new TagCollection();
+        public TagCollection AllOfTagList { get; set; } = new TagCollection();
 
         // ##### Configuration
         private enum ERatingValue { High, Medium, Low, None };

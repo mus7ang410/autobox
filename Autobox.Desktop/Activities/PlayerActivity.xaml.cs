@@ -28,9 +28,9 @@ namespace Autobox.Desktop.Activities
         {
             Playlist = ServiceProvider.GetService<IPlaylistManager>();
             InitializeComponent();
-            ExcludedTagPanel.TagSource = Playlist.ExcludedTagList;
-            OptionalTagPanel.TagSource = Playlist.OptionalTagList;
-            MandatoryTagPanel.TagSource = Playlist.MandatoryTagList;
+            NoneOfTagPanel.TagSource = Playlist.NoneOfTagList;
+            AnyOfTagPanel.TagSource = Playlist.AnyOfTagList;
+            AllOfTagPanel.TagSource = Playlist.AllOfTagList;
         }
 
         public void OnActivated()

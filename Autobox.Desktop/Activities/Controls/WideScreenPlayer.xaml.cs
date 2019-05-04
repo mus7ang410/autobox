@@ -35,6 +35,16 @@ namespace Autobox.Desktop.Activities.Controls
 
         public void Load(List<Track> tracks)
         {
+            ScreenCanvas.Children.Clear();
+            foreach (TrackPlayer player in PreviousTrackPlayers)
+            {
+                ScreenCanvas.Children.Add(player);
+            }
+            foreach (TrackPlayer player in FadingTrackPlayers)
+            {
+                ScreenCanvas.Children.Add(player);
+            }
+
             PendingTracks = new List<Track>();
             if (tracks.Count > 0)
             {
@@ -193,7 +203,7 @@ namespace Autobox.Desktop.Activities.Controls
             RecomputeScreen();
             PreviousTravelingTickDate = DateTime.UtcNow;
         }
-
+        
         private void RecomputeScreen()
         {
             if (CurrentTrackPlayer != null && CurrentTrackPlayer.IsTrackLoaded)
