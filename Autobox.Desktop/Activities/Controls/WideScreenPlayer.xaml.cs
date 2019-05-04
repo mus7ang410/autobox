@@ -38,8 +38,9 @@ namespace Autobox.Desktop.Activities.Controls
             if (tracks.Count > 0)
             {
                 int index = 0;
-                if (CurrentTrackPlayer == null)
+                if (CurrentTrackPlayer == null || !CurrentTrackPlayer.IsTrackPlaying)
                 {
+                    CurrentTrackPlayer = null;
                     MoveToCurrentTrack(CreatePlayer(tracks.First()));
                     ++index;
                 }
@@ -96,12 +97,13 @@ namespace Autobox.Desktop.Activities.Controls
         // Move to the next track
         private void Forward()
         {
-            if (CurrentTrackPlayer.IsTrackFadingOut)
-            {
-                FadingTrackPlayers.Add(CurrentTrackPlayer);
-            }
             if (QueuedTrackPlayers.Count > 0)
             {
+                if (CurrentTrackPlayer != null && CurrentTrackPlayer.IsTrackFadingOut)
+                {
+                    FadingTrackPlayers.Add(CurrentTrackPlayer);
+                }
+
                 MoveToCurrentTrack(QueuedTrackPlayers.First());
                 QueuedTrackPlayers.RemoveAt(0);
                 if (PendingTracks.Count > 0)
@@ -110,7 +112,7 @@ namespace Autobox.Desktop.Activities.Controls
                     PendingTracks.RemoveAt(0);
                 }
             }
-            else
+            else if (CurrentTrackPlayer != null)
             {
                 CurrentTrackPlayer.Skip(SkipFadingDuration);
                 MoveToFadingTracks(CurrentTrackPlayer);

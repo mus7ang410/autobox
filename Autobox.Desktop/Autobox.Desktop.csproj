@@ -72,6 +72,7 @@
     <Compile Include="Activities\Controls\WideScreenPlayer.xaml.cs">
       <DependentUpon>WideScreenPlayer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Activities\IActivity.cs" />
     <Compile Include="Activities\LibraryActivity.xaml.cs">
       <DependentUpon>LibraryActivity.xaml</DependentUpon>
     </Compile>

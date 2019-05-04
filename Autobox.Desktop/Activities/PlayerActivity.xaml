@@ -22,7 +22,7 @@
                 <RowDefinition Height="{StaticResource H2.GridLength}"/>
             </Grid.RowDefinitions>
 
-            <Panels:TrackPlayerPanel Grid.Column="1" Grid.Row="1"/>
+            <Panels:TrackPlayerPanel x:Name="PlayerPanel" Grid.Column="1" Grid.Row="1"/>
             
             <Grid Grid.Column="1" Grid.Row="3">
                 <Grid.ColumnDefinitions>

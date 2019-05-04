@@ -23,12 +23,8 @@ namespace Autobox.Desktop.Activities
         public ActivityManager()
         {
             InitializeComponent();
-            Activities = new Dictionary<Button, UserControl>
-            {
-                { PlayerButton, new PlayerActivity() },
-                { LibraryButton, new LibraryActivity() }
-            };
-
+            AddActivity(PlayerButton, new PlayerActivity());
+            AddActivity(LibraryButton, new LibraryActivity());
             RibbonButton_Click(PlayerButton, null);
         }
 
@@ -37,6 +33,7 @@ namespace Autobox.Desktop.Activities
             Button button = sender as Button;
             if (CurrentActivityButton != null)
             {
+                (CurrentActivity as IActivity).OnDeactivated();
                 CurrentActivityButton.Background = FindResource("TextSecondaryColor") as Brush;
                 LayoutGrid.Children.Remove(CurrentActivity);
             }
@@ -46,11 +43,17 @@ namespace Autobox.Desktop.Activities
             CurrentActivity = Activities[CurrentActivityButton];
             LayoutGrid.Children.Add(CurrentActivity);
             Grid.SetRow(CurrentActivity, 1);
+            (CurrentActivity as IActivity).OnActivated();
+        }
+
+        private void AddActivity<TActivity>(Button button, TActivity activity) where TActivity : UserControl, IActivity
+        {
+            Activities.Add(button, activity);
         }
 
         // ##### Attributes
         private Button CurrentActivityButton = null;
         private UserControl CurrentActivity = null;
-        private Dictionary<Button, UserControl> Activities;
+        private Dictionary<Button, UserControl> Activities = new Dictionary<Button, UserControl>();
     }
 }

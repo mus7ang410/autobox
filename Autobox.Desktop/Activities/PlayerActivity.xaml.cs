@@ -18,11 +18,21 @@ namespace Autobox.Desktop.Activities
     /// <summary>
     /// Interaction logic for PlayerActivity.xaml
     /// </summary>
-    public partial class PlayerActivity : UserControl
+    public partial class PlayerActivity : UserControl, IActivity
     {
         public PlayerActivity()
         {
             InitializeComponent();
+        }
+
+        public void OnActivated()
+        {
+            
+        }
+
+        public void OnDeactivated()
+        {
+            PlayerPanel.Pause();
         }
     }
 }

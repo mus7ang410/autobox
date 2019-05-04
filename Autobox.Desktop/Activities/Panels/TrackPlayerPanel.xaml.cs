@@ -33,6 +33,20 @@ namespace Autobox.Desktop.Activities.Panels
             Player.Volume = SoundSlider.Value;
         }
 
+        public void Play()
+        {
+            Player.Play();
+            PlayButton.OpacityMask = FindResource("IconButton.Brushes.Pause") as Brush;
+            State = EState.Playing;
+        }
+
+        public void Pause()
+        {
+            Player.Pause();
+            PlayButton.OpacityMask = FindResource("IconButton.Brushes.Play") as Brush;
+            State = EState.Paused;
+        }
+
         private void ShuffleButton_Click(object sender, RoutedEventArgs e)
         {
             Playlist.Shuffle();
@@ -43,15 +57,11 @@ namespace Autobox.Desktop.Activities.Panels
         {
             if (State == EState.Paused)
             {
-                Player.Play();
-                PlayButton.OpacityMask = FindResource("IconButton.Brushes.Pause") as Brush;
-                State = EState.Playing;
+                Play();
             }
             else if (State == EState.Playing)
             {
-                Player.Pause();
-                PlayButton.OpacityMask = FindResource("IconButton.Brushes.Play") as Brush;
-                State = EState.Paused;
+                Pause();
             }
         }
 

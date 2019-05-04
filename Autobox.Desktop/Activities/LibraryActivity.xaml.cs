@@ -24,13 +24,23 @@ namespace Autobox.Desktop.Activities
     /// <summary>
     /// Interaction logic for LibraryActivity.xaml
     /// </summary>
-    public partial class LibraryActivity : UserControl
+    public partial class LibraryActivity : UserControl, IActivity
     {
         public LibraryActivity()
         {
             InitializeComponent();
             DataContext = this;
             FilteredTrackListPanel.TrackSource = ServiceProvider.GetService<ITrackFilter>()?.FilteredTrackList;
+        }
+
+        public void OnActivated()
+        {
+
+        }
+
+        public void OnDeactivated()
+        {
+
         }
 
         private void FilteredTrackListPanel_SelectedTrackChanged(object sender, Track track)

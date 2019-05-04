@@ -47,6 +47,7 @@ namespace Autobox.Desktop.Activities.Controls
             {
                 FadingTimer.Start();
             }
+            IsTrackPlaying = true;
             MediaPlayer.Visibility = Visibility.Visible;
         }
 
@@ -57,6 +58,7 @@ namespace Autobox.Desktop.Activities.Controls
             {
                 FadingTimer.Stop();
             }
+            IsTrackPlaying = false;
             if (IsTrackEnded)
             {
                 MediaPlayer.Visibility = Visibility.Hidden;
@@ -168,6 +170,7 @@ namespace Autobox.Desktop.Activities.Controls
             }
         }
         public bool IsTrackLoaded { get; private set; } = false;
+        public bool IsTrackPlaying { get; private set; } = false;
         public bool IsTrackFadingOut { get; private set; } = false;
         public bool IsTrackEnded { get; private set; } = false;
         private double _VolumeFactor = 1;
