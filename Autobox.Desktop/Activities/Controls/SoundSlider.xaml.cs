@@ -13,23 +13,22 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Autobox.Desktop.Activities.Panels
+namespace Autobox.Desktop.Activities.Controls
 {
     /// <summary>
-    /// Interaction logic for SoundSliderPanel.xaml
+    /// Interaction logic for SoundSlider.xaml
     /// </summary>
-    public partial class SoundSliderPanel : UserControl
+    public partial class SoundSlider : UserControl
     {
-        public SoundSliderPanel()
+        public SoundSlider()
         {
             InitializeComponent();
         }
-
-        private void SoundSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (MuteButton != null)
             {
-                if (SoundSlider.Value == 0)
+                if (Slider.Value == 0)
                 {
                     MuteButton.OpacityMask = FindResource("IconButton.Brushes.Muted") as Brush;
                     IsMuted = true;
@@ -39,7 +38,7 @@ namespace Autobox.Desktop.Activities.Panels
                     MuteButton.OpacityMask = FindResource("IconButton.Brushes.Sound") as Brush;
                     IsMuted = false;
                 }
-                ValueChanged?.Invoke(this, SoundSlider.Value);
+                ValueChanged?.Invoke(this, Slider.Value);
             }
         }
 
@@ -48,24 +47,24 @@ namespace Autobox.Desktop.Activities.Panels
             if (IsMuted)
             {
                 MuteButton.OpacityMask = FindResource("IconButton.Brushes.Sound") as Brush;
-                SoundSlider.Value = MutedValue > 0 ? MutedValue : 0.1;
+                Slider.Value = MutedValue > 0 ? MutedValue : 0.1;
                 IsMuted = false;
             }
             else
             {
                 MuteButton.OpacityMask = FindResource("IconButton.Brushes.Muted") as Brush;
-                MutedValue = SoundSlider.Value;
-                SoundSlider.Value = 0;
+                MutedValue = Slider.Value;
+                Slider.Value = 0;
                 IsMuted = true;
             }
-            ValueChanged?.Invoke(this, SoundSlider.Value);
+            ValueChanged?.Invoke(this, Slider.Value);
         }
 
         // ##### Events
         public static readonly DependencyProperty ValueChangedProperty = DependencyProperty.Register(
             "ValueChanged",
             typeof(EventHandler<double>),
-            typeof(SoundSliderPanel),
+            typeof(SoundSlider),
             new PropertyMetadata());
 
         public EventHandler<double> ValueChanged
@@ -78,16 +77,16 @@ namespace Autobox.Desktop.Activities.Panels
         public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(
             "Value",
             typeof(double),
-            typeof(SoundSliderPanel),
+            typeof(SoundSlider),
             new PropertyMetadata());
 
         public double Value
         {
-            get { return SoundSlider.Value; }
+            get { return Slider.Value; }
             set
             {
                 SetValue(ValueProperty, value);
-                SoundSlider.Value = value;
+                Slider.Value = value;
             }
         }
 

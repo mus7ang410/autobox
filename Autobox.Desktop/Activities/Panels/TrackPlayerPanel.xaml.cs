@@ -57,7 +57,7 @@ namespace Autobox.Desktop.Activities.Panels
             ScreenPanel.Skip();
         }
 
-        private void SoundSliderPanel_ValueChanged(object sender, double e)
+        private void SoundSlider_ValueChanged(object sender, double e)
         {
             if (ScreenPanel != null)
             {

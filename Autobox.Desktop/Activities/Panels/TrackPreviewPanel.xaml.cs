@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using Autobox.Core.Data;
 using Autobox.Core.Services;
 using Autobox.Desktop.Services;
+using Autobox.Desktop.Activities.Controls;
 
 namespace Autobox.Desktop.Activities.Panels
 {
@@ -88,7 +89,7 @@ namespace Autobox.Desktop.Activities.Panels
         {
             if (SelectedTrack != null)
             {
-                MediaPlayer.Volume = SoundSliderPanel.Value;
+                MediaPlayer.Volume = SoundSlider.Value;
             }
         }
 
@@ -113,9 +114,9 @@ namespace Autobox.Desktop.Activities.Panels
             }
         }
 
-        private void SoundSliderPanel_ValueChanged(object sender, double e)
+        private void SoundSlider_ValueChanged(object sender, double e)
         {
-            SoundSliderPanel slider = sender as SoundSliderPanel;
+            SoundSlider slider = sender as SoundSlider;
             MediaPlayer.Volume = slider.Value;
         }
 
