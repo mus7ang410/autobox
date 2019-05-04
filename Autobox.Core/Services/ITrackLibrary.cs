@@ -19,6 +19,6 @@ namespace Autobox.Core.Services
         string GetFilePath(string filename);
 
         Dictionary<string, Track> TrackList { get; }
-        Dictionary<string, Tag> TagList { get; }
+        TagCollection TagList { get; }
     }
 }

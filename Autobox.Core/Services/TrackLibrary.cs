@@ -51,7 +51,7 @@ namespace Autobox.Core.Services
                 if (!TrackList.ContainsKey(track.Title))
                 {
                     TrackList.Add(track.Title, track);
-                    UpdateTagList(track.Tags);
+                    TagList.UnionWith(track.Tags);
                 }
             }
 
@@ -114,11 +114,20 @@ namespace Autobox.Core.Services
         // Return the list of tag ids
         public TagCollection CreateTagList(string text)
         {
-            TagCollection values = Tag.ExtractTagValues(text);
-            UpdateTagList(values);
-            return values;
+            TagCollection tags = new TagCollection();
+            string[] tokens = text.Split(' ');
+            foreach (string token in tokens)
+            {
+                Regex rgx = new Regex("[^a-zA-Z0-9 -]");
+                string computed = rgx.Replace(token, "").ToUpper();
+                if (computed.Length >= 3)
+                {
+                    tags.Add(computed);
+                }
+            }
+            TagList.UnionWith(tags);
+            return tags;
         }
-
 
         // ##### GetFilePath
         // Get absolute path for a given library file
@@ -198,24 +207,6 @@ namespace Autobox.Core.Services
             return filename;
         }
 
-        // ##### UpdateTagList
-        // Update the list of loaded tags
-        private void UpdateTagList(TagCollection values)
-        {
-            Random random = new Random();
-            foreach (string value in values)
-            {
-                if (!TagList.ContainsKey(value))
-                {
-                    Tag tag = new Tag
-                    {
-                        Value = value,
-                    };
-                    TagList.Add(value, tag);
-                }
-            }
-        }
-
         // ##### Attributes
         // library configuration
         private readonly YouTube Client;
@@ -223,6 +214,6 @@ namespace Autobox.Core.Services
         // library files
         public List<string> MetadataFiles = new List<string>();
         public Dictionary<string, Track> TrackList { get; private set; } = new Dictionary<string, Track>();
-        public Dictionary<string, Tag> TagList { get; protected set; } = new Dictionary<string, Tag>();
+        public TagCollection TagList { get; protected set; } = new TagCollection();
     }
 }
