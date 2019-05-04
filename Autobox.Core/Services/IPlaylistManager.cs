@@ -13,9 +13,9 @@ namespace Autobox.Core.Services
         Task Shuffle();
 
         // ##### Attributes
-        HashSet<string> ExcludedTagList { get; set; }
-        HashSet<string> OptionalTagList { get; set; }
-        HashSet<string> MandatoryTagList { get; set; }
+        TagCollection ExcludedTagList { get; set; }
+        TagCollection OptionalTagList { get; set; }
+        TagCollection MandatoryTagList { get; set; }
         List<Track> TrackList { get; }
     }
 }

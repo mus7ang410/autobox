@@ -30,8 +30,8 @@
                         <ColumnDefinition Width="{StaticResource H2.GridLength}"/>
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
-                    <Panels:TagPanel x:Name="ExcludedTagPanel" Grid.Column="0" Title="EXCLUDED" TagListChanged="ExcludedTagPanel_TagListChanged"/>
-                    <Panels:TagPanel x:Name="IncludedTagPanel" Grid.Column="2" Title="INCLUDED" TagListChanged="IncludedTagPanel_TagListChanged"/>
+                    <Panels:TagPanel x:Name="ExcludedTagPanel" Grid.Column="0" Title="EXCLUDED"/>
+                    <Panels:TagPanel x:Name="IncludedTagPanel" Grid.Column="2" Title="INCLUDED"/>
                 </Grid>
                 <Panels:TrackListPanel x:Name="FilteredTrackListPanel" Grid.Row="3" TrackSelectionChanged="FilteredTrackListPanel_TrackSelectionChanged"/>
             </Grid>
@@ -46,7 +46,7 @@
                     <RowDefinition Height="{StaticResource H2.GridLength}"/>
                 </Grid.RowDefinitions>
                 <Panels:AddYouTubePanel Height="Auto" Grid.Row="5" CreateTrack="AddYouTubePanel_CreateTrack"/>
-                <Panels:TagPanel x:Name="SelectedTrackTagPanel" Grid.Row="3" Title="TAGS" TagListChanged="SelectedTrackPanel_TagListChanged"/>
+                <Panels:TagPanel x:Name="SelectedTrackTagPanel" Grid.Row="3" Title="TAGS" TagAdded="SelectedTrackPanel_TagAdded" TagRemoved="SelectedTrackPanel_TagRemoved"/>
                 <Panels:TrackPreviewPanel x:Name="PreviewPanel" Grid.Row="1" TrackDeleted="PreviewPanel_TrackDeleted"/>
             </Grid>
         </Grid>

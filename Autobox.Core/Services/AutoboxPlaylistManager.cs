@@ -114,9 +114,9 @@ namespace Autobox.Core.Services
         }
 
         // ##### Properties
-        public HashSet<string> ExcludedTagList { get; set; } = new HashSet<string>();
-        public HashSet<string> OptionalTagList { get; set; } = new HashSet<string>();
-        public HashSet<string> MandatoryTagList { get; set; } = new HashSet<string>();
+        public TagCollection ExcludedTagList { get; set; } = new TagCollection();
+        public TagCollection OptionalTagList { get; set; } = new TagCollection();
+        public TagCollection MandatoryTagList { get; set; } = new TagCollection();
 
         // ##### Configuration
         private enum ERatingValue { High, Medium, Low, None };

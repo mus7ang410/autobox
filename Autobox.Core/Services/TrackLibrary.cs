@@ -62,7 +62,7 @@ namespace Autobox.Core.Services
         // Process a newly loaded track to ensure is content is compatible
         private Track ProcessLoadedTrack(Track track)
         {
-            track.Tags = new HashSet<string>(track.Tags.ToList().ConvertAll(str => str.ToUpper()));
+            track.Tags = new TagCollection(track.Tags.ToList().ConvertAll(str => str.ToUpper()));
             return track;
         }
 
@@ -112,9 +112,9 @@ namespace Autobox.Core.Services
         // ##### CreateTagList
         // Create a tag list from a row text
         // Return the list of tag ids
-        public HashSet<string> CreateTagList(string text)
+        public TagCollection CreateTagList(string text)
         {
-            HashSet<string> values = Tag.ExtractTagValues(text);
+            TagCollection values = Tag.ExtractTagValues(text);
             UpdateTagList(values);
             return values;
         }
@@ -200,7 +200,7 @@ namespace Autobox.Core.Services
 
         // ##### UpdateTagList
         // Update the list of loaded tags
-        private void UpdateTagList(HashSet<string> values)
+        private void UpdateTagList(TagCollection values)
         {
             Random random = new Random();
             foreach (string value in values)

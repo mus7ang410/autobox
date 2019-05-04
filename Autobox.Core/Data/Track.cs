@@ -115,6 +115,6 @@ namespace Autobox.Core.Data
         public string VideoFilename { get; set; }
         public string ThumbnailFilename { get; set; }
         public string MetadataFilename { get; set; }
-        public HashSet<string> Tags { get; set; } = new HashSet<string>();
+        public TagCollection Tags { get; set; } = new TagCollection();
     }
 }

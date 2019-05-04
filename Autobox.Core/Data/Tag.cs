@@ -11,9 +11,9 @@ namespace Autobox.Core.Data
     public class Tag
     {
         // ##### Helpers
-        public static HashSet<string> ExtractTagValues(string text)
+        public static TagCollection ExtractTagValues(string text)
         {
-            HashSet<string> tags = new HashSet<string>();
+            TagCollection tags = new TagCollection();
             string[] tokens = text.Split(' ');
             foreach (string token in tokens)
             {

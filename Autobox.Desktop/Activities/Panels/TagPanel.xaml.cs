@@ -20,6 +20,26 @@ using Autobox.Desktop.Services;
 
 namespace Autobox.Desktop.Activities.Panels
 {
+    public class TagAddedEventArgs : EventArgs
+    {
+        public TagAddedEventArgs(TagCollection tagList)
+        {
+            TagList = tagList;
+        }
+
+        public readonly TagCollection TagList;
+    }
+
+    public class TagRemovedEventArgs : EventArgs
+    {
+        public TagRemovedEventArgs(string tag)
+        {
+            Tag = tag;
+        }
+
+        public readonly string Tag;
+    }
+
     /// <summary>
     /// Interaction logic for TagPanel.xaml
     /// </summary>
@@ -48,19 +68,20 @@ namespace Autobox.Desktop.Activities.Panels
         // Tags creation and adding business
         private void AddTags()
         {
-            TagList.UnionWith(Library.CreateTagList(InputTextBox.Text));
-            TagWrapPanel_Populate();
+            TagSource.UnionWith(Library.CreateTagList(InputTextBox.Text));
             InputTextBox.Text = string.Empty;
+            TagWrapPanel_Populate();
+            TagAdded?.Invoke(this, new TagAddedEventArgs(TagSource));
         }
 
         private void TagWrapPanel_Populate()
         {
-            if (TagList != TagListCache)
+            if (TagSource != TagListCache)
             {
                 TagWrapPanel.Children.Clear();
-                if (TagList != null)
+                if (TagSource != null)
                 {
-                    foreach (string tag in TagList)
+                    foreach (string tag in TagSource)
                     {
                         Button button = new Button
                         {
@@ -70,35 +91,27 @@ namespace Autobox.Desktop.Activities.Panels
                         button.Click += TagButon_Click;
                         TagWrapPanel.Children.Add(button);
                     }
-                    TagListCache = new HashSet<string>(TagList);
+                    TagListCache = new HashSet<string>(TagSource);
                 }
                 else
                 {
                     TagListCache = null;
                 }
-                
-                TagListChanged?.Invoke(this, TagList);
             }
         }
 
         private static void TagSourceProperty_Changed(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            (sender as TagPanel).TagSource_Changed((IEnumerable)e.OldValue, (IEnumerable)e.NewValue);
-        }
-
-        private void TagSource_Changed(IEnumerable oldValue, IEnumerable newValue)
-        {
-            TagList = newValue as HashSet<string>;
-            TagWrapPanel_Populate();
+            (sender as TagPanel).TagWrapPanel_Populate();
         }
 
         private void TagButon_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
             TagWrapPanel.Children.Remove(button);
-            string tag = button.Content as string;
-            TagList.Remove(tag.TrimStart().TrimEnd().ToUpper());
-            TagListChanged?.Invoke(this, TagList);
+            string tag = (button.Content as string).TrimStart().TrimEnd().ToUpper();
+            TagSource.Remove(tag);
+            TagRemoved?.Invoke(this, new TagRemovedEventArgs(tag));
         }
 
         // ##### Properties
@@ -111,7 +124,7 @@ namespace Autobox.Desktop.Activities.Panels
             {
                 _Title = value;
                 TitleLabel.Content = value;
-                if (IsMultiple)
+                if (IsMultipleSelection)
                 {
                     TitleLabel.Content += " (MULTIPLE)";
                 }
@@ -121,44 +134,38 @@ namespace Autobox.Desktop.Activities.Panels
         // TagSource
         public static readonly DependencyProperty TagSourceProperty = DependencyProperty.Register(
             "TagSource",
-            typeof(IEnumerable),
+            typeof(TagCollection),
             typeof(TagPanel),
             new PropertyMetadata(new PropertyChangedCallback(TagSourceProperty_Changed)));
 
-        public IEnumerable TagSource
+        public TagCollection TagSource
         {
-            get { return (IEnumerable)GetValue(TagSourceProperty); }
-            set { SetValue(TagSourceProperty, value); }
-        }
-
-        private bool _IsMultiple = false;
-        public bool IsMultiple
-        {
-            get { return _IsMultiple; }
+            get { return (TagCollection)GetValue(TagSourceProperty); }
             set
             {
-                _IsMultiple = value;
+                SetValue(TagSourceProperty, value);
+                TagWrapPanel_Populate();
+            }
+        }
+
+        private bool _IsMultipleSelection = false;
+        public bool IsMultipleSelection
+        {
+            get { return _IsMultipleSelection; }
+            set
+            {
+                _IsMultipleSelection = value;
                 Title = Title;
             }
         }
 
         // ##### Events
         // TagListChanged
-        public static readonly DependencyProperty TagListChangedProperty = DependencyProperty.Register(
-            "TagListChanged",
-            typeof(EventHandler<HashSet<string>>),
-            typeof(TagPanel),
-            new PropertyMetadata());
-
-        public EventHandler<HashSet<string>> TagListChanged
-        {
-            get { return (EventHandler<HashSet<string>>)GetValue(TagListChangedProperty); }
-            set { SetValue(TagListChangedProperty, value); }
-        }
+        public EventHandler<TagAddedEventArgs> TagAdded { get; set; }
+        public EventHandler<TagRemovedEventArgs> TagRemoved { get; set; }
 
         // ##### Attributes
         private readonly ITrackLibrary Library;
-        private HashSet<string> TagList = new HashSet<string>();
         private HashSet<string> TagListCache = new HashSet<string>();
     }
 }

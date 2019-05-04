@@ -54,18 +54,17 @@ namespace Autobox.Desktop.Activities.Panels
             }
             else
             {
-                TrackPlayer.CurrentTrack = null;
-                TitleTextBox.Text = string.Empty;
-                TitleTextBox.IsEnabled = false;
-                RatingPanel.CanRate = false;
+                UnloadTrack();
             }
         }
 
         public Track UnloadTrack()
         {
+            TrackPlayer.CurrentTrack = null;
             TitleTextBox.Text = string.Empty;
             TitleTextBox.IsEnabled = false;
             RatingPanel.CanRate = false;
+            PlayButton.OpacityMask = FindResource("IconButton.Brushes.Play") as Brush;
             Track unloadedTrack = SelectedTrack;
             SelectedTrack = null;
             return unloadedTrack;

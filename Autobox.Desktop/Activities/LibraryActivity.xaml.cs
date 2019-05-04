@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -29,8 +30,12 @@ namespace Autobox.Desktop.Activities
     {
         public LibraryActivity()
         {
-            InitializeComponent();
             Library = ServiceProvider.GetService<ITrackLibrary>();
+            InitializeComponent();
+            IncludedTagList.CollectionChanged += delegate (object sender, NotifyCollectionChangedEventArgs e) { UpdateFilteredList(); };
+            IncludedTagPanel.TagSource = IncludedTagList;
+            ExcludedTagList.CollectionChanged += delegate (object sender, NotifyCollectionChangedEventArgs e) { UpdateFilteredList(); };
+            ExcludedTagPanel.TagSource = ExcludedTagList;
             FilteredTrackListPanel.TrackSource = FilteredTrackList;
         }
 
@@ -46,34 +51,29 @@ namespace Autobox.Desktop.Activities
 
         private void FilteredTrackListPanel_TrackSelectionChanged(object sender, TrackSelectionChangedEventArgs e)
         {
-            if (e.SelectedTracks.Count == 0)
+            SelectedTracks = e.SelectedTracks;
+
+            if (SelectedTracks.Count == 0)
             {
-                SelectedTrack = null;
                 PreviewPanel.UnloadTrack();
             }
-            else if (e.SelectedTracks.Count == 1)
+            else if (SelectedTracks.Count == 1)
             {
-                SelectedTrack = e.SelectedTracks.First();
+                SelectedTracks = e.SelectedTracks;
                 PreviewPanel.LoadTrack(e.SelectedTracks.First());
-                SelectedTrackTagPanel.IsMultiple = false;
-                SelectedTrackTagPanel.TagSource = SelectedTrack?.Tags;
+                SelectedTrackTagPanel.IsMultipleSelection = false;
+                SelectedTrackTagPanel.TagSource = SelectedTracks.First()?.Tags;
             }
             else
             {
-                SelectedTrackTagPanel.IsMultiple = true;
+                MultipleTagList = new TagCollection(SelectedTracks.First().Tags);
+                foreach (Track track in e.SelectedTracks.GetRange(1, e.SelectedTracks.Count - 1))
+                {
+                    MultipleTagList.IntersectWith(track.Tags);
+                }
+                SelectedTrackTagPanel.IsMultipleSelection = true;
+                SelectedTrackTagPanel.TagSource = MultipleTagList;
             }
-        }
-
-        private void ExcludedTagPanel_TagListChanged(object sender, HashSet<string> tagList)
-        {
-            ExcludedTagList = tagList;
-            UpdateFilteredList();
-        }
-
-        private void IncludedTagPanel_TagListChanged(object sender, HashSet<string> tagList)
-        {
-            IncludedTagList = tagList;
-            UpdateFilteredList();
         }
 
         private void PreviewPanel_TrackDeleted(object sender, TrackEventArgs e)
@@ -81,12 +81,44 @@ namespace Autobox.Desktop.Activities
             FilteredTrackList.Remove(e.Track);
         }
 
-        private async void SelectedTrackPanel_TagListChanged(object sender, HashSet<string> tagList)
+        private async void SelectedTrackPanel_TagAdded(object sender, TagAddedEventArgs e)
         {
-            if (SelectedTrack != null)
+            if (SelectedTracks.Count == 1)
             {
-                await ServiceProvider.GetService<ITrackLibrary>()?.UpdateTrackAsync(SelectedTrack);
+                await Library.UpdateTrackAsync(SelectedTracks.First());
             }
+            else
+            {
+                List<Task> tasks = new List<Task>();
+                foreach (Track track in SelectedTracks)
+                {
+                    track.Tags.UnionWith(e.TagList);
+                    tasks.Add(Library.UpdateTrackAsync(track));
+                }
+                await Task.WhenAll(tasks);
+            }
+
+            UpdateFilteredList();
+        }
+
+        private async void SelectedTrackPanel_TagRemoved(object sender, TagRemovedEventArgs e)
+        {
+            if (SelectedTracks.Count == 1)
+            {
+                await Library.UpdateTrackAsync(SelectedTracks.First());
+            }
+            else
+            {
+                List<Task> tasks = new List<Task>();
+                foreach (Track track in SelectedTracks)
+                {
+                    track.Tags.Remove(e.Tag);
+                    tasks.Add(Library.UpdateTrackAsync(track));
+                }
+                await Task.WhenAll(tasks);
+            }
+
+            UpdateFilteredList();
         }
 
         private void AddYouTubePanel_CreateTrack(object sender, Track track)
@@ -104,8 +136,9 @@ namespace Autobox.Desktop.Activities
         // ##### Attributes
         private readonly ITrackLibrary Library;
         private readonly TrackCollection FilteredTrackList = new TrackCollection();
-        private Track SelectedTrack = null;
-        private HashSet<string> ExcludedTagList = new HashSet<string>();
-        private HashSet<string> IncludedTagList = new HashSet<string>();
+        private List<Track> SelectedTracks = null;
+        private TagCollection ExcludedTagList = new TagCollection();
+        private TagCollection IncludedTagList = new TagCollection();
+        private TagCollection MultipleTagList = new TagCollection();
     }
 }

@@ -14,7 +14,7 @@ namespace Autobox.Core.Services
         Task<Track> CreateTrackAsync(string url);
         Task UpdateTrackAsync(Track track);
         Task DeleteTrackAsync(Track track);
-        HashSet<string> CreateTagList(string text);
+        TagCollection CreateTagList(string text);
 
         string GetFilePath(string filename);
 
