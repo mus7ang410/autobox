@@ -15,7 +15,6 @@ using System.Windows.Shapes;
 
 using Autobox.Core.Services;
 using Autobox.Desktop.Services;
-using Autobox.Desktop.Activities.Panels;
 
 namespace Autobox.Desktop.Activities
 {
@@ -28,9 +27,9 @@ namespace Autobox.Desktop.Activities
         {
             Playlist = ServiceProvider.GetService<IPlaylistManager>();
             InitializeComponent();
-            NoneOfTagPanel.TagSource = Playlist.NoneOfTagList;
-            AnyOfTagPanel.TagSource = Playlist.AnyOfTagList;
-            AllOfTagPanel.TagSource = Playlist.AllOfTagList;
+            NoneOfTagPanel.TagSource = Playlist.Settings.NoneOfTagList;
+            AnyOfTagPanel.TagSource = Playlist.Settings.AnyOfTagList;
+            AllOfTagPanel.TagSource = Playlist.Settings.AllOfTagList;
         }
 
         public void OnActivated()

@@ -13,9 +13,7 @@ namespace Autobox.Core.Services
         Task Shuffle();
 
         // ##### Attributes
-        TagCollection NoneOfTagList { get; set; }
-        TagCollection AnyOfTagList { get; set; }
-        TagCollection AllOfTagList { get; set; }
+        PlaylistSettings Settings { get; }
         List<Track> TrackList { get; }
     }
 }

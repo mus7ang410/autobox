@@ -14,7 +14,6 @@ namespace Autobox.Core.Services
     {
         public AutoboxPlaylistManager(ITrackLibrary library)
         {
-            Cache = CacheFile.Load<SettingCache>(SettingCache.Filename);
             Library = library;
             Shuffle();
         }
@@ -99,8 +98,8 @@ namespace Autobox.Core.Services
 
         private List<Track> GetMatchingTracks()
         {
-            List<Track> tracks = Library.TrackList.Values.Where(track => track.MatchFilter(NoneOfTagList, AnyOfTagList, Track.EIncludeMatchType.Any)).ToList();
-            tracks.Intersect(Library.TrackList.Values.Where(track => track.MatchFilter(NoneOfTagList, AllOfTagList, Track.EIncludeMatchType.All)).ToList());
+            List<Track> tracks = Library.TrackList.Values.Where(track => track.MatchFilter(Settings.NoneOfTagList, Settings.AnyOfTagList, Track.EIncludeMatchType.Any)).ToList();
+            tracks.Intersect(Library.TrackList.Values.Where(track => track.MatchFilter(Settings.NoneOfTagList, Settings.AllOfTagList, Track.EIncludeMatchType.All)).ToList());
             return tracks;
         }
 
@@ -118,39 +117,8 @@ namespace Autobox.Core.Services
             return tracks;
         }
 
-        // ##### SettingCache
-        // Hold setting value between sessions
-        private class SettingCache
-        {
-            public SettingCache()
-            {
-                NoneOfTagList.CollectionChanged += delegate (object sender, NotifyCollectionChangedEventArgs e) { CacheFile.Save(Filename, this); };
-                AnyOfTagList.CollectionChanged += delegate (object sender, NotifyCollectionChangedEventArgs e) { CacheFile.Save(Filename, this); };
-                AllOfTagList.CollectionChanged += delegate (object sender, NotifyCollectionChangedEventArgs e) { CacheFile.Save(Filename, this); };
-            }
-            public static readonly string Filename = "PlaylistSettingCache.json";
-            public TagCollection NoneOfTagList { get; set; } = new TagCollection();
-            public TagCollection AnyOfTagList { get; set; } = new TagCollection();
-            public TagCollection AllOfTagList { get; set; } = new TagCollection();
-        }
-
         // ##### Properties
-        private SettingCache Cache = new SettingCache();
-        public TagCollection NoneOfTagList
-        {
-            get { return Cache.NoneOfTagList; }
-            set { Cache.NoneOfTagList = value; }
-        }
-        public TagCollection AnyOfTagList
-        {
-            get { return Cache.AnyOfTagList; }
-            set { Cache.AnyOfTagList = value; }
-        }
-        public TagCollection AllOfTagList
-        {
-            get { return Cache.AllOfTagList; }
-            set { Cache.AllOfTagList = value; }
-        }
+        public PlaylistSettings Settings {get; set; } = new PlaylistSettings();
 
         // ##### Configuration
         private enum ERatingValue { High, Medium, Low, None };
