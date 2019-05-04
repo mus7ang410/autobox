@@ -18,6 +18,7 @@ using System.Windows.Shapes;
 using Autobox.Core.Data;
 using Autobox.Core.Services;
 using Autobox.Desktop.Services;
+using Autobox.Desktop.Activities.Panels;
 
 namespace Autobox.Desktop.Activities
 {
@@ -43,11 +44,24 @@ namespace Autobox.Desktop.Activities
 
         }
 
-        private void FilteredTrackListPanel_SelectedTrackChanged(object sender, TrackEventArgs e)
+        private void FilteredTrackListPanel_TrackSelectionChanged(object sender, TrackSelectionChangedEventArgs e)
         {
-            SelectedTrack = e.Track;
-            PreviewPanel.LoadTrack(e.Track);
-            SelectedTrackTagPanel.TagSource = SelectedTrack?.Tags;
+            if (e.SelectedTracks.Count == 0)
+            {
+                SelectedTrack = null;
+                PreviewPanel.UnloadTrack();
+            }
+            else if (e.SelectedTracks.Count == 1)
+            {
+                SelectedTrack = e.SelectedTracks.First();
+                PreviewPanel.LoadTrack(e.SelectedTracks.First());
+                SelectedTrackTagPanel.IsMultiple = false;
+                SelectedTrackTagPanel.TagSource = SelectedTrack?.Tags;
+            }
+            else
+            {
+                SelectedTrackTagPanel.IsMultiple = true;
+            }
         }
 
         private void ExcludedTagPanel_TagListChanged(object sender, HashSet<string> tagList)

@@ -33,7 +33,7 @@
                     <Panels:TagPanel x:Name="ExcludedTagPanel" Grid.Column="0" Title="EXCLUDED" TagListChanged="ExcludedTagPanel_TagListChanged"/>
                     <Panels:TagPanel x:Name="IncludedTagPanel" Grid.Column="2" Title="INCLUDED" TagListChanged="IncludedTagPanel_TagListChanged"/>
                 </Grid>
-                <Panels:TrackListPanel x:Name="FilteredTrackListPanel" Grid.Row="3" SelectedTrackChanged="FilteredTrackListPanel_SelectedTrackChanged"/>
+                <Panels:TrackListPanel x:Name="FilteredTrackListPanel" Grid.Row="3" TrackSelectionChanged="FilteredTrackListPanel_TrackSelectionChanged"/>
             </Grid>
             <Grid Grid.Column="3">
                 <Grid.RowDefinitions>

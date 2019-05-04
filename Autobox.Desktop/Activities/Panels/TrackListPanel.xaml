@@ -47,7 +47,7 @@
                 <Separator Width="{StaticResource H3.Double}" Background="{x:Null}"/>
                 <TextBox x:Name="FilterTextBox" Style="{StaticResource InputTextBox}" Text="{Binding TitleFilter, UpdateSourceTrigger=PropertyChanged}"/>
             </DockPanel>
-            <ListView x:Name="TrackListView" Grid.Column="1" Grid.Row="3" ItemsSource="{Binding FilteredView}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{DynamicResource TextLightColor}" SelectionMode="Single" SelectionChanged="TrackListView_SelectionChanged" AlternationCount="2">
+            <ListView x:Name="TrackListView" Grid.Column="1" Grid.Row="3" ItemsSource="{Binding FilteredView}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{DynamicResource TextLightColor}" SelectionMode="Extended"  SelectionChanged="TrackListView_SelectionChanged" AlternationCount="2">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <WrapPanel Orientation="Horizontal">

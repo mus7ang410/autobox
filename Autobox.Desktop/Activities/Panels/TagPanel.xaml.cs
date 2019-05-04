@@ -103,10 +103,19 @@ namespace Autobox.Desktop.Activities.Panels
 
         // ##### Properties
         // Title
-        public object Title
+        private string _Title;
+        public string Title
         {
-            get { return TitleLabel.Content; }
-            set { TitleLabel.Content = value; }
+            get { return _Title; }
+            set
+            {
+                _Title = value;
+                TitleLabel.Content = value;
+                if (IsMultiple)
+                {
+                    TitleLabel.Content += " (MULTIPLE)";
+                }
+            }
         }
 
         // TagSource
@@ -120,6 +129,17 @@ namespace Autobox.Desktop.Activities.Panels
         {
             get { return (IEnumerable)GetValue(TagSourceProperty); }
             set { SetValue(TagSourceProperty, value); }
+        }
+
+        private bool _IsMultiple = false;
+        public bool IsMultiple
+        {
+            get { return _IsMultiple; }
+            set
+            {
+                _IsMultiple = value;
+                Title = Title;
+            }
         }
 
         // ##### Events

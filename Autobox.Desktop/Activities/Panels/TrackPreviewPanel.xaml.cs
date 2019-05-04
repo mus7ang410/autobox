@@ -61,7 +61,7 @@ namespace Autobox.Desktop.Activities.Panels
             }
         }
 
-        private Track UnloadTrack()
+        public Track UnloadTrack()
         {
             TitleTextBox.Text = string.Empty;
             TitleTextBox.IsEnabled = false;

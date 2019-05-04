@@ -20,6 +20,16 @@ using Autobox.Desktop.Services;
 
 namespace Autobox.Desktop.Activities.Panels
 {
+    public class TrackSelectionChangedEventArgs : EventArgs
+    {
+        public TrackSelectionChangedEventArgs(List<Track> selectedTracks)
+        {
+            SelectedTracks = selectedTracks;
+        }
+
+        public readonly List<Track> SelectedTracks;
+    }
+
     /// <summary>
     /// Interaction logic for TrackListPanel.xaml
     /// </summary>
@@ -36,7 +46,12 @@ namespace Autobox.Desktop.Activities.Panels
 
         private void TrackListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SelectedTrackChanged?.Invoke(this, new TrackEventArgs(TrackListView.SelectedItem as Track));
+            List<Track> selectedTracks = new List<Track>();
+            foreach (object obj in TrackListView.SelectedItems)
+            {
+                selectedTracks.Add(obj as Track);
+            }
+            TrackSelectionChanged?.Invoke(this, new TrackSelectionChangedEventArgs(selectedTracks));
         }
 
         private void SortButton_Click(object sender, RoutedEventArgs e)
@@ -77,15 +92,16 @@ namespace Autobox.Desktop.Activities.Panels
 
         // ##### Events
         // SelectedTrackChanged
-        public static readonly DependencyProperty SelectedTrackChangedProperty = DependencyProperty.Register("SelectedTrackChanged",
-            typeof(EventHandler<TrackEventArgs>),
+        public static readonly DependencyProperty TrackSelectionChangedProperty = DependencyProperty.Register(
+            "TrackSelectionChanged",
+            typeof(EventHandler<TrackSelectionChangedEventArgs>),
             typeof(AddYouTubePanel),
             new PropertyMetadata());
 
-        public EventHandler<TrackEventArgs> SelectedTrackChanged
+        public EventHandler<TrackSelectionChangedEventArgs> TrackSelectionChanged
         {
-            get { return (EventHandler<TrackEventArgs>)GetValue(SelectedTrackChangedProperty); }
-            set { SetValue(SelectedTrackChangedProperty, value); }
+            get { return (EventHandler<TrackSelectionChangedEventArgs>)GetValue(TrackSelectionChangedProperty); }
+            set { SetValue(TrackSelectionChangedProperty, value); }
         }
 
         // ##### Properties
