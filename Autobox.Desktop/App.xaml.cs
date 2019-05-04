@@ -20,14 +20,11 @@ namespace Autobox.Desktop
         {
             Library = ServiceProvider.AddService<ITrackLibrary, TrackLibrary>(new TrackLibrary("Library"));
             Library.LoadAllAsync().Wait();
-            Filter = ServiceProvider.AddService<ITrackFilter, TrackFilter>(new TrackFilter(Library));
-            Filter.UpdateFilter(null, null);
             Playlist = ServiceProvider.AddService<IPlaylistManager, AutoboxPlaylistManager>(new AutoboxPlaylistManager(Library));
         }
 
         // ##### Application singletons
         private readonly ITrackLibrary Library;
-        private readonly ITrackFilter Filter;
         private readonly IPlaylistManager Playlist;
     }
 }

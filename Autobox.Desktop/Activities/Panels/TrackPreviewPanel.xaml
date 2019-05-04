@@ -14,7 +14,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Label x:Name="TitleLabel" Grid.Row="0" Style="{StaticResource CardHeader}" Content="NO SELECTED TRACK"/>
+        <Label x:Name="TitleLabel" Grid.Row="0" Style="{StaticResource CardHeader}" Content="TRACK PREVIEW"/>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="{StaticResource H3.GridLength}"/>
@@ -27,6 +27,8 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="{StaticResource H3.GridLength}"/>
                 <RowDefinition/>
+                <RowDefinition Height="{StaticResource H3.GridLength}"/>
+                <RowDefinition Height="{StaticResource H1.GridLength}"/>
                 <RowDefinition Height="{StaticResource H3.GridLength}"/>
                 <RowDefinition Height="{StaticResource H1.GridLength}"/>
                 <RowDefinition Height="{StaticResource H3.GridLength}"/>
@@ -45,8 +47,15 @@
                     <Separator Background="{x:Null}"/>
                 </DockPanel>
             </DockPanel>
-            <Separator Width="{StaticResource H3.Double}" Background="{x:Null}" />
+            <TextBox x:Name="TitleTextBox" Style="{StaticResource InputTextBox}" Grid.Column="1" Grid.Row="5" CharacterCasing="Normal" KeyDown="TitleTextBox_KeyDown"/>
+
             <Controls:SoundSlider x:Name="SoundSlider" Grid.Column="3" Grid.Row="1" Grid.RowSpan="3" ValueChanged="SoundSlider_ValueChanged"/>
+            <Button x:Name="DeleteButton" Style="{StaticResource IconButton}" Grid.Column="3" Grid.Row="5" Background="{StaticResource YouTubeColor}" Click="DeleteButton_Click">
+                <Button.OpacityMask>
+                    <ImageBrush ImageSource="/Autobox.Desktop;component/Assets/RemoveIcon.png" Stretch="Uniform"/>
+                </Button.OpacityMask>
+            </Button>
+
         </Grid>
     </Grid>
 </UserControl>

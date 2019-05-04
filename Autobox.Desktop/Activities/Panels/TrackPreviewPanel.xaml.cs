@@ -39,7 +39,8 @@ namespace Autobox.Desktop.Activities.Panels
             SelectedTrack = track;
             if (SelectedTrack != null)
             {
-                TitleLabel.Content = SelectedTrack.Title.ToUpper();
+                TitleTextBox.Text = SelectedTrack.Title;
+                TitleTextBox.IsEnabled = true;
                 RatingPanel.CanRate = true;
                 RatingPanel.Rating = SelectedTrack.Rating;
 
@@ -53,9 +54,21 @@ namespace Autobox.Desktop.Activities.Panels
             }
             else
             {
-                TitleLabel.Content = "NO SELECTED TRACK";
+                TrackPlayer.CurrentTrack = null;
+                TitleTextBox.Text = string.Empty;
+                TitleTextBox.IsEnabled = false;
                 RatingPanel.CanRate = false;
             }
+        }
+
+        private Track UnloadTrack()
+        {
+            TitleTextBox.Text = string.Empty;
+            TitleTextBox.IsEnabled = false;
+            RatingPanel.CanRate = false;
+            Track unloadedTrack = SelectedTrack;
+            SelectedTrack = null;
+            return unloadedTrack;
         }
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)
@@ -97,6 +110,11 @@ namespace Autobox.Desktop.Activities.Panels
             PlayButton.OpacityMask = FindResource("IconButton.Brushes.Pause") as Brush;
         }
 
+        private void SoundSlider_ValueChanged(object sender, double e)
+        {
+            TrackPlayer.Volume = SoundSlider.Value;
+        }
+
         private async void RatingPanel_RatingChanged(object sender, int rating)
         {
             if (SelectedTrack != null)
@@ -106,12 +124,50 @@ namespace Autobox.Desktop.Activities.Panels
             }
         }
 
-        private void SoundSlider_ValueChanged(object sender, double e)
+        private async void TitleTextBox_KeyDown(object sender, KeyEventArgs e)
         {
-            SoundSlider slider = sender as SoundSlider;
-            TrackPlayer.Volume = slider.Value;
+            if (e.Key == Key.Enter)
+            {
+                try
+                {
+                    SelectedTrack.Title = TitleTextBox.Text;
+                    await Library.UpdateTrackAsync(SelectedTrack);
+                    TrackUpdated?.Invoke(this, new TrackEventArgs(SelectedTrack));
+                }
+                catch (Exception exception)
+                {
+                    TitleTextBox.Text = SelectedTrack.Title;
+                    MessageBox.Show(
+                        exception.Message,
+                        "Cannot set track title",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                }
+            }
         }
 
+        private async void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (SelectedTrack != null)
+            {
+                MessageBoxResult result = MessageBox.Show(
+                $"Delete track {SelectedTrack.Title}?",
+                "Delete a track",
+                MessageBoxButton.OKCancel,
+                MessageBoxImage.Warning);
+
+                if (result == MessageBoxResult.OK)
+                {
+                    Track deletedTrack = UnloadTrack();
+                    await Library.DeleteTrackAsync(deletedTrack);
+                    TrackDeleted?.Invoke(this, new TrackEventArgs(deletedTrack));
+                }
+            }
+        }
+
+        // ##### Events
+        public EventHandler<TrackEventArgs> TrackDeleted { get; set; }
+        public EventHandler<TrackEventArgs> TrackUpdated { get; set; }
         // ##### Attributes
         private readonly ITrackLibrary Library;
         private Track SelectedTrack = null;

@@ -89,12 +89,26 @@ namespace Autobox.Desktop.Activities.Controls
 
         private void CurrentTrack_Changed(Track track)
         {
-            IsTrackLoaded = false;
-            MediaPlayer.Source = new Uri(Library.GetFilePath(CurrentTrack.VideoFilename));
-            MediaPlayer.Visibility = Visibility.Hidden;
-            MediaPlayer.Loaded += MediaPlayer_Loaded;
-            MediaPlayer.MediaEnded += MediaPlayer_MediaEnded;
-            ThumbnailImage.Source = new BitmapImage(new Uri(Library.GetFilePath(CurrentTrack.ThumbnailFilename)));
+            if (CurrentTrack != null)
+            {
+                IsTrackLoaded = false;
+                MediaPlayer.Source = new Uri(Library.GetFilePath(CurrentTrack.VideoFilename));
+                MediaPlayer.Visibility = Visibility.Hidden;
+                MediaPlayer.Loaded += MediaPlayer_Loaded;
+                MediaPlayer.MediaEnded += MediaPlayer_MediaEnded;
+
+                BitmapImage thumbnail = new BitmapImage();
+                thumbnail.BeginInit();
+                thumbnail.UriSource = new Uri(Library.GetFilePath(CurrentTrack.ThumbnailFilename));
+                thumbnail.CacheOption = BitmapCacheOption.OnLoad;
+                thumbnail.EndInit();
+                ThumbnailImage.Source = thumbnail;
+            }
+            else
+            {
+                MediaPlayer.Source = null;
+                ThumbnailImage.Source = null;
+            }
         }
 
         private void MediaPlayer_Loaded(object sender, RoutedEventArgs e)

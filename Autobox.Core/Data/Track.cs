@@ -1,12 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ComponentModel;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Autobox.Core.Data
 {
-    public class Track
+    public class TrackInvalidTitleException : Exception
+    {
+        public TrackInvalidTitleException(string reason) :
+            base(reason)
+        {
+
+        }
+    }
+
+    // ##### TrackEventArgs
+    // Encapsulate a track to send as event
+    public class TrackEventArgs : EventArgs
+    {
+        public TrackEventArgs(Track track)
+        {
+            Track = track;
+        }
+
+        public Track Track { get; set; }
+    }
+
+    public class Track : INotifyPropertyChanged
     {
         // ##### MatchFilter
         // Check if this track contains none of excluded list and a given list of included
@@ -48,9 +71,25 @@ namespace Autobox.Core.Data
         public static readonly string MetadataFileExt = ".metadata.json";
         public static readonly string ThumbnailFileExt = ".thumbnail.jpg";
 
+        // ##### Events
+        public event PropertyChangedEventHandler PropertyChanged;
         // ##### Attributes
         public string Id { get; set; }
-        public string Title { get; set; }
+        [JsonIgnore]
+        private string _Title;
+        public string Title
+        {
+            get { return _Title; }
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new TrackInvalidTitleException("Track title cannot be empty");
+                }
+                _Title = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Title"));
+            }
+        }
         public int Rating { get; set; } = 0;
         public string VideoFilename { get; set; }
         public string ThumbnailFilename { get; set; }

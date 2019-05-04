@@ -94,16 +94,20 @@ namespace Autobox.Core.Services
             return track;
         }
 
-        // ##### GetFilePath
-        // Get absolute path for a given library file
-        public string GetFilePath(string filename)
-        {
-            return Path.Combine(new string[]{ Directory.GetCurrentDirectory(), RootPath, filename});
-        }
-
         // ##### UpdateTrackAsync
         // Update track metadata
         public Task UpdateTrackAsync(Track track) { return UpdateTrackMetadataAsync(track); }
+
+        // ##### DeleteTrackAsync
+        // Delete a track and its files
+        public Task DeleteTrackAsync(Track track)
+        {
+            File.Delete(GetFilePath(track.MetadataFilename));
+            File.Delete(GetFilePath(track.VideoFilename));
+            File.Delete(GetFilePath(track.ThumbnailFilename));
+            TrackList.Remove(track.Title);
+            return Task.CompletedTask;
+        }
 
         // ##### CreateTagList
         // Create a tag list from a row text
@@ -113,6 +117,14 @@ namespace Autobox.Core.Services
             HashSet<string> values = Tag.ExtractTagValues(text);
             UpdateTagList(values);
             return values;
+        }
+
+
+        // ##### GetFilePath
+        // Get absolute path for a given library file
+        public string GetFilePath(string filename)
+        {
+            return Path.Combine(new string[] { Directory.GetCurrentDirectory(), RootPath, filename });
         }
 
         // ##### UpdateTrackMetadataAsync

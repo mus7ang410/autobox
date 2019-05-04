@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,13 +29,13 @@ namespace Autobox.Desktop.Activities
         public LibraryActivity()
         {
             InitializeComponent();
-            DataContext = this;
-            FilteredTrackListPanel.TrackSource = ServiceProvider.GetService<ITrackFilter>()?.FilteredTrackList;
+            Library = ServiceProvider.GetService<ITrackLibrary>();
+            FilteredTrackListPanel.TrackSource = FilteredTrackList;
         }
 
         public void OnActivated()
         {
-
+            UpdateFilteredList();
         }
 
         public void OnDeactivated()
@@ -45,22 +46,26 @@ namespace Autobox.Desktop.Activities
         private void FilteredTrackListPanel_SelectedTrackChanged(object sender, Track track)
         {
             SelectedTrack = track;
-            TrackPreviewPanel.LoadTrack(track);
+            PreviewPanel.LoadTrack(track);
             SelectedTrackTagPanel.TagSource = SelectedTrack?.Tags;
         }
 
         private void ExcludedTagPanel_TagListChanged(object sender, HashSet<string> tagList)
         {
             ExcludedTagList = tagList;
-            ServiceProvider.GetService<ITrackFilter>()?.UpdateFilter(ExcludedTagList, IncludedTagList);
+            UpdateFilteredList();
         }
 
         private void IncludedTagPanel_TagListChanged(object sender, HashSet<string> tagList)
         {
             IncludedTagList = tagList;
-            ServiceProvider.GetService<ITrackFilter>()?.UpdateFilter(ExcludedTagList, IncludedTagList);
+            UpdateFilteredList();
         }
 
+        private void PreviewPanel_TrackDeleted(object sender, TrackEventArgs e)
+        {
+            FilteredTrackList.Remove(e.Track);
+        }
 
         private async void SelectedTrackPanel_TagListChanged(object sender, HashSet<string> tagList)
         {
@@ -72,11 +77,19 @@ namespace Autobox.Desktop.Activities
 
         private void AddYouTubePanel_CreateTrack(object sender, Track track)
         {
-            ServiceProvider.GetService<ITrackFilter>()?.AddFilteredTrack(track);
+            FilteredTrackList.Add(track);
             FilteredTrackListPanel.SelectedTrack = track;
         }
 
+        private void UpdateFilteredList()
+        {
+            List<Track> filtered = Library.TrackList.Values.Where(track => track.MatchFilter(ExcludedTagList, IncludedTagList, Track.EIncludeMatchType.Any)).ToList();
+            FilteredTrackList.SetTrackRange(filtered);
+        }
+
         // ##### Attributes
+        private readonly ITrackLibrary Library;
+        private readonly TrackCollection FilteredTrackList = new TrackCollection();
         private Track SelectedTrack = null;
         private HashSet<string> ExcludedTagList = new HashSet<string>();
         private HashSet<string> IncludedTagList = new HashSet<string>();

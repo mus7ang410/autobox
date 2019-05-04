@@ -29,6 +29,7 @@
     <SolidColorBrush x:Key="SecondaryColor" Color="#445561"/>
     <SolidColorBrush x:Key="LightColor" Color="#668195"/>
     <SolidColorBrush x:Key="AccentColor" Color="#2f3e49"/>
+    <SolidColorBrush x:Key="YouTubeColor" Color="#ee1c1b"/>
 
     <SolidColorBrush x:Key="TextPrimaryColor" Color="#111315"/>
     <SolidColorBrush x:Key="TextSecondaryColor" Color="#1a242a"/>

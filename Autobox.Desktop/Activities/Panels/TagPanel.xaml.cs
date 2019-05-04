@@ -83,11 +83,7 @@ namespace Autobox.Desktop.Activities.Panels
 
         private static void TagSourceProperty_Changed(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            TagPanel panel = sender as TagPanel;
-            if (panel != null)
-            {
-                panel.TagSource_Changed((IEnumerable)e.OldValue, (IEnumerable)e.NewValue);
-            }
+            (sender as TagPanel).TagSource_Changed((IEnumerable)e.OldValue, (IEnumerable)e.NewValue);
         }
 
         private void TagSource_Changed(IEnumerable oldValue, IEnumerable newValue)
