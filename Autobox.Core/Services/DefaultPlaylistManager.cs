@@ -18,7 +18,7 @@ namespace Autobox.Core.Services
 
         // ##### Shuffle
         // Create a randomized list containing all library
-        public void Shuffle()
+        public Task Shuffle()
         {
             Random random = new Random();
             TrackList = TrackLibrary.TrackList.Values.ToList();
@@ -31,6 +31,8 @@ namespace Autobox.Core.Services
                 TrackList[k] = TrackList[n];
                 TrackList[n] = value;
             }
+
+            return Task.CompletedTask;
         }
 
         // ##### Attributes

@@ -10,7 +10,7 @@ namespace Autobox.Core.Services
 {
     public interface IPlaylistManager
     {
-        void Shuffle();
+        Task Shuffle();
 
         // ##### Attributes
         List<Track> TrackList { get; }

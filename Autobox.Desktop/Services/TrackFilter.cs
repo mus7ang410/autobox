@@ -11,24 +11,6 @@ using Autobox.Core.Services;
 
 namespace Autobox.Desktop.Services
 {
-    // ##### TrackExtension
-    // Add MatchFilter extension to check wheter a track match the given tags or not
-    public static class TrackExtension
-    {
-        public static bool MatchFilter(this Track track, HashSet<string> toExclude, HashSet<string> toInclude)
-        {
-            if (toExclude != null && track.Tags.Intersect(toExclude).Any())
-            {
-                return false;
-            }
-            if (toInclude != null && toInclude.Count > 0 && !track.Tags.Intersect(toInclude).Any())
-            {
-                return false;
-            }
-            return true;
-        }
-    }
-
     // ### TrackFilter
     // Filter tracks from the given library with a set of tag to include / exclude
     public class TrackFilter : ITrackFilter
@@ -40,7 +22,7 @@ namespace Autobox.Desktop.Services
 
         public void UpdateFilter(HashSet<string> toExclude, HashSet<string> toInclude)
         {
-            List<Track> filtered = Library.TrackList.Values.Where(track => track.MatchFilter(toExclude, toInclude)).ToList();
+            List<Track> filtered = Library.TrackList.Values.Where(track => track.MatchFilter(toExclude, toInclude, Track.EIncludeMatchType.Any)).ToList();
             _FilteredTrackList.SetRange(filtered);
         }
 

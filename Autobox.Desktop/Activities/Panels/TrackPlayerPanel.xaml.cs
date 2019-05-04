@@ -47,9 +47,9 @@ namespace Autobox.Desktop.Activities.Panels
             State = EState.Paused;
         }
 
-        private void ShuffleButton_Click(object sender, RoutedEventArgs e)
+        private async void ShuffleButton_Click(object sender, RoutedEventArgs e)
         {
-            Playlist.Shuffle();
+            await Playlist.Shuffle();
             Player.Load(Playlist.TrackList);
         }
 
