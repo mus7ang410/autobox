@@ -33,11 +33,21 @@
             
             <Grid.RowDefinitions>
                 <RowDefinition Height="{StaticResource H3.GridLength}"/>
+                <RowDefinition Height="{StaticResource H1.GridLength}"/>
+                <RowDefinition Height="{StaticResource H3.GridLength}"/>
                 <RowDefinition/>
                 <RowDefinition Height="{StaticResource H3.GridLength}"/>
             </Grid.RowDefinitions>
-
-            <ListView x:Name="TrackListView" Grid.Column="1" Grid.Row="1" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{DynamicResource TextLightColor}" SelectionMode="Single" SelectionChanged="TrackListView_SelectionChanged" AlternationCount="2">
+            <DockPanel Grid.Column="1" Grid.Row="1" LastChildFill="True">
+                <Button x:Name="SortButton" Style="{StaticResource IconButton}" Click="SortButton_Click">
+                    <Button.OpacityMask>
+                        <ImageBrush ImageSource="/Autobox.Desktop;component/Assets/UpIcon.png" Stretch="Uniform"/>
+                    </Button.OpacityMask>
+                </Button>
+                <Separator Width="{StaticResource H3.Double}" Background="{x:Null}"/>
+                <TextBox x:Name="FilterTextBox" Style="{StaticResource InputTextBox}" Text="{Binding TitleFilter, UpdateSourceTrigger=PropertyChanged}"/>
+            </DockPanel>
+            <ListView x:Name="TrackListView" Grid.Column="1" Grid.Row="3" ItemsSource="{Binding FilteredView}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{DynamicResource TextLightColor}" SelectionMode="Single" SelectionChanged="TrackListView_SelectionChanged" AlternationCount="2">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <WrapPanel Orientation="Horizontal">

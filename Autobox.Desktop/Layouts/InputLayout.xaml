@@ -27,5 +27,7 @@
     <ImageBrush x:Key="IconButton.Brushes.Muted" ImageSource="/Autobox.Desktop;component/Assets/MutedIcon.png" Stretch="Uniform"/>
     <ImageBrush x:Key="IconButton.Brushes.Star" ImageSource="/Autobox.Desktop;component/Assets/StarIcon.png" Stretch="Uniform"/>
     <ImageBrush x:Key="IconButton.Brushes.StarFilled" ImageSource="/Autobox.Desktop;component/Assets/StarFilledIcon.png" Stretch="Uniform"/>
+    <ImageBrush x:Key="IconButton.Brushes.Up" ImageSource="/Autobox.Desktop;component/Assets/UpIcon.png" Stretch="Uniform"/>
+    <ImageBrush x:Key="IconButton.Brushes.Down" ImageSource="/Autobox.Desktop;component/Assets/DownIcon.png" Stretch="Uniform"/>
     
 </ResourceDictionary>

@@ -43,10 +43,10 @@ namespace Autobox.Desktop.Activities
 
         }
 
-        private void FilteredTrackListPanel_SelectedTrackChanged(object sender, Track track)
+        private void FilteredTrackListPanel_SelectedTrackChanged(object sender, TrackEventArgs e)
         {
-            SelectedTrack = track;
-            PreviewPanel.LoadTrack(track);
+            SelectedTrack = e.Track;
+            PreviewPanel.LoadTrack(e.Track);
             SelectedTrackTagPanel.TagSource = SelectedTrack?.Tags;
         }
 
