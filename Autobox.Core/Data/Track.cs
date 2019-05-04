@@ -24,7 +24,7 @@ namespace Autobox.Core.Data
             switch (matchType)
             {
                 case EIncludeMatchType.Any:
-                    if (toInclude != null && toInclude.Count > 0 && Tags.Intersect(toInclude).Any())
+                    if (toInclude != null && toInclude.Count > 0 && Tags.Intersect(toInclude).Count() == 0)
                     {
                         return false;
                     }
