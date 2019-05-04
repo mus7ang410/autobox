@@ -28,20 +28,29 @@ namespace Autobox.Desktop.Activities.Panels
         public TagPanel()
         {
             InitializeComponent();
+            Library = ServiceProvider.GetService<ITrackLibrary>();
         }
 
         private void InputTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                ITrackLibrary library = ServiceProvider.GetService<ITrackLibrary>();
-                if (library != null)
-                {
-                    TagList.UnionWith(library.CreateTagList(InputTextBox.Text));
-                    TagWrapPanel_Populate();
-                }
-                InputTextBox.Text = string.Empty;
+                AddTags();
             }
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddTags();
+        }
+
+        // ##### AddTags
+        // Tags creation and adding business
+        private void AddTags()
+        {
+            TagList.UnionWith(Library.CreateTagList(InputTextBox.Text));
+            TagWrapPanel_Populate();
+            InputTextBox.Text = string.Empty;
         }
 
         private void TagWrapPanel_Populate()
@@ -132,8 +141,8 @@ namespace Autobox.Desktop.Activities.Panels
         }
 
         // ##### Attributes
+        private readonly ITrackLibrary Library;
         private HashSet<string> TagList = new HashSet<string>();
         private HashSet<string> TagListCache = new HashSet<string>();
-
     }
 }

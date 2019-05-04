@@ -21,21 +21,27 @@
                 <ColumnDefinition Width="{StaticResource H3.GridLength}"/>
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="{StaticResource H3.GridLength}"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="{StaticResource H3.GridLength}"/>
-                    <RowDefinition/>
-                    <RowDefinition Height="{StaticResource H3.GridLength}"/>
-                </Grid.RowDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="{StaticResource H3.GridLength}"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="{StaticResource H3.GridLength}"/>
+                <RowDefinition/>
+                <RowDefinition Height="{StaticResource H3.GridLength}"/>
+            </Grid.RowDefinitions>
+            
+            <DockPanel Grid.Column="1" Grid.Row="1" LastChildFill="True" FlowDirection="RightToLeft">
+                <Button x:Name="AddButton" Style="{StaticResource IconButton}" Click="AddButton_Click">
+                    <Button.OpacityMask>
+                        <ImageBrush ImageSource="/Autobox.Desktop;component/Assets/AddIcon.png" Stretch="Uniform"/>
+                    </Button.OpacityMask>
+                </Button>
+                <Separator Width="{StaticResource H3.Double}" Background="{x:Null}"/>
+                <TextBox x:Name="InputTextBox" Style="{StaticResource InputTextBox}" FlowDirection="LeftToRight" KeyDown="InputTextBox_KeyDown"/>
+            </DockPanel>
 
-                <TextBox x:Name="InputTextBox" Grid.Row="1"  Height="{StaticResource H1.Double}" TextWrapping="NoWrap" MaxLines="1" CharacterCasing="Upper" Background="{DynamicResource SecondaryColor}" BorderBrush="{x:Null}" KeyDown="InputTextBox_KeyDown" VerticalContentAlignment="Center" SelectionBrush="{x:Null}" Foreground="{DynamicResource TextSecondaryColor}"/>
-                <ScrollViewer Grid.Row="3" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                    <WrapPanel Name="TagWrapPanel"/>
-                </ScrollViewer>
-            </Grid>
-
+            <ScrollViewer Grid.Column="1" Grid.Row="3" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                <WrapPanel Name="TagWrapPanel"/>
+            </ScrollViewer>
         </Grid>
     </Grid>
 

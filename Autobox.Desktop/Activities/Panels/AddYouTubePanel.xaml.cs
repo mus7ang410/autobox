@@ -27,38 +27,47 @@ namespace Autobox.Desktop.Activities.Panels
         public AddYouTubePanel()
         {
             InitializeComponent();
+            Library = ServiceProvider.GetService<ITrackLibrary>();
         }
 
         private async void LinkTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                ITrackLibrary library = ServiceProvider.GetService<ITrackLibrary>();
-                if (library != null)
-                {
-                    Cursor previousCursor = Mouse.OverrideCursor;
-                    Mouse.OverrideCursor = Cursors.Wait;
-                    try
-                    {
-                        Track track = await library.CreateTrackAsync(LinkTextBox.Text);
-                        CreateTrack?.Invoke(this, track);
-                    }
-                    catch(Exception exception)
-                    {
-                        
-                        MessageBox.Show(
-                            exception.Message,
-                            "Cannot create a new track",
-                            MessageBoxButton.OK,
-                            MessageBoxImage.Error);
-                    }
-                    finally
-                    {
-                        Mouse.OverrideCursor = previousCursor;
-                    }
-                }
-                LinkTextBox.Text = string.Empty;
+                await AddTrackAsync();
             }
+        }
+
+        private async void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            await AddTrackAsync();
+        }
+
+        // ##### AddTrackAsync
+        // Track creation business
+        private async Task AddTrackAsync()
+        {
+            Cursor previousCursor = Mouse.OverrideCursor;
+            Mouse.OverrideCursor = Cursors.Wait;
+            try
+            {
+                Track track = await Library.CreateTrackAsync(LinkTextBox.Text);
+                CreateTrack?.Invoke(this, track);
+            }
+            catch (Exception exception)
+            {
+
+                MessageBox.Show(
+                    exception.Message,
+                    "Cannot create a new track",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+            finally
+            {
+                Mouse.OverrideCursor = previousCursor;
+            }
+            LinkTextBox.Text = string.Empty;
         }
 
         // ##### Properties
@@ -73,5 +82,8 @@ namespace Autobox.Desktop.Activities.Panels
             get { return (EventHandler<Track>)GetValue(CreateTrackProperty); }
             set { SetValue(CreateTrackProperty, value); }
         }
+
+        // ##### Attributes
+        private readonly ITrackLibrary Library;
     }
 }

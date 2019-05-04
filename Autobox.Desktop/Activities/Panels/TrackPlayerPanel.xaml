@@ -29,17 +29,17 @@
                 <RowDefinition Height="{StaticResource H3.GridLength}"/>
             </Grid.RowDefinitions>
             <DockPanel Grid.Column="1" Grid.Row="3" LastChildFill="True" >
-                <Button x:Name="ShuffleButton" HorizontalAlignment="Left" Background="{DynamicResource TextSecondaryColor}" BorderBrush="{x:Null}" Foreground="{x:Null}" Width="30" Click="ShuffleButton_Click">
+                <Button x:Name="ShuffleButton" Style="{StaticResource IconButton}" Click="ShuffleButton_Click">
                     <Button.OpacityMask>
                         <ImageBrush ImageSource="/Autobox.Desktop;component/Assets/ShuffleIcon.png" Stretch="Uniform"/>
                     </Button.OpacityMask>
                 </Button>
-                <Button x:Name="PlayButton" HorizontalAlignment="Left" Background="{DynamicResource TextSecondaryColor}" BorderBrush="{x:Null}" Foreground="{x:Null}" Width="30" Click="PlayButton_Click">
+                <Button x:Name="PlayButton" Style="{StaticResource IconButton}" Click="PlayButton_Click">
                     <Button.OpacityMask>
                         <ImageBrush ImageSource="/Autobox.Desktop;component/Assets/PlayIcon.png" Stretch="Uniform"/>
                     </Button.OpacityMask>
                 </Button>
-                <Button x:Name="SkipButton" HorizontalAlignment="Left" Background="{DynamicResource TextSecondaryColor}" BorderBrush="{x:Null}" Foreground="{x:Null}" Width="30" Click="SkipButton_Click">
+                <Button x:Name="SkipButton" Style="{StaticResource IconButton}" Click="SkipButton_Click">
                     <Button.OpacityMask>
                         <ImageBrush ImageSource="/Autobox.Desktop;component/Assets/SkipIcon.png" Stretch="Uniform"/>
                     </Button.OpacityMask>

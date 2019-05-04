@@ -52,11 +52,11 @@ namespace Autobox.Desktop.Activities.Panels
         {
             for (int i = 0; i < rating; i++)
             {
-                StarButtons[i].OpacityMask = FindResource("Player.Brushes.StarFilled") as Brush;
+                StarButtons[i].OpacityMask = FindResource("IconButton.Brushes.StarFilled") as Brush;
             }
             for (int i = rating; i < StarButtons.Count; i++)
             {
-                StarButtons[i].OpacityMask = FindResource("Player.Brushes.Star") as Brush;
+                StarButtons[i].OpacityMask = FindResource("IconButton.Brushes.Star") as Brush;
             }
         }
 

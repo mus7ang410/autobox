@@ -46,13 +46,14 @@ namespace Autobox.Desktop.Activities.Panels
                 RatingPanel.CanRate = true;
                 RatingPanel.Rating = SelectedTrack.Rating;
                 ThumbnailPlaceholder.Source = new BitmapImage(new Uri(Library.GetFilePath(SelectedTrack.ThumbnailFilename)));
+                ThumbnailPlaceholder.Stretch = Stretch.Uniform;
                 MediaPlayer.Source = new Uri(Library.GetFilePath(SelectedTrack.VideoFilename));
                 MediaPlayer.Visibility = Visibility.Hidden;
                 if (State != EState.Idle)
                 {
                     MediaPlayer.Pause();
                     State = EState.Idle;
-                    PlayButton.OpacityMask = FindResource("Player.Brushes.Play") as Brush;
+                    PlayButton.OpacityMask = FindResource("IconButton.Brushes.Play") as Brush;
                 }
             }
             else
@@ -71,14 +72,14 @@ namespace Autobox.Desktop.Activities.Panels
                     MediaPlayer.Visibility = Visibility.Visible;
                     MediaPlayer.Play();
                     State = EState.Playing;
-                    PlayButton.OpacityMask = FindResource("Player.Brushes.Pause") as Brush;
+                    PlayButton.OpacityMask = FindResource("IconButton.Brushes.Pause") as Brush;
                 }
                 else
                 {
                     MediaPlayer.Visibility = Visibility.Hidden;
                     MediaPlayer.Pause();
                     State = EState.Idle;
-                    PlayButton.OpacityMask = FindResource("Player.Brushes.Play") as Brush;
+                    PlayButton.OpacityMask = FindResource("IconButton.Brushes.Play") as Brush;
                 }
             }
         }
@@ -94,13 +95,13 @@ namespace Autobox.Desktop.Activities.Panels
         private void MediaPlayer_MediaFailed(object sender, ExceptionRoutedEventArgs e)
         {
             State = EState.Failed;
-            PlayButton.OpacityMask = FindResource("Player.Brushes.Play") as Brush;
+            PlayButton.OpacityMask = FindResource("IconButton.Brushes.Play") as Brush;
         }
 
         private void MediaPlayer_MediaEnded(object sender, RoutedEventArgs e)
         {
             State = EState.Idle;
-            PlayButton.OpacityMask = FindResource("Player.Brushes.Pause") as Brush;
+            PlayButton.OpacityMask = FindResource("IconButton.Brushes.Pause") as Brush;
         }
 
         private async void RatingPanel_RatingChanged(object sender, int rating)

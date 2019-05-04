@@ -34,7 +34,7 @@
             <MediaElement x:Name="MediaPlayer" Grid.Column="1" Grid.Row="1" LoadedBehavior="Manual"/>
 
             <DockPanel Grid.Column="1" Grid.Row="3" LastChildFill="True" >
-                <Button x:Name="PlayButton" Background="{DynamicResource TextSecondaryColor}" BorderBrush="{x:Null}" Foreground="{x:Null}" Width="{StaticResource H1.Double}" Click="PlayButton_Click">
+                <Button x:Name="PlayButton" Style="{StaticResource IconButton}" Click="PlayButton_Click">
                     <Button.OpacityMask>
                         <ImageBrush ImageSource="/Autobox.Desktop;component/Assets/PlayIcon.png" Stretch="Uniform"/>
                     </Button.OpacityMask>

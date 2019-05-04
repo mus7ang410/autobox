@@ -25,27 +25,27 @@
 
         <Label x:Name="TitleLabel" Grid.Row="0" Style="{StaticResource CardHeader}" Content="FILTERED TRACKS"/>
         <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="{StaticResource H3.GridLength}"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="{StaticResource H3.GridLength}"/>
+            </Grid.ColumnDefinitions>
+            
             <Grid.RowDefinitions>
                 <RowDefinition Height="{StaticResource H3.GridLength}"/>
                 <RowDefinition/>
                 <RowDefinition Height="{StaticResource H3.GridLength}"/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="{StaticResource H3.GridLength}"/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="{StaticResource H3.GridLength}"/>
-                </Grid.ColumnDefinitions>
-                <ListView x:Name="TrackListView" Grid.Column="1" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{DynamicResource TextLightColor}" SelectionMode="Single" SelectionChanged="TrackListView_SelectionChanged" AlternationCount="2">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <WrapPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Title}" />
-                            </WrapPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </Grid>
+
+            <ListView x:Name="TrackListView" Grid.Column="1" Grid.Row="1" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{DynamicResource TextLightColor}" SelectionMode="Single" SelectionChanged="TrackListView_SelectionChanged" AlternationCount="2">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <WrapPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Title}" />
+                        </WrapPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </Grid>
     </Grid>
     

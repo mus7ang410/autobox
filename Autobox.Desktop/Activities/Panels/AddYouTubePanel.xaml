@@ -24,7 +24,16 @@
                 <RowDefinition/>
                 <RowDefinition Height="{StaticResource H3.GridLength}"/>
             </Grid.RowDefinitions>
-            <TextBox Grid.Column="1" Height="{StaticResource H1.Double}" Grid.Row="1" x:Name="LinkTextBox" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" SelectionBrush="{x:Null}" BorderBrush="{x:Null}" Background="{StaticResource SecondaryColor}" Foreground="{StaticResource TextSecondaryColor}" KeyDown="LinkTextBox_KeyDown"/>
+            
+            <DockPanel Grid.Row="1" Grid.Column="1" FlowDirection="RightToLeft" LastChildFill="True">
+                <Button x:Name="AddButton" Style="{StaticResource IconButton}" Click="AddButton_Click">
+                    <Button.OpacityMask>
+                        <ImageBrush ImageSource="/Autobox.Desktop;component/Assets/AddIcon.png" Stretch="Uniform"/>
+                    </Button.OpacityMask>
+                </Button>
+                <Separator Width="{StaticResource H3.Double}" Background="{x:Null}"/>
+                <TextBox x:Name="LinkTextBox" Style="{StaticResource InputTextBox}" CharacterCasing="Normal" FlowDirection="LeftToRight" KeyDown="LinkTextBox_KeyDown"/>
+            </DockPanel>
         </Grid>
     </Grid>
 </UserControl>
