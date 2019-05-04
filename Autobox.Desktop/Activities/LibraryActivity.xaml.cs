@@ -16,7 +16,6 @@ using System.Windows.Shapes;
 
 using Autobox.Core.Data;
 using Autobox.Core.Services;
-using Autobox.Core.Services.VideoLibrary;
 using Autobox.Desktop.Services;
 
 namespace Autobox.Desktop.Activities

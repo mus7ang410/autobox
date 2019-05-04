@@ -12,11 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-using Autobox.Core.Services;
-using Autobox.Core.Services.Playlists;
-using Autobox.Core.Services.VideoLibrary;
-using Autobox.Desktop.Services;
-
 namespace Autobox.Desktop
 {
     /// <summary>

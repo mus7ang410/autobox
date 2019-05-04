@@ -11,7 +11,7 @@ using VideoLibrary;
 
 using Autobox.Core.Data;
 
-namespace Autobox.Core.Services.VideoLibrary
+namespace Autobox.Core.Services
 {
     public class TrackLibrary : ITrackLibrary
     {

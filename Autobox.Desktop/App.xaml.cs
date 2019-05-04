@@ -7,10 +7,6 @@ using System.Threading.Tasks;
 using System.Windows;
 
 using Autobox.Core.Services;
-using Autobox.Core.Services.Playlists;
-using Autobox.Core.Services.VideoLibrary;
-
-using Autobox.Core.Data;
 using Autobox.Desktop.Services;
 
 namespace Autobox.Desktop

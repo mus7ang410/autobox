@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using Autobox.Core.Data;
 
-namespace Autobox.Core.Services.Playlists
+namespace Autobox.Core.Services
 {
     public class DefaultPlaylistManager : IPlaylistManager
     {
