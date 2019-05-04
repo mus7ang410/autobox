@@ -13,6 +13,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using Autobox.Core.Services;
+using Autobox.Desktop.Services;
+
 namespace Autobox.Desktop.Activities
 {
     /// <summary>
@@ -23,6 +26,7 @@ namespace Autobox.Desktop.Activities
         public PlayerActivity()
         {
             InitializeComponent();
+            Playlist = ServiceProvider.GetService<IPlaylistManager>();
         }
 
         public void OnActivated()
@@ -34,5 +38,23 @@ namespace Autobox.Desktop.Activities
         {
             PlayerPanel.Pause();
         }
+
+        private void ExcludedTagPanel_TagListChanged(object sender, HashSet<string> e)
+        {
+            Playlist.ExcludedTagList = e;
+        }
+
+        private void OptionalTagPanel_TagListChanged(object sender, HashSet<string> e)
+        {
+            Playlist.OptionalTagList = e;
+        }
+
+        private void MandatoryTagPanel_TagListChanged(object sender, HashSet<string> e)
+        {
+            Playlist.MandatoryTagList = e;
+        }
+
+        // ##### Attributes
+        private IPlaylistManager Playlist;
     }
 }

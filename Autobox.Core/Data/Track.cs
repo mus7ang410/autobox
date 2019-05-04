@@ -31,7 +31,7 @@ namespace Autobox.Core.Data
                     break;
 
                 case EIncludeMatchType.All:
-                    if (toInclude != null && toInclude.Count > 0 && Tags.Intersect(toInclude).Count() == toInclude.Count)
+                    if (toInclude != null && toInclude.Count > 0 && Tags.Intersect(toInclude).Count() != toInclude.Count)
                     {
                         return false;
                     }

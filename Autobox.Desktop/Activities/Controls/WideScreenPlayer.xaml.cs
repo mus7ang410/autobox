@@ -35,6 +35,7 @@ namespace Autobox.Desktop.Activities.Controls
 
         public void Load(List<Track> tracks)
         {
+            PendingTracks = new List<Track>();
             if (tracks.Count > 0)
             {
                 int index = 0;

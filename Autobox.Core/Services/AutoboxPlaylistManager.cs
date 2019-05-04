@@ -72,9 +72,7 @@ namespace Autobox.Core.Services
 
         private List<Track> GetMatchingTracks()
         {
-            HashSet<Track> tracks = new HashSet<Track>(Library.TrackList.Values.Where(track => track.MatchFilter(ExcludedTagList, OptionalTagList, Track.EIncludeMatchType.Any)).ToArray());
-            tracks.UnionWith(new HashSet<Track>(Library.TrackList.Values.Where(track => track.MatchFilter(ExcludedTagList, IncludedTagList, Track.EIncludeMatchType.All)).ToArray()));
-            return tracks.ToList();
+            return Library.TrackList.Values.Where(track => track.MatchFilter(ExcludedTagList, MandatoryTagList, Track.EIncludeMatchType.All)).ToList();
         }
 
         private List<Track> Randomize(List<Track> tracks)
@@ -92,9 +90,9 @@ namespace Autobox.Core.Services
         }
 
         // ##### Properties
-        public readonly HashSet<string> ExcludedTagList = new HashSet<string>();
-        public readonly HashSet<string> OptionalTagList = new HashSet<string>();
-        public readonly HashSet<string> IncludedTagList = new HashSet<string>();
+        public HashSet<string> ExcludedTagList { get; set; } = new HashSet<string>();
+        public HashSet<string> OptionalTagList { get; set; } = new HashSet<string>();
+        public HashSet<string> MandatoryTagList { get; set; } = new HashSet<string>();
 
         // ##### Configuration
         private enum ERatingValue { High, Medium, Low, None };

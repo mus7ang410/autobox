@@ -33,9 +33,9 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <Panels:TagPanel x:Name="ExcludedTagPanel" Title="EXCLUDED TAGS"/>
-                <Panels:TagPanel x:Name="OptionalTagPanel" Title="OPTIONAL TAGS" Grid.Column="2"/>
-                <Panels:TagPanel x:Name="MandatoryTagPanel" Title="MANDATORY TAGS" Grid.Column="4"/>
+                <Panels:TagPanel x:Name="ExcludedTagPanel" Title="EXCLUDED TAGS" TagListChanged="ExcludedTagPanel_TagListChanged"/>
+                <Panels:TagPanel x:Name="OptionalTagPanel" Title="OPTIONAL TAGS" Grid.Column="2" TagListChanged="OptionalTagPanel_TagListChanged"/>
+                <Panels:TagPanel x:Name="MandatoryTagPanel" Title="MANDATORY TAGS" Grid.Column="4" TagListChanged="MandatoryTagPanel_TagListChanged"/>
             </Grid>
         </Grid>
     </Grid>
