@@ -67,6 +67,25 @@ namespace Autobox.Core.Data
             return true;
         }
 
+        // ##### MatchFilter
+        // Check if this track title match the given string filter
+        public bool MatchFilter(string filter)
+        {
+            if (string.IsNullOrEmpty(filter))
+            {
+                return true;
+            }
+
+            if (Title.ToUpper().Contains(filter.ToUpper()))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public override string ToString() { return $"{Title} - ({Id})"; }
 
         // ##### Configuration

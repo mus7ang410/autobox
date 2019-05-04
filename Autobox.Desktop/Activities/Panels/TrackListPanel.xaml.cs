@@ -73,21 +73,7 @@ namespace Autobox.Desktop.Activities.Panels
 
         private void TrackCollection_Filter(object sender, FilterEventArgs e)
         {
-            if (string.IsNullOrEmpty(TitleFilter))
-            {
-                e.Accepted = true;
-                return;
-            }
-
-            Track track = e.Item as Track;
-            if (track.Title.ToUpper().Contains(TitleFilter.ToUpper()))
-            {
-                e.Accepted = true;
-            }
-            else
-            {
-                e.Accepted = false;
-            }
+            e.Accepted = (e.Item as Track).MatchFilter(TitleFilter);
         }
 
         // ##### Events
