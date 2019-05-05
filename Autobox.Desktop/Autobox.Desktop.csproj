@@ -81,6 +81,9 @@
     <Compile Include="Activities\ActivityManager.xaml.cs">
       <DependentUpon>ActivityManager.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Activities\Controls\DynamicBackground.xaml.cs">
+      <DependentUpon>DynamicBackground.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Activities\Controls\SoundSlider.xaml.cs">
       <DependentUpon>SoundSlider.xaml</DependentUpon>
     </Compile>
@@ -124,6 +127,10 @@
     </Compile>
     <Compile Include="Services\ServiceProvider.cs" />
     <Page Include="Activities\ActivityManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Activities\Controls\DynamicBackground.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
