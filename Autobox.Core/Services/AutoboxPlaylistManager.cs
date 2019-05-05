@@ -98,9 +98,9 @@ namespace Autobox.Core.Services
 
         private List<Track> GetMatchingTracks()
         {
-            List<Track> tracks = Library.TrackList.Values.Where(track => track.MatchFilter(Settings.NoneOfTagList, Settings.AnyOfTagList, Track.EIncludeMatchType.Any)).ToList();
-            tracks.Intersect(Library.TrackList.Values.Where(track => track.MatchFilter(Settings.NoneOfTagList, Settings.AllOfTagList, Track.EIncludeMatchType.All)).ToList());
-            return tracks;
+            HashSet<Track> anyOf = new HashSet<Track>(Library.TrackList.Values.Where(track => track.MatchFilter(Settings.NoneOfTagList, Settings.AnyOfTagList, Track.EIncludeMatchType.Any)).ToList());
+            HashSet<Track> allOf = new HashSet<Track>(Library.TrackList.Values.Where(track => track.MatchFilter(Settings.NoneOfTagList, Settings.AllOfTagList, Track.EIncludeMatchType.All)).ToList());
+            return anyOf.Intersect(allOf).ToList();
         }
 
         private List<Track> Randomize(List<Track> tracks)
