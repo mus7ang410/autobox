@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="Autobox.Desktop.Activities.Panels.RatingPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Autobox.Desktop.Activities.Panels"
+             mc:Ignorable="d" 
+             d:DesignHeight="{StaticResource H1.Double}" Width="Auto">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="{StaticResource H3.GridLength}"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="{StaticResource H3.GridLength}"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="{StaticResource H3.GridLength}"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="{StaticResource H3.GridLength}"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Button x:Name="Star1Button" Style="{StaticResource IconButton}" Click="StarButton_Click">
+            <Button.OpacityMask>
+                <ImageBrush ImageSource="/Autobox.Desktop;component/Assets/StarIcon.png" Stretch="Uniform"/>
+            </Button.OpacityMask>
+        </Button>
+
+        <Button x:Name="Star2Button" Grid.Column="2" Style="{StaticResource IconButton}" Click="StarButton_Click">
+            <Button.OpacityMask>
+                <ImageBrush ImageSource="/Autobox.Desktop;component/Assets/StarIcon.png" Stretch="Uniform"/>
+            </Button.OpacityMask>
+        </Button>
+
+        <Button x:Name="Star3Button" Grid.Column="4" Style="{StaticResource IconButton}" Click="StarButton_Click">
+            <Button.OpacityMask>
+                <ImageBrush ImageSource="/Autobox.Desktop;component/Assets/StarIcon.png" Stretch="Uniform"/>
+            </Button.OpacityMask>
+        </Button>
+
+        <Button x:Name="Star4Button" Grid.Column="6" Style="{StaticResource IconButton}" Click="StarButton_Click">
+            <Button.OpacityMask>
+                <ImageBrush ImageSource="/Autobox.Desktop;component/Assets/StarIcon.png" Stretch="Uniform"/>
+            </Button.OpacityMask>
+        </Button>
+
+        <Button x:Name="Star5Button" Grid.Column="8" Style="{StaticResource IconButton}" Click="StarButton_Click">
+            <Button.OpacityMask>
+                <ImageBrush ImageSource="/Autobox.Desktop;component/Assets/StarIcon.png" Stretch="Uniform"/>
+            </Button.OpacityMask>
+        </Button>
+    </Grid>
+</UserControl>

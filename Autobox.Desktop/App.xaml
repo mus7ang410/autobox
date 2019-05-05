@@ -4,41 +4,14 @@
              xmlns:local="clr-namespace:Autobox.Desktop"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-
-        <Style x:Key="H1Title" TargetType="Label">
-            <Setter Property="Foreground" Value="SteelBlue" />
-            <Setter Property="FontSize" Value="16" />
-        </Style>
-
-        <Style x:Key="H2Title" TargetType="Label">
-            <Setter Property="Foreground" Value="DarkGray" />
-            <Setter Property="FontSize" Value="12" />
-            <Setter Property="FontWeight" Value="DemiBold" />
-        </Style>
-
-        <Style x:Key="FlatLabel" TargetType="{x:Type Button}">
-            <Setter Property="Margin" Value="2, 2, 2, 2" />
-            <Setter Property="Foreground" Value="SteelBlue" />
-            <Setter Property="Background" Value="LightGray" />
-            <Setter Property="BorderThickness" Value="0" />
-        </Style>
-
-        <Style x:Key="ListViewItemAlternatingRows" TargetType="{x:Type ListViewItem}">
-            <Style.Triggers>
-                <Trigger Property="ItemsControl.AlternationIndex" Value="0">
-                    <Setter Property="Background" Value="White"/>
-                    <Setter Property="BorderBrush" Value="White"/>
-                </Trigger>
-                <Trigger Property="ItemsControl.AlternationIndex" Value="1">
-                    <Setter Property="Background" Value="LightGray"/>
-                    <Setter Property="BorderBrush" Value="LightGray"/>
-                </Trigger>
-                <Trigger Property="IsSelected" Value="True">
-                    <Setter Property="Background" Value="LightSkyBlue"/>
-                    <Setter Property="BorderBrush" Value="LightSkyBlue"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-        
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Layouts/CommonLayout.xaml"/>
+                <ResourceDictionary Source="Layouts/RibbonLayout.xaml"/>
+                <ResourceDictionary Source="Layouts/TagLayout.xaml"/>
+                <ResourceDictionary Source="Layouts/CardLayout.xaml"/>
+                <ResourceDictionary Source="Layouts/InputLayout.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -10,12 +10,10 @@ namespace Autobox.Core.Services
 {
     public interface IPlaylistManager
     {
-        void Shuffle();
-        void Forward();
+        Task Shuffle();
 
         // ##### Attributes
-        Track PreviousTrack { get; }
-        Track CurrentTrack { get; }
-        Track NextTrack { get; }
+        PlaylistSettings Settings { get; }
+        List<Track> TrackList { get; }
     }
 }

@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="Autobox.Desktop.Activities.Panels.TrackListPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Autobox.Desktop.Activities.Panels"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <Style TargetType="{x:Type ListViewItem}">
+            <Style.Triggers>
+                <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                    <Setter Property="Background" Value="#19000000"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    
+    <Grid Background="{StaticResource PrimaryColor}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Label x:Name="TitleLabel" Grid.Row="0" Style="{StaticResource CardHeader}" Content="FILTERED TRACKS"/>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="{StaticResource H3.GridLength}"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="{StaticResource H3.GridLength}"/>
+            </Grid.ColumnDefinitions>
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="{StaticResource H3.GridLength}"/>
+                <RowDefinition Height="{StaticResource H1.GridLength}"/>
+                <RowDefinition Height="{StaticResource H3.GridLength}"/>
+                <RowDefinition/>
+                <RowDefinition Height="{StaticResource H3.GridLength}"/>
+            </Grid.RowDefinitions>
+            <DockPanel Grid.Column="1" Grid.Row="1" LastChildFill="True">
+                <Button x:Name="SortButton" Style="{StaticResource IconButton}" Click="SortButton_Click">
+                    <Button.OpacityMask>
+                        <ImageBrush ImageSource="/Autobox.Desktop;component/Assets/UpIcon.png" Stretch="Uniform"/>
+                    </Button.OpacityMask>
+                </Button>
+                <Separator Width="{StaticResource H3.Double}" Background="{x:Null}"/>
+                <TextBox x:Name="FilterTextBox" Style="{StaticResource InputTextBox}" Text="{Binding TitleFilter, UpdateSourceTrigger=PropertyChanged}"/>
+            </DockPanel>
+            <ListView x:Name="TrackListView" Grid.Column="1" Grid.Row="3" ItemsSource="{Binding FilteredView}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{DynamicResource TextLightColor}" SelectionMode="Extended"  SelectionChanged="TrackListView_SelectionChanged" AlternationCount="2">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <WrapPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Title}" />
+                        </WrapPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </Grid>
+    
+</UserControl>

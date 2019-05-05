@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="Autobox.Desktop.Activities.Controls.SoundSlider"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Autobox.Desktop.Activities.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="{StaticResource H1.Double}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="{StaticResource H3.GridLength}"/>
+            <RowDefinition Height="{StaticResource H1.GridLength}"/>
+        </Grid.RowDefinitions>
+        <Slider x:Name="Slider" Orientation="Vertical" HorizontalAlignment="Center" TickFrequency="0.1" Value="0.2" Maximum="1" ValueChanged="Slider_ValueChanged"/>
+        <Button x:Name="MuteButton" Grid.Row="2" Style="{StaticResource IconButton}" Click="MuteButton_Click">
+            <Button.OpacityMask>
+                <ImageBrush ImageSource="/Autobox.Desktop;component/Assets/SoundIcon.png" Stretch="Uniform"/>
+            </Button.OpacityMask>
+        </Button>
+    </Grid>
+</UserControl>

@@ -13,9 +13,12 @@ namespace Autobox.Core.Services
         Task LoadAllAsync();
         Task<Track> CreateTrackAsync(string url);
         Task UpdateTrackAsync(Track track);
-        HashSet<string> CreateTagList(string text);
+        Task DeleteTrackAsync(Track track);
+        TagCollection CreateTagList(string text);
+
+        string GetFilePath(string filename);
 
         Dictionary<string, Track> TrackList { get; }
-        Dictionary<string, Tag> TagList { get; }
+        TagCollection TagList { get; }
     }
 }

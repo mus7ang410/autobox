@@ -6,6 +6,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
+using Autobox.Core.Services;
+using Autobox.Desktop.Services;
+
 namespace Autobox.Desktop
 {
     /// <summary>
@@ -13,5 +16,15 @@ namespace Autobox.Desktop
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            Library = ServiceProvider.AddService<ITrackLibrary, TrackLibrary>(new TrackLibrary("Library"));
+            Library.LoadAllAsync().Wait();
+            Playlist = ServiceProvider.AddService<IPlaylistManager, AutoboxPlaylistManager>(new AutoboxPlaylistManager(Library));
+        }
+
+        // ##### Application singletons
+        private readonly ITrackLibrary Library;
+        private readonly IPlaylistManager Playlist;
     }
 }
