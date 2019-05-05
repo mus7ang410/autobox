@@ -56,10 +56,11 @@ namespace Autobox.Desktop.Activities
             if (SelectedTracks.Count == 0)
             {
                 PreviewPanel.UnloadTrack();
+                SelectedTrackTagPanel.IsMultipleSelection = false;
+                SelectedTrackTagPanel.TagSource = null;
             }
             else if (SelectedTracks.Count == 1)
             {
-                SelectedTracks = e.SelectedTracks;
                 PreviewPanel.LoadTrack(e.SelectedTracks.First());
                 SelectedTrackTagPanel.IsMultipleSelection = false;
                 SelectedTrackTagPanel.TagSource = SelectedTracks.First()?.Tags;

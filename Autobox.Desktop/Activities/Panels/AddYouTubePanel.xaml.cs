@@ -56,7 +56,6 @@ namespace Autobox.Desktop.Activities.Panels
             }
             catch (Exception exception)
             {
-
                 MessageBox.Show(
                     exception.Message,
                     "Cannot create a new track",

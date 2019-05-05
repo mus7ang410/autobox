@@ -55,6 +55,10 @@ namespace Autobox.Desktop.Activities.Controls
                     MoveToCurrentTrack(CreatePlayer(tracks.First()));
                     ++index;
                 }
+                else
+                {
+                    ScreenCanvas.Children.Add(CurrentTrackPlayer);
+                }
 
                 QueuedTrackPlayers = new List<TrackPlayer>();
                 foreach (Track track in tracks.GetRange(index, Math.Min(QueuedTrackCount, tracks.Count - index)))
@@ -122,12 +126,6 @@ namespace Autobox.Desktop.Activities.Controls
                     QueuedTrackPlayers.Add(CreatePlayer(PendingTracks.First()));
                     PendingTracks.RemoveAt(0);
                 }
-            }
-            else if (CurrentTrackPlayer != null)
-            {
-                CurrentTrackPlayer.Skip(SkipFadingDuration);
-                MoveToFadingTracks(CurrentTrackPlayer);
-                CurrentTrackPlayer = null;
             }
 
             RecomputeScreen();
