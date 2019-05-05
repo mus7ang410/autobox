@@ -16,8 +16,8 @@
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
-    
-    <Grid Background="{StaticResource PrimaryColor}">
+
+    <Grid Style="{StaticResource CardBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>

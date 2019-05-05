@@ -64,6 +64,11 @@ namespace Autobox.Desktop.Activities
                 PreviewPanel.LoadTrack(e.SelectedTracks.First());
                 SelectedTrackTagPanel.IsMultipleSelection = false;
                 SelectedTrackTagPanel.TagSource = SelectedTracks.First()?.Tags;
+
+                Random r = new Random();
+                ActivityBackgroundChanged?.Invoke(this, new ActivityBackgroundChangedEventArgs(
+                    Color.FromArgb(255, (byte)r.Next(1, 255), (byte)r.Next(1, 255), (byte)r.Next(1, 255))
+                    ));
             }
             else
             {
@@ -134,6 +139,8 @@ namespace Autobox.Desktop.Activities
             FilteredTrackList.SetTrackRange(filtered);
         }
 
+        // ##### Events
+        public EventHandler<ActivityBackgroundChangedEventArgs> ActivityBackgroundChanged { get; set; }
         // ##### Attributes
         private readonly ITrackLibrary Library;
         private readonly TrackCollection FilteredTrackList = new TrackCollection();

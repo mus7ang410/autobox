@@ -94,6 +94,7 @@ namespace Autobox.Desktop.Activities.Panels
                 CurrentTrackTitle.Content = "NO PLAYING TRACK";
                 RatingPanel.CanRate = false;
             }
+            CurrentTrackChanged?.Invoke(this, e);
         }
 
         private async void RatingPanel_RatingChanged(object sender, RatingChangedEventArgs e)
@@ -105,7 +106,9 @@ namespace Autobox.Desktop.Activities.Panels
             }
         }
 
-        // ##### Attrib
+        // ##### Events
+        public EventHandler<TrackEventArgs> CurrentTrackChanged;
+        // ##### Attributes
         private readonly ITrackLibrary Library;
         private readonly IPlaylistManager Playlist;
         private enum EState { Playing, Paused };

@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using Autobox.Core.Data;
 using Autobox.Core.Services;
 using Autobox.Desktop.Services;
 
@@ -30,6 +31,13 @@ namespace Autobox.Desktop.Activities
             NoneOfTagPanel.TagSource = Playlist.Settings.NoneOfTagList;
             AnyOfTagPanel.TagSource = Playlist.Settings.AnyOfTagList;
             AllOfTagPanel.TagSource = Playlist.Settings.AllOfTagList;
+            PlayerPanel.CurrentTrackChanged += delegate (object sender, TrackEventArgs e)
+            {
+                Random r = new Random();
+                ActivityBackgroundChanged?.Invoke(this, new ActivityBackgroundChangedEventArgs(
+                    Color.FromArgb(255, (byte)r.Next(1, 255), (byte)r.Next(1, 255), (byte)r.Next(1, 255))
+                    ));
+            };
         }
 
         public void OnActivated()
@@ -42,6 +50,8 @@ namespace Autobox.Desktop.Activities
             PlayerPanel.Pause();
         }
 
+        // ##### Events
+        public EventHandler<ActivityBackgroundChangedEventArgs> ActivityBackgroundChanged { get; set; }
         // ##### Attributes
         private IPlaylistManager Playlist;
     }

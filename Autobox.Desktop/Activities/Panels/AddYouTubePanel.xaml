@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Autobox.Desktop.Activities.Panels"
              mc:Ignorable="d" d:DesignWidth="800" Height="Auto">
     
-    <Grid Background="{StaticResource PrimaryColor}">
+    <Grid Style="{StaticResource CardBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
