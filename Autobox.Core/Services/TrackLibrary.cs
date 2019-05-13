@@ -35,17 +35,13 @@ namespace Autobox.Core.Services
         // Load the whole library
         public Task LoadAllAsync()
         {
-            MetadataFiles = new List<string>();
-            foreach (string filename in Directory.EnumerateFiles(RootPath, "*" + Track.MetadataFileExt))
-            {
-                MetadataFiles.Add(filename);
-            }
+            IEnumerable<string> filepaths = Directory.EnumerateFiles(RootPath, "*" + MetadataFileExt);
 
             JsonSerializer serializer = new JsonSerializer();
-            foreach (string metadataFile in MetadataFiles)
+            foreach (string filepath in filepaths)
             {
-                string json = File.ReadAllText(metadataFile);
-                Track track = ProcessLoadedTrack(JsonConvert.DeserializeObject<Track>(json));
+                string json = File.ReadAllText(filepath);
+                TrackMetadata track = ProcessLoadedTrack(JsonConvert.DeserializeObject<TrackMetadata>(json));
                 if (!TrackList.ContainsKey(track.Title))
                 {
                     TrackList.Add(track.Title, track);
@@ -58,7 +54,7 @@ namespace Autobox.Core.Services
 
         // ##### ProcessLoadedTrack
         // Process a newly loaded track to ensure is content is compatible
-        private Track ProcessLoadedTrack(Track track)
+        private TrackMetadata ProcessLoadedTrack(TrackMetadata track)
         {
             track.Tags = new TagCollection(track.Tags.ToList().ConvertAll(str => str.ToUpper()));
             return track;
@@ -67,7 +63,7 @@ namespace Autobox.Core.Services
         // ##### AddTrackAsync
         // Add a new track to the collection
         // Throw an exception if track already exists in library
-        public async Task AddTrackAsync(Track track)
+        public async Task AddTrackAsync(TrackMetadata track)
         {
             if (TrackList.ContainsKey(track.Title))
             {
@@ -80,15 +76,15 @@ namespace Autobox.Core.Services
 
         // ##### UpdateTrackAsync
         // Update track metadata
-        public Task UpdateTrackAsync(Track track) { return UpdateTrackMetadataAsync(track); }
+        public Task UpdateTrackAsync(TrackMetadata track) { return UpdateTrackMetadataAsync(track); }
 
         // ##### DeleteTrackAsync
         // Delete a track and its files
-        public Task DeleteTrackAsync(Track track)
+        public Task DeleteTrackAsync(TrackMetadata track)
         {
-            File.Delete(GetFilePath(track.MetadataFilename));
-            File.Delete(GetFilePath(track.VideoFilename));
-            File.Delete(GetFilePath(track.ThumbnailFilename));
+            File.Delete(GetMetadataFilepath(track));
+            File.Delete(GetVideoFilepath(track));
+            File.Delete(GetThumbnailFilepath(track));
             TrackList.Remove(track.Title);
             return Task.CompletedTask;
         }
@@ -113,18 +109,33 @@ namespace Autobox.Core.Services
             return tags;
         }
 
-        // ##### GetFilePath
-        // Get absolute path for a given library file
-        public string GetFilePath(string filename)
+        private string GetMetadataFilepath(TrackMetadata track)
         {
-            return Path.Combine(new string[] { Directory.GetCurrentDirectory(), RootPath, filename });
+            return Path.Combine(new string[] { Directory.GetCurrentDirectory(), RootPath, track.Id + MetadataFileExt });
+        }
+
+        public string BuildThumbnailFilePath(string trackId)
+        {
+            return Path.Combine(new string[] { Directory.GetCurrentDirectory(), RootPath, trackId + ThumbnailFileExt });
+        }
+        public string GetThumbnailFilepath(TrackMetadata track)
+        {
+            return BuildThumbnailFilePath(track.Id);
+        }
+        public string BuildVideoFilePath(string trackId, string ext)
+        {
+            return Path.Combine(new string[] { Directory.GetCurrentDirectory(), RootPath, trackId + ext });
+        }
+        public string GetVideoFilepath(TrackMetadata track)
+        {
+            return BuildVideoFilePath(track.Id, track.Ext);
         }
 
         // ##### UpdateTrackMetadataAsync
         // Update a single track metadata
-        private async Task UpdateTrackMetadataAsync(Track track)
+        private async Task UpdateTrackMetadataAsync(TrackMetadata track)
         {
-            using (FileStream stream = File.Open(GetFilePath(track.MetadataFilename), FileMode.Create))
+            using (FileStream stream = File.Open(GetMetadataFilepath(track), FileMode.Create))
             {
                 string json = JsonConvert.SerializeObject(track, Formatting.Indented);
                 byte[] bytes = Encoding.UTF8.GetBytes(json);
@@ -132,12 +143,14 @@ namespace Autobox.Core.Services
             }
         }
 
+        // ##### Configuration
+        public static readonly string MetadataFileExt = ".metadata.json";
+        public static readonly string ThumbnailFileExt = ".thumbnail.jpg";
         // ##### Attributes
         // library configuration
         private readonly string RootPath;
         // library files
-        public List<string> MetadataFiles = new List<string>();
-        public Dictionary<string, Track> TrackList { get; private set; } = new Dictionary<string, Track>();
+        public Dictionary<string, TrackMetadata> TrackList { get; private set; } = new Dictionary<string, TrackMetadata>();
         public TagCollection TagList { get; protected set; } = new TagCollection();
     }
 }

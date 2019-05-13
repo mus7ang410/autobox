@@ -10,15 +10,20 @@ namespace Autobox.Core.Services
 {
     public interface ITrackLibrary
     {
+        // ##### Interface
         Task LoadAllAsync();
-        Task AddTrackAsync(Track track);
-        Task UpdateTrackAsync(Track track);
-        Task DeleteTrackAsync(Track track);
+        Task AddTrackAsync(TrackMetadata track);
+        Task UpdateTrackAsync(TrackMetadata track);
+        Task DeleteTrackAsync(TrackMetadata track);
         TagCollection CreateTagList(string text);
 
-        string GetFilePath(string filename);
+        string BuildThumbnailFilePath(string trackId);
+        string GetThumbnailFilepath(TrackMetadata track);
+        string BuildVideoFilePath(string trackId, string ext);
+        string GetVideoFilepath(TrackMetadata track);
 
-        Dictionary<string, Track> TrackList { get; }
+        // ##### Properties
+        Dictionary<string, TrackMetadata> TrackList { get; }
         TagCollection TagList { get; }
     }
 }

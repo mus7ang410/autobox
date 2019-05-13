@@ -9,6 +9,6 @@ namespace Autobox.Core.Services
 {
     public interface ITrackCreator
     {
-        Task<Track> CreateTrackAsync(string url);
+        Task<TrackMetadata> CreateTrackAsync(string url);
     }
 }

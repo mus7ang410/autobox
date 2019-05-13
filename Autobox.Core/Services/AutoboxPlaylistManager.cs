@@ -24,9 +24,9 @@ namespace Autobox.Core.Services
         {
             return Task.Run(() =>
             {
-                List<Track> matchingTracks = GetMatchingTracks();
+                List<TrackMetadata> matchingTracks = GetMatchingTracks();
                 // ordering
-                Dictionary<ERatingValue, List<Track>> sortedTracks = new Dictionary<ERatingValue, List<Track>>
+                Dictionary<ERatingValue, List<TrackMetadata>> sortedTracks = new Dictionary<ERatingValue, List<TrackMetadata>>
                 {
                     { ERatingValue.High, Randomize(matchingTracks.Where(track => track.Rating == 0 || track.Rating >= 4).ToList()) },
                     { ERatingValue.Medium, Randomize(matchingTracks.Where(track => track.Rating > 2 && track.Rating < 4).ToList()) },
@@ -35,7 +35,7 @@ namespace Autobox.Core.Services
 
                 int total = matchingTracks.Count;
 
-                TrackList = new List<Track>();
+                TrackList = new List<TrackMetadata>();
                 for (int i = 0; i < total; i++)
                 {
                     ERatingValue nextRating = GetNextTrackRating(sortedTracks);
@@ -52,7 +52,7 @@ namespace Autobox.Core.Services
             });
         }
 
-        private ERatingValue GetNextTrackRating(Dictionary<ERatingValue, List<Track>> tracks)
+        private ERatingValue GetNextTrackRating(Dictionary<ERatingValue, List<TrackMetadata>> tracks)
         {
             int dice = Rnd.Next(TotalRatingChance);
             int highRatingChance = RatingChances[ERatingValue.High];
@@ -96,21 +96,21 @@ namespace Autobox.Core.Services
             return ERatingValue.None;
         }
 
-        private List<Track> GetMatchingTracks()
+        private List<TrackMetadata> GetMatchingTracks()
         {
-            HashSet<Track> anyOf = new HashSet<Track>(Library.TrackList.Values.Where(track => track.MatchFilter(Settings.NoneOfTagList, Settings.AnyOfTagList, Track.EIncludeMatchType.Any)).ToList());
-            HashSet<Track> allOf = new HashSet<Track>(Library.TrackList.Values.Where(track => track.MatchFilter(Settings.NoneOfTagList, Settings.AllOfTagList, Track.EIncludeMatchType.All)).ToList());
+            HashSet<TrackMetadata> anyOf = new HashSet<TrackMetadata>(Library.TrackList.Values.Where(track => track.MatchFilter(Settings.NoneOfTagList, Settings.AnyOfTagList, TrackMetadata.EIncludeMatchType.Any)).ToList());
+            HashSet<TrackMetadata> allOf = new HashSet<TrackMetadata>(Library.TrackList.Values.Where(track => track.MatchFilter(Settings.NoneOfTagList, Settings.AllOfTagList, TrackMetadata.EIncludeMatchType.All)).ToList());
             return anyOf.Intersect(allOf).ToList();
         }
 
-        private List<Track> Randomize(List<Track> tracks)
+        private List<TrackMetadata> Randomize(List<TrackMetadata> tracks)
         {
             int n = tracks.Count;
             while (n > 1)
             {
                 n--;
                 int k = Rnd.Next(n + 1);
-                Track value = tracks[k];
+                TrackMetadata value = tracks[k];
                 tracks[k] = tracks[n];
                 tracks[n] = value;
             }
@@ -134,6 +134,6 @@ namespace Autobox.Core.Services
         // ##### Attributes
         private readonly ITrackLibrary Library;
         private readonly Random Rnd = new Random();
-        public List<Track> TrackList { get; private set; } = new List<Track>();
+        public List<TrackMetadata> TrackList { get; private set; } = new List<TrackMetadata>();
     }
 }

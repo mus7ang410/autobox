@@ -14,6 +14,6 @@ namespace Autobox.Core.Services
 
         // ##### Attributes
         PlaylistSettings Settings { get; }
-        List<Track> TrackList { get; }
+        List<TrackMetadata> TrackList { get; }
     }
 }

@@ -8,28 +8,28 @@ using Newtonsoft.Json;
 
 namespace Autobox.Core.Data
 {
-    public class TrackInvalidTitleException : Exception
+    public class TrackMetadataInvalidTitleException : Exception
     {
-        public TrackInvalidTitleException(string reason) :
+        public TrackMetadataInvalidTitleException(string reason) :
             base(reason)
         {
 
         }
     }
 
-    // ##### TrackEventArgs
+    // ##### TrackMetadataEventArgs
     // Encapsulate a track to send as event
-    public class TrackEventArgs : EventArgs
+    public class TrackMetadataEventArgs : EventArgs
     {
-        public TrackEventArgs(Track track)
+        public TrackMetadataEventArgs(TrackMetadata track)
         {
             Track = track;
         }
 
-        public Track Track { get; set; }
+        public TrackMetadata Track { get; set; }
     }
 
-    public class Track : INotifyPropertyChanged
+    public class TrackMetadata : INotifyPropertyChanged
     {
         // ##### MatchFilter
         // Check if this track contains none of excluded list and a given list of included
@@ -88,10 +88,6 @@ namespace Autobox.Core.Data
 
         public override string ToString() { return $"{Title} - ({Id})"; }
 
-        // ##### Configuration
-        public static readonly string MetadataFileExt = ".metadata.json";
-        public static readonly string ThumbnailFileExt = ".thumbnail.jpg";
-
         // ##### Events
         public event PropertyChangedEventHandler PropertyChanged;
         // ##### Attributes
@@ -105,16 +101,14 @@ namespace Autobox.Core.Data
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    throw new TrackInvalidTitleException("Track title cannot be empty");
+                    throw new TrackMetadataInvalidTitleException("Track title cannot be empty");
                 }
                 _Title = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Title"));
             }
         }
+        public string Ext { get; set; }
         public int Rating { get; set; } = 0;
-        public string VideoFilename { get; set; }
-        public string ThumbnailFilename { get; set; }
-        public string MetadataFilename { get; set; }
         public TagCollection Tags { get; set; } = new TagCollection();
     }
 }

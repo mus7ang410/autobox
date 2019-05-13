@@ -6,13 +6,13 @@ using System.Text;
 
 namespace Autobox.Core.Data
 {
-    public class TrackCollection : ObservableCollection<Track>
+    public class TrackCollection : ObservableCollection<TrackMetadata>
     {
-        public void SetTrackRange(List<Track> tracks)
+        public void SetTrackRange(List<TrackMetadata> tracks)
         {
             CheckReentrancy();
             Items.Clear();
-            foreach (Track track in tracks)
+            foreach (TrackMetadata track in tracks)
             {
                 Items.Add(track);
             }
