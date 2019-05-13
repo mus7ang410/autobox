@@ -7,7 +7,6 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Net;
 using Newtonsoft.Json;
-using VideoLibrary;
 
 using Autobox.Core.Data;
 
@@ -25,7 +24,6 @@ namespace Autobox.Core.Services
     {
         public TrackLibrary(string rootPath)
         {
-            Client = YouTube.Default;
             RootPath = rootPath;
             if (!Directory.Exists(RootPath))
             {
@@ -136,7 +134,6 @@ namespace Autobox.Core.Services
 
         // ##### Attributes
         // library configuration
-        private readonly YouTube Client;
         private readonly string RootPath;
         // library files
         public List<string> MetadataFiles = new List<string>();
