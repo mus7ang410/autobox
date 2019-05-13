@@ -27,7 +27,6 @@ namespace Autobox.Desktop.Activities.Panels
         public AddYouTubePanel()
         {
             InitializeComponent();
-            Library = ServiceProvider.GetService<ITrackLibrary>();
         }
 
         private async void LinkTextBox_KeyDown(object sender, KeyEventArgs e)
@@ -51,7 +50,7 @@ namespace Autobox.Desktop.Activities.Panels
             Mouse.OverrideCursor = Cursors.Wait;
             try
             {
-                Track track = await Library.CreateTrackAsync(LinkTextBox.Text);
+                Track track = await ServiceProvider.GetService<ITrackCreator>()?.CreateTrackAsync(LinkTextBox.Text);
                 CreateTrack?.Invoke(this, track);
             }
             catch (Exception exception)
@@ -81,8 +80,5 @@ namespace Autobox.Desktop.Activities.Panels
             get { return (EventHandler<Track>)GetValue(CreateTrackProperty); }
             set { SetValue(CreateTrackProperty, value); }
         }
-
-        // ##### Attributes
-        private readonly ITrackLibrary Library;
     }
 }

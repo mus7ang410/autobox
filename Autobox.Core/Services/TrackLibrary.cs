@@ -66,32 +66,18 @@ namespace Autobox.Core.Services
             return track;
         }
 
-        // ##### CreateTrack
-        // Create a track from a YouTube link
+        // ##### AddTrackAsync
+        // Add a new track to the collection
         // Throw an exception if track already exists in library
-        public async Task<Track> CreateTrackAsync(string link)
+        public async Task AddTrackAsync(Track track)
         {
-            string id = ProcessTrackId(link);
-            Video video = await Client.GetVideoAsync(link);
-            string title = ProcessTrackTitle(video);
-
-            if (TrackList.ContainsKey(title))
+            if (TrackList.ContainsKey(track.Title))
             {
-                throw new TrackAlreadyExistsException(title);
+                throw new TrackAlreadyExistsException(track.Title);
             }
-
-            Track track = new Track
-            {
-                Id = id,
-                Title = title,
-                VideoFilename = await DownloadVideoFile(video, id),
-                MetadataFilename = BuildMetadataFilemname(id),
-                ThumbnailFilename = await DownloadThumbnailFile(id)
-            };
 
             await UpdateTrackMetadataAsync(track);
             TrackList.Add(track.Title, track);
-            return track;
         }
 
         // ##### UpdateTrackAsync
@@ -146,65 +132,6 @@ namespace Autobox.Core.Services
                 byte[] bytes = Encoding.UTF8.GetBytes(json);
                 await stream.WriteAsync(bytes, 0, bytes.Length);
             }
-        }
-
-        // ##### ProcessTrackId
-        // Extract video id from a YouTube link
-        private string ProcessTrackId(string link)
-        {
-            Regex regex = new Regex(@"https:\/\/www\.youtube\.com\/watch\?v=(?<id>[a-zA-Z0-9_\-]+)");
-            Match match = regex.Match(link);
-            if (!match.Success)
-            {
-                throw new TrackLibraryInvalidLinkException(link);
-            }
-            return match.Groups["id"].ToString();
-        }
-
-        // ##### ProcessTrackTitle
-        // Process track title to remove unwanted stuff
-        private string ProcessTrackTitle(Video video) { return video.Title.Replace("- YouTube", "").TrimEnd(' '); }
-
-        // ##### DownloadVideoFile
-        // Download the music video from YouTube
-        // Returns the video filename
-        private async Task<string> DownloadVideoFile(Video video, string id)
-        {
-            string filename = id + video.FileExtension;
-            string filepath = GetFilePath(filename);
-
-            using (FileStream stream = File.Create(filepath))
-            {
-                byte[] bytes = await video.GetBytesAsync();
-                await stream.WriteAsync(bytes, 0, bytes.Count());
-            }
-
-            return filename;
-        }
-
-        // ##### BuildMetadataFilemname
-        // Create the filename for the metadata file
-        private string BuildMetadataFilemname(string id)
-        {
-            return id + Track.MetadataFileExt;
-        }
-
-        // ##### DownloadThumbnailFile
-        // Download the thumbnail associated to a youtube video id
-        // Returns the thumbnail filename
-        private async Task<string> DownloadThumbnailFile(string id)
-        {
-            string filename = id + Track.ThumbnailFileExt;
-            string filepath = GetFilePath(filename);
-            
-            using (WebClient client = new WebClient())
-            using (FileStream stream = File.Create(filepath))
-            {
-                byte[] bytes = await client.DownloadDataTaskAsync($"http://img.youtube.com/vi/{id}/hqdefault.jpg");
-                await stream.WriteAsync(bytes, 0, bytes.Count());
-            }
-
-            return filename;
         }
 
         // ##### Attributes

@@ -11,7 +11,7 @@ namespace Autobox.Core.Services
     public interface ITrackLibrary
     {
         Task LoadAllAsync();
-        Task<Track> CreateTrackAsync(string url);
+        Task AddTrackAsync(Track track);
         Task UpdateTrackAsync(Track track);
         Task DeleteTrackAsync(Track track);
         TagCollection CreateTagList(string text);

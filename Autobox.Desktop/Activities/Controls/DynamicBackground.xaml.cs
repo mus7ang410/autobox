@@ -51,7 +51,7 @@ namespace Autobox.Desktop.Activities.Controls
         {
             if (StopCollection.First().Offset >= 1 && HasRequestedColor)
             {
-                StopCollection.Add(new GradientStop(RequestedColor, -1));
+                StopCollection.Add(new GradientStop(StopCollection.First().Color, -1));
                 HasRequestedColor = false;
             }
 
