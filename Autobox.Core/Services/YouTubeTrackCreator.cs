@@ -16,9 +16,10 @@ namespace Autobox.Core.Services
 {
     public class YouTubeTrackCreator : ITrackCreator
     {
-        public YouTubeTrackCreator()
+        public YouTubeTrackCreator(ITrackLibrary library)
         {
             Client = YouTube.Default;
+            Library = library;
         }
 
         // ##### CreateTrack
@@ -90,5 +91,6 @@ namespace Autobox.Core.Services
 
         // ##### Attributes
         private readonly YouTube Client;
+        private readonly ITrackLibrary Library;
     }
 }
