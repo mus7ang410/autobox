@@ -87,19 +87,19 @@ namespace Autobox.Desktop.Activities.Controls
             
         }
 
-        private void CurrentTrack_Changed(Track track)
+        private void CurrentTrack_Changed(TrackMetadata track)
         {
             if (CurrentTrack != null)
             {
                 IsTrackLoaded = false;
-                MediaPlayer.Source = new Uri(Library.GetFilePath(CurrentTrack.VideoFilename));
+                MediaPlayer.Source = new Uri(Library.GetVideoFilepath(track));
                 MediaPlayer.Visibility = Visibility.Hidden;
                 MediaPlayer.Loaded += MediaPlayer_Loaded;
                 MediaPlayer.MediaEnded += MediaPlayer_MediaEnded;
 
                 BitmapImage thumbnail = new BitmapImage();
                 thumbnail.BeginInit();
-                thumbnail.UriSource = new Uri(Library.GetFilePath(CurrentTrack.ThumbnailFilename));
+                thumbnail.UriSource = new Uri(Library.GetThumbnailFilepath(track));
                 thumbnail.CacheOption = BitmapCacheOption.OnLoad;
                 thumbnail.EndInit();
                 ThumbnailImage.Source = thumbnail;
@@ -146,7 +146,7 @@ namespace Autobox.Desktop.Activities.Controls
         private static void TrackProperty_Changed(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             TrackPlayer player = sender as TrackPlayer;
-            player.CurrentTrack_Changed(e.NewValue as Track);
+            player.CurrentTrack_Changed(e.NewValue as TrackMetadata);
         }
 
         private void FadingTimer_Tick(object sender, EventArgs e)
@@ -169,12 +169,12 @@ namespace Autobox.Desktop.Activities.Controls
         }
 
         // ##### Events
-        public EventHandler<Track> TrackLoaded { get; set; }
-        public EventHandler<Track> TrackFadingOut { get; set; }
-        public EventHandler<Track> TrackEnded { get; set; }
+        public EventHandler<TrackMetadata> TrackLoaded { get; set; }
+        public EventHandler<TrackMetadata> TrackFadingOut { get; set; }
+        public EventHandler<TrackMetadata> TrackEnded { get; set; }
         // ##### Properties
-        private Track _CurrentTrack = null;
-        public Track CurrentTrack
+        private TrackMetadata _CurrentTrack = null;
+        public TrackMetadata CurrentTrack
         {
             get { return _CurrentTrack; }
             set

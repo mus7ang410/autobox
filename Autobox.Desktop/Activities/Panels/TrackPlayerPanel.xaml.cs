@@ -80,7 +80,7 @@ namespace Autobox.Desktop.Activities.Panels
             }
         }
 
-        private void Player_CurrentTrackChanged(object sender, TrackEventArgs e)
+        private void Player_CurrentTrackChanged(object sender, TrackMetadataEventArgs e)
         {
             CurrenTrack = e.Track;
             if (CurrenTrack != null)
@@ -107,12 +107,12 @@ namespace Autobox.Desktop.Activities.Panels
         }
 
         // ##### Events
-        public EventHandler<TrackEventArgs> CurrentTrackChanged;
+        public EventHandler<TrackMetadataEventArgs> CurrentTrackChanged;
         // ##### Attributes
         private readonly ITrackLibrary Library;
         private readonly IPlaylistManager Playlist;
         private enum EState { Playing, Paused };
         private EState State = EState.Paused;
-        private Track CurrenTrack = null;
+        private TrackMetadata CurrenTrack = null;
     }
 }

@@ -34,7 +34,7 @@ namespace Autobox.Desktop.Activities.Panels
             LoadTrack(null);
         }
 
-        public void LoadTrack(Track track)
+        public void LoadTrack(TrackMetadata track)
         {
             SelectedTrack = track;
             if (SelectedTrack != null)
@@ -58,14 +58,14 @@ namespace Autobox.Desktop.Activities.Panels
             }
         }
 
-        public Track UnloadTrack()
+        public TrackMetadata UnloadTrack()
         {
             TrackPlayer.CurrentTrack = null;
             TitleTextBox.Text = string.Empty;
             TitleTextBox.IsEnabled = false;
             RatingPanel.CanRate = false;
             PlayButton.OpacityMask = FindResource("IconButton.Brushes.Play") as Brush;
-            Track unloadedTrack = SelectedTrack;
+            TrackMetadata unloadedTrack = SelectedTrack;
             SelectedTrack = null;
             return unloadedTrack;
         }
@@ -131,7 +131,7 @@ namespace Autobox.Desktop.Activities.Panels
                 {
                     SelectedTrack.Title = TitleTextBox.Text;
                     await Library.UpdateTrackAsync(SelectedTrack);
-                    TrackUpdated?.Invoke(this, new TrackEventArgs(SelectedTrack));
+                    TrackUpdated?.Invoke(this, new TrackMetadataEventArgs(SelectedTrack));
                 }
                 catch (Exception exception)
                 {
@@ -157,19 +157,19 @@ namespace Autobox.Desktop.Activities.Panels
 
                 if (result == MessageBoxResult.OK)
                 {
-                    Track deletedTrack = UnloadTrack();
+                    TrackMetadata deletedTrack = UnloadTrack();
                     await Library.DeleteTrackAsync(deletedTrack);
-                    TrackDeleted?.Invoke(this, new TrackEventArgs(deletedTrack));
+                    TrackDeleted?.Invoke(this, new TrackMetadataEventArgs(deletedTrack));
                 }
             }
         }
 
         // ##### Events
-        public EventHandler<TrackEventArgs> TrackDeleted { get; set; }
-        public EventHandler<TrackEventArgs> TrackUpdated { get; set; }
+        public EventHandler<TrackMetadataEventArgs> TrackDeleted { get; set; }
+        public EventHandler<TrackMetadataEventArgs> TrackUpdated { get; set; }
         // ##### Attributes
         private readonly ITrackLibrary Library;
-        private Track SelectedTrack = null;
+        private TrackMetadata SelectedTrack = null;
         private enum EState { Idle, Playing, Failed }
         private EState State = EState.Idle;
     }

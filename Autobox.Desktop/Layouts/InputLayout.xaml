@@ -10,6 +10,16 @@
         <Setter Property="Height" Value="{StaticResource H1.Double}"/>
     </Style>
 
+    <Style x:Key="TextButton" TargetType="Button">
+        <Setter Property="Background" Value="{x:Null}"/>
+        <Setter Property="Foreground" Value="{StaticResource TextSecondaryColor}"/>
+        <Setter Property="BorderBrush" Value="{x:Null}"/>
+        <Setter Property="FontFamily" Value="AvenirCondensedHand CondensedHand"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="Height" Value="{StaticResource H1.Double}"/>
+    </Style>
+
     <Style x:Key="InputTextBox" TargetType="TextBox">
         <Setter Property="Background" Value="{StaticResource SecondaryColor}"/>
         <Setter Property="Foreground" Value="{StaticResource TextSecondaryColor}"/>

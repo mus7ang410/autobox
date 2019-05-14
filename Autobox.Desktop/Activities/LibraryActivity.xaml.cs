@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32;
 
 using Autobox.Core.Data;
 using Autobox.Core.Services;
@@ -73,7 +74,7 @@ namespace Autobox.Desktop.Activities
             else
             {
                 MultipleTagList = new TagCollection(SelectedTracks.First().Tags);
-                foreach (Track track in e.SelectedTracks.GetRange(1, e.SelectedTracks.Count - 1))
+                foreach (TrackMetadata track in e.SelectedTracks.GetRange(1, e.SelectedTracks.Count - 1))
                 {
                     MultipleTagList.IntersectWith(track.Tags);
                 }
@@ -82,7 +83,7 @@ namespace Autobox.Desktop.Activities
             }
         }
 
-        private void PreviewPanel_TrackDeleted(object sender, TrackEventArgs e)
+        private void PreviewPanel_TrackDeleted(object sender, TrackMetadataEventArgs e)
         {
             FilteredTrackList.Remove(e.Track);
         }
@@ -96,7 +97,7 @@ namespace Autobox.Desktop.Activities
             else
             {
                 List<Task> tasks = new List<Task>();
-                foreach (Track track in SelectedTracks)
+                foreach (TrackMetadata track in SelectedTracks)
                 {
                     track.Tags.UnionWith(e.TagList);
                     tasks.Add(Library.UpdateTrackAsync(track));
@@ -116,7 +117,7 @@ namespace Autobox.Desktop.Activities
             else
             {
                 List<Task> tasks = new List<Task>();
-                foreach (Track track in SelectedTracks)
+                foreach (TrackMetadata track in SelectedTracks)
                 {
                     track.Tags.Remove(e.Tag);
                     tasks.Add(Library.UpdateTrackAsync(track));
@@ -127,15 +128,15 @@ namespace Autobox.Desktop.Activities
             UpdateFilteredList();
         }
 
-        private void AddYouTubePanel_CreateTrack(object sender, Track track)
+        private void AddYouTubePanel_CreateTrack(object sender, TrackMetadataEventArgs e)
         {
-            FilteredTrackList.Add(track);
-            FilteredTrackListPanel.SelectedTrack = track;
+            FilteredTrackList.Add(e.Track);
+            FilteredTrackListPanel.SelectedTrack = e.Track;
         }
 
         private void UpdateFilteredList()
         {
-            List<Track> filtered = Library.TrackList.Values.Where(track => track.MatchFilter(ExcludedTagList, IncludedTagList, Track.EIncludeMatchType.Any)).ToList();
+            List<TrackMetadata> filtered = Library.TrackList.Values.Where(track => track.MatchFilter(ExcludedTagList, IncludedTagList, TrackMetadata.EIncludeMatchType.Any)).ToList();
             FilteredTrackList.SetTrackRange(filtered);
         }
 
@@ -144,7 +145,7 @@ namespace Autobox.Desktop.Activities
         // ##### Attributes
         private readonly ITrackLibrary Library;
         private readonly TrackCollection FilteredTrackList = new TrackCollection();
-        private List<Track> SelectedTracks = null;
+        private List<TrackMetadata> SelectedTracks = null;
         private TagCollection ExcludedTagList = new TagCollection();
         private TagCollection IncludedTagList = new TagCollection();
         private TagCollection MultipleTagList = new TagCollection();

@@ -50,8 +50,9 @@ namespace Autobox.Desktop.Activities.Panels
             Mouse.OverrideCursor = Cursors.Wait;
             try
             {
-                Track track = await ServiceProvider.GetService<ITrackCreator>()?.CreateTrackAsync(LinkTextBox.Text);
-                CreateTrack?.Invoke(this, track);
+                TrackMetadata track = await ServiceProvider.GetService<ITrackCreator>()?.CreateTrackAsync(LinkTextBox.Text);
+                await ServiceProvider.GetService<ITrackLibrary>()?.AddTrackAsync(track);
+                CreateTrack?.Invoke(this, new TrackMetadataEventArgs(track));
             }
             catch (Exception exception)
             {
@@ -71,13 +72,13 @@ namespace Autobox.Desktop.Activities.Panels
         // ##### Properties
         public static readonly DependencyProperty CreateTrackProperty =
             DependencyProperty.Register("CreateTrack", 
-                typeof(EventHandler<Track>),
+                typeof(EventHandler<TrackMetadataEventArgs>),
                 typeof(AddYouTubePanel), 
                 new PropertyMetadata());
 
-        public EventHandler<Track> CreateTrack
+        public EventHandler<TrackMetadataEventArgs> CreateTrack
         {
-            get { return (EventHandler<Track>)GetValue(CreateTrackProperty); }
+            get { return (EventHandler<TrackMetadataEventArgs>)GetValue(CreateTrackProperty); }
             set { SetValue(CreateTrackProperty, value); }
         }
     }

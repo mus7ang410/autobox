@@ -16,10 +16,9 @@ namespace Autobox.Core.Services
 {
     public class YouTubeTrackCreator : ITrackCreator
     {
-        public YouTubeTrackCreator(ITrackLibrary library)
+        public YouTubeTrackCreator()
         {
             Client = YouTube.Default;
-            Library = library;
         }
 
         // ##### CreateTrack
@@ -40,7 +39,6 @@ namespace Autobox.Core.Services
 
             await DownloadVideoFile(video, id);
             await DownloadThumbnailFile(id);
-            await Library.AddTrackAsync(track);
             return track;
         }
 
@@ -92,6 +90,5 @@ namespace Autobox.Core.Services
 
         // ##### Attributes
         private readonly YouTube Client;
-        private readonly ITrackLibrary Library;
     }
 }

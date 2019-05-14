@@ -31,7 +31,7 @@ namespace Autobox.Desktop.Activities
             NoneOfTagPanel.TagSource = Playlist.Settings.NoneOfTagList;
             AnyOfTagPanel.TagSource = Playlist.Settings.AnyOfTagList;
             AllOfTagPanel.TagSource = Playlist.Settings.AllOfTagList;
-            PlayerPanel.CurrentTrackChanged += delegate (object sender, TrackEventArgs e)
+            PlayerPanel.CurrentTrackChanged += delegate (object sender, TrackMetadataEventArgs e)
             {
                 Random r = new Random();
                 ActivityBackgroundChanged?.Invoke(this, new ActivityBackgroundChangedEventArgs(

@@ -33,7 +33,7 @@ namespace Autobox.Desktop.Activities.Controls
             TravelingTimer.Tick += TravelingTimer_Tick;
         }
 
-        public void Load(List<Track> tracks)
+        public void Load(List<TrackMetadata> tracks)
         {
             ScreenCanvas.Children.Clear();
             foreach (TrackPlayer player in PreviousTrackPlayers)
@@ -45,7 +45,7 @@ namespace Autobox.Desktop.Activities.Controls
                 ScreenCanvas.Children.Add(player);
             }
 
-            PendingTracks = new List<Track>();
+            PendingTracks = new List<TrackMetadata>();
             if (tracks.Count > 0)
             {
                 int index = 0;
@@ -61,14 +61,14 @@ namespace Autobox.Desktop.Activities.Controls
                 }
 
                 QueuedTrackPlayers = new List<TrackPlayer>();
-                foreach (Track track in tracks.GetRange(index, Math.Min(QueuedTrackCount, tracks.Count - index)))
+                foreach (TrackMetadata track in tracks.GetRange(index, Math.Min(QueuedTrackCount, tracks.Count - index)))
                 {
                     QueuedTrackPlayers.Add(CreatePlayer(track));
                 }
                 index += QueuedTrackPlayers.Count;
                 if (tracks.Count > index)
                 {
-                    PendingTracks = new List<Track>(tracks.GetRange(index, tracks.Count - index));
+                    PendingTracks = new List<TrackMetadata>(tracks.GetRange(index, tracks.Count - index));
                 }
             }
             RecomputeScreen();
@@ -133,7 +133,7 @@ namespace Autobox.Desktop.Activities.Controls
 
         // ##### CreatePlayer
         // Create a new player from a track and initialize it
-        private TrackPlayer CreatePlayer(Track track)
+        private TrackPlayer CreatePlayer(TrackMetadata track)
         {
             TrackPlayer player = new TrackPlayer
             {
@@ -160,16 +160,16 @@ namespace Autobox.Desktop.Activities.Controls
 
             CurrentTrackPlayer = player;
             CurrentTrackPlayer.Volume = Volume;
-            CurrentTrackPlayer.TrackFadingOut += delegate (object sender, Track track) { Forward(); };
+            CurrentTrackPlayer.TrackFadingOut += delegate (object sender, TrackMetadata track) { Forward(); };
             if (State == EState.Playing)
             {
                 CurrentTrackPlayer.Play(FadingDurationFactor);
             }
-            CurrentTrackPlayer.TrackFadingOut += delegate (object sender, Track track)
+            CurrentTrackPlayer.TrackFadingOut += delegate (object sender, TrackMetadata track)
             {
                 MoveToFadingTracks(sender as TrackPlayer);
             };
-            CurrentTrackChanged?.Invoke(this, new TrackEventArgs(CurrentTrackPlayer.CurrentTrack));
+            CurrentTrackChanged?.Invoke(this, new TrackMetadataEventArgs(CurrentTrackPlayer.CurrentTrack));
         }
 
         // ##### MoveToFadingTracks
@@ -177,7 +177,7 @@ namespace Autobox.Desktop.Activities.Controls
         private void MoveToFadingTracks(TrackPlayer player)
         {
             FadingTrackPlayers.Insert(0, player);
-            player.TrackEnded += delegate (object sender, Track track)
+            player.TrackEnded += delegate (object sender, TrackMetadata track)
             {
                 MoveToPreviousTracks(sender as TrackPlayer);
                 FadingTrackPlayers.Remove(sender as TrackPlayer);
@@ -191,7 +191,7 @@ namespace Autobox.Desktop.Activities.Controls
             PreviousTrackPlayers.Insert(0, player);
         }
 
-        private void TrackPlayer_TrackLoaded(object sender, Track track)
+        private void TrackPlayer_TrackLoaded(object sender, TrackMetadata track)
         {
             RecomputeScreen();
         }
@@ -290,14 +290,14 @@ namespace Autobox.Desktop.Activities.Controls
         }
 
         // ##### Event
-        public EventHandler<TrackEventArgs> CurrentTrackChanged { get; set; }
+        public EventHandler<TrackMetadataEventArgs> CurrentTrackChanged { get; set; }
         // ##### Attributes
         private List<TrackPlayer> PreviousTrackPlayers = new List<TrackPlayer>();
         private List<TrackPlayer> FadingTrackPlayers = new List<TrackPlayer>();
         private TrackPlayer CurrentTrackPlayer = null;
         private readonly int QueuedTrackCount = 3;
         private List<TrackPlayer> QueuedTrackPlayers = new List<TrackPlayer>();
-        private List<Track> PendingTracks = new List<Track>();
+        private List<TrackMetadata> PendingTracks = new List<TrackMetadata>();
         private enum EState { Playing, Paused };
         private EState State = EState.Paused;
         // Fading
