@@ -14,18 +14,17 @@ using Autobox.Core.Data;
 
 namespace Autobox.Core.Services
 {
-    public class YouTubeTrackCreator : ITrackCreator
+    public class YouTubeTrackDownloader : ITrackDownloader
     {
-        public YouTubeTrackCreator(ITrackLibrary library)
+        public YouTubeTrackDownloader()
         {
             Client = YouTube.Default;
-            Library = library;
         }
 
-        // ##### CreateTrack
+        // ##### DownloadTrackAsync
         // Create a track from a YouTube link and add it to the linked library
         // Throw an exception if track already exists in library
-        public async Task<TrackMetadata> CreateTrackAsync(string link)
+        public async Task<TrackMetadata> DownloadTrackAsync(ITrackLibrary library, string link)
         {
             string id = ProcessTrackId(link);
             Video video = await Client.GetVideoAsync(link);
@@ -38,8 +37,8 @@ namespace Autobox.Core.Services
                 Ext = video.FileExtension
             };
 
-            await DownloadVideoFile(video, id);
-            await DownloadThumbnailFile(id);
+            await DownloadVideoFile(library, video, id);
+            await DownloadThumbnailFile(library, id);
             return track;
         }
 
@@ -63,9 +62,9 @@ namespace Autobox.Core.Services
         // ##### DownloadVideoFile
         // Download the music video from YouTube
         // Returns the video filename
-        private async Task DownloadVideoFile(Video video, string id)
+        private async Task DownloadVideoFile(ITrackLibrary library, Video video, string id)
         {
-            string filepath = Library.BuildVideoFilePath(id, video.FileExtension);
+            string filepath = library.BuildVideoFilePath(id, video.FileExtension);
 
             using (FileStream stream = File.Create(filepath))
             {
@@ -77,9 +76,9 @@ namespace Autobox.Core.Services
         // ##### DownloadThumbnailFile
         // Download the thumbnail associated to a youtube video id
         // Returns the thumbnail filename
-        private async Task DownloadThumbnailFile(string id)
+        private async Task DownloadThumbnailFile(ITrackLibrary library, string id)
         {
-            string filepath = Library.BuildThumbnailFilePath(id);
+            string filepath = library.BuildThumbnailFilePath(id);
 
             using (WebClient client = new WebClient())
             using (FileStream stream = File.Create(filepath))
@@ -91,6 +90,5 @@ namespace Autobox.Core.Services
 
         // ##### Attributes
         private readonly YouTube Client;
-        private readonly ITrackLibrary Library;
     }
 }

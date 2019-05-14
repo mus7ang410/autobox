@@ -7,8 +7,8 @@ using Autobox.Core.Data;
 
 namespace Autobox.Core.Services
 {
-    public interface ITrackCreator
+    public interface ITrackDownloader
     {
-        Task<TrackMetadata> CreateTrackAsync(string url);
+        Task<TrackMetadata> DownloadTrackAsync(ITrackLibrary library, string url);
     }
 }

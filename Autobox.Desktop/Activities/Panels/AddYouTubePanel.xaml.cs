@@ -50,8 +50,10 @@ namespace Autobox.Desktop.Activities.Panels
             Mouse.OverrideCursor = Cursors.Wait;
             try
             {
-                TrackMetadata track = await ServiceProvider.GetService<ITrackCreator>()?.CreateTrackAsync(LinkTextBox.Text);
-                await ServiceProvider.GetService<ITrackLibrary>()?.AddTrackAsync(track);
+                ITrackLibrary library = ServiceProvider.GetService<ITrackLibrary>();
+                ITrackDownloader downloader = ServiceProvider.GetService<ITrackDownloader>();
+                TrackMetadata track = await downloader?.DownloadTrackAsync(library, LinkTextBox.Text);
+                await library?.AddTrackAsync(track);
                 CreateTrack?.Invoke(this, new TrackMetadataEventArgs(track));
             }
             catch (Exception exception)

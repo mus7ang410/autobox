@@ -20,13 +20,13 @@ namespace Autobox.Desktop
         {
             Library = ServiceProvider.AddService<ITrackLibrary, TrackLibrary>(new TrackLibrary("Library"));
             Library.LoadAllAsync().Wait();
-            Creator = ServiceProvider.AddService<ITrackCreator, YouTubeTrackCreator>(new YouTubeTrackCreator(Library));
+            Downloader = ServiceProvider.AddService<ITrackDownloader, YouTubeTrackDownloader>(new YouTubeTrackDownloader());
             Playlist = ServiceProvider.AddService<IPlaylistManager, AutoboxPlaylistManager>(new AutoboxPlaylistManager(Library));
         }
 
         // ##### Application singletons
         private readonly ITrackLibrary Library;
-        private readonly ITrackCreator Creator;
+        private readonly ITrackDownloader Downloader;
         private readonly IPlaylistManager Playlist;
     }
 }
