@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Autobox.Core.Data
+namespace Autobox.Data
 {
     public class PlaylistSettings
     {

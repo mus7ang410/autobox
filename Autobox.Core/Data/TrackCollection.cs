@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Text;
 
-namespace Autobox.Core.Data
+namespace Autobox.Data
 {
     public class TrackCollection : ObservableCollection<TrackMetadata>
     {

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-using Autobox.Core.Services;
+using Autobox.Services;
 using Autobox.Desktop.Services;
 
 namespace Autobox.Desktop

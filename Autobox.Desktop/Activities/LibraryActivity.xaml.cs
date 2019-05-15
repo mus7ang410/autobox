@@ -17,8 +17,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Win32;
 
-using Autobox.Core.Data;
-using Autobox.Core.Services;
+using Autobox.Data;
+using Autobox.Services;
 using Autobox.Desktop.Services;
 using Autobox.Desktop.Activities.Panels;
 

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Autobox.Core.Data;
+using Autobox.Data;
 
-namespace Autobox.Core.Services
+namespace Autobox.Services
 {
     public interface ITrackLibrary
     {

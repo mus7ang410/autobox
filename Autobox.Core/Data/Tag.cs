@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Autobox.Core.Data
+namespace Autobox.Data
 {
     public static class Tag
     {

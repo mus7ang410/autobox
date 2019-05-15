@@ -6,9 +6,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-using Autobox.Core.Data;
+using Autobox.Data;
 
-namespace Autobox.Core.Services
+namespace Autobox.Services
 {
     public class AutoboxPlaylistManager : IPlaylistManager
     {

@@ -14,8 +14,8 @@ using System.Windows.Threading;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using Autobox.Core.Data;
-using Autobox.Core.Services;
+using Autobox.Data;
+using Autobox.Services;
 using Autobox.Desktop.Services;
 
 namespace Autobox.Desktop.Activities.Controls

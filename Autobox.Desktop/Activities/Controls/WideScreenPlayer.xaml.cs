@@ -14,8 +14,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using Autobox.Core.Data;
-using Autobox.Core.Services;
+using Autobox.Data;
+using Autobox.Services;
 
 namespace Autobox.Desktop.Activities.Controls
 {

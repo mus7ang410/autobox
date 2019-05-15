@@ -14,8 +14,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using Autobox.Core.Data;
-using Autobox.Core.Services;
+using Autobox.Data;
+using Autobox.Services;
 using Autobox.Desktop.Services;
 
 namespace Autobox.Desktop.Activities.Panels
@@ -68,7 +68,7 @@ namespace Autobox.Desktop.Activities.Panels
         // Tags creation and adding business
         private void AddTags()
         {
-            TagSource.UnionWith(Autobox.Core.Data.Tag.CreateTagCollection(InputTextBox.Text));
+            TagSource.UnionWith(Autobox.Data.Tag.CreateTagCollection(InputTextBox.Text));
             InputTextBox.Text = string.Empty;
             TagWrapPanel_Populate();
             TagAdded?.Invoke(this, new TagAddedEventArgs(TagSource));

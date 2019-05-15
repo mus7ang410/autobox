@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 using System.Net;
 using Newtonsoft.Json;
 
-using Autobox.Core.Data;
+using Autobox.Data;
 
-namespace Autobox.Core.Services
+namespace Autobox.Services
 {
     public class TrackLibraryInvalidLinkException : Exception
     {

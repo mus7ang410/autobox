@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace Autobox.Core.Data
+namespace Autobox.Data
 {
     public class TrackMetadataInvalidTitleException : Exception
     {

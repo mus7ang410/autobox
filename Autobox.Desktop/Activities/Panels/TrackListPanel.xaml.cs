@@ -15,7 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using Autobox.Core.Data;
+using Autobox.Data;
 using Autobox.Desktop.Services;
 
 namespace Autobox.Desktop.Activities.Panels

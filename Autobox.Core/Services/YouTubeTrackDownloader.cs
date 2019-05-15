@@ -10,9 +10,9 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using VideoLibrary;
 
-using Autobox.Core.Data;
+using Autobox.Data;
 
-namespace Autobox.Core.Services
+namespace Autobox.Services
 {
     public class YouTubeTrackDownloader : ITrackDownloader
     {
