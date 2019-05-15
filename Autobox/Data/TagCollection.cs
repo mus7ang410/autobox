@@ -13,9 +13,10 @@ namespace Autobox.Data
 
         public new bool Add(string item)
         {
-            if (base.Add(item))
+            string computed = Tag.ComputeTag(item);
+            if (base.Add(computed))
             {
-                CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
+                CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, computed));
                 return true;
             }
             return false;
@@ -23,9 +24,10 @@ namespace Autobox.Data
 
         public new bool Remove(string item)
         {
-            if (base.Remove(item))
+            string computed = Tag.ComputeTag(item);
+            if (base.Remove(computed))
             {
-                CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
+                CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, computed));
             }
             return false;
         }

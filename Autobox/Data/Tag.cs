@@ -7,9 +7,9 @@ namespace Autobox.Data
 {
     public static class Tag
     {
-        // ##### CreateTag
+        // ##### ComputeTag
         // Create a formatted tag from raw text
-        public static string CreateTag(string tag)
+        public static string ComputeTag(string tag)
         {
             Regex rgx = new Regex("[^a-zA-Z0-9 -]");
             string computed = rgx.Replace(tag, "");
@@ -27,13 +27,13 @@ namespace Autobox.Data
             {
                 text = text.Replace(quoteMatch.Value, "");
                 string quote = quoteMatch.Value.Replace("\"", "");
-                tags.Add(CreateTag(quote));
+                tags.Add(ComputeTag(quote));
             }
 
             string[] tokens = text.Split(' ');
             foreach (string token in tokens)
             {
-                string computed = CreateTag(token);
+                string computed = ComputeTag(token);
                 if (computed.Length >= 3)
                 {
                     tags.Add(computed);

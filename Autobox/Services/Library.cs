@@ -32,9 +32,9 @@ namespace Autobox.Services
             {
                 string json = File.ReadAllText(metadataFile);
                 TrackMetadata track = ProcessLoadedTrack(JsonConvert.DeserializeObject<TrackMetadata>(json));
-                if (!TrackList.ContainsKey(track.Title))
+                if (!TrackList.ContainsKey(track.Id))
                 {
-                    TrackList.Add(track.Title, track);
+                    TrackList.Add(track.Id, track);
                     TagList.UnionWith(track.Tags);
                 }
             }
@@ -85,13 +85,13 @@ namespace Autobox.Services
         // Throw an exception if track already exists in library
         public async Task AddTrackAsync(TrackMetadata track)
         {
-            if (TrackList.ContainsKey(track.Title))
+            if (TrackList.ContainsKey(track.Id))
             {
-                throw new TrackAlreadyExistsException(track.Title);
+                throw new TrackAlreadyExistsException(track.Id);
             }
 
             await UpdateTrackMetadataAsync(track);
-            TrackList.Add(track.Title, track);
+            TrackList.Add(track.Id, track);
             TagList.UnionWith(track.Tags);
         }
 
@@ -106,7 +106,7 @@ namespace Autobox.Services
             File.Delete(ServiceProvider.GetMetadataFilepath(track));
             File.Delete(ServiceProvider.GetVideoFilepath(track));
             File.Delete(ServiceProvider.GetThumbnailFilepath(track));
-            TrackList.Remove(track.Title);
+            TrackList.Remove(track.Id);
             return Task.CompletedTask;
         }
 
