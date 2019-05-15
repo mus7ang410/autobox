@@ -72,6 +72,7 @@ namespace Autobox.Core.Services
 
             await UpdateTrackMetadataAsync(track);
             TrackList.Add(track.Title, track);
+            TagList.UnionWith(track.Tags);
         }
 
         // ##### UpdateTrackAsync
@@ -87,26 +88,6 @@ namespace Autobox.Core.Services
             File.Delete(GetThumbnailFilepath(track));
             TrackList.Remove(track.Title);
             return Task.CompletedTask;
-        }
-
-        // ##### CreateTagList
-        // Create a tag list from a row text
-        // Return the list of tag ids
-        public TagCollection CreateTagList(string text)
-        {
-            TagCollection tags = new TagCollection();
-            string[] tokens = text.Split(' ');
-            foreach (string token in tokens)
-            {
-                Regex rgx = new Regex("[^a-zA-Z0-9 -]");
-                string computed = rgx.Replace(token, "").ToUpper();
-                if (computed.Length >= 3)
-                {
-                    tags.Add(computed);
-                }
-            }
-            TagList.UnionWith(tags);
-            return tags;
         }
 
         private string GetMetadataFilepath(TrackMetadata track)
@@ -140,6 +121,7 @@ namespace Autobox.Core.Services
                 string json = JsonConvert.SerializeObject(track, Formatting.Indented);
                 byte[] bytes = Encoding.UTF8.GetBytes(json);
                 await stream.WriteAsync(bytes, 0, bytes.Length);
+                TagList.UnionWith(track.Tags);
             }
         }
 

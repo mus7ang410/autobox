@@ -15,7 +15,6 @@ namespace Autobox.Core.Services
         Task AddTrackAsync(TrackMetadata track);
         Task UpdateTrackAsync(TrackMetadata track);
         Task DeleteTrackAsync(TrackMetadata track);
-        TagCollection CreateTagList(string text);
 
         string BuildThumbnailFilePath(string trackId);
         string GetThumbnailFilepath(TrackMetadata track);

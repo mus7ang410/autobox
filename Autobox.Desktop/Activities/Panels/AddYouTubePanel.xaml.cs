@@ -27,6 +27,8 @@ namespace Autobox.Desktop.Activities.Panels
         public AddYouTubePanel()
         {
             InitializeComponent();
+            Downloader = new YouTubeTrackDownloader();
+            Tagger = new MusicBrainzTrackTagger();
         }
 
         private async void LinkTextBox_KeyDown(object sender, KeyEventArgs e)
@@ -51,8 +53,8 @@ namespace Autobox.Desktop.Activities.Panels
             try
             {
                 ITrackLibrary library = ServiceProvider.GetService<ITrackLibrary>();
-                ITrackDownloader downloader = ServiceProvider.GetService<ITrackDownloader>();
-                TrackMetadata track = await downloader?.DownloadTrackAsync(library, LinkTextBox.Text);
+                TrackMetadata track = await Downloader.DownloadTrackAsync(library, LinkTextBox.Text);
+                await Tagger.TagTrackAsync(track);
                 await library?.AddTrackAsync(track);
                 CreateTrack?.Invoke(this, new TrackMetadataEventArgs(track));
             }
@@ -83,5 +85,9 @@ namespace Autobox.Desktop.Activities.Panels
             get { return (EventHandler<TrackMetadataEventArgs>)GetValue(CreateTrackProperty); }
             set { SetValue(CreateTrackProperty, value); }
         }
+
+        // ##### Attributes
+        private ITrackDownloader Downloader;
+        private ITrackTagger Tagger;
     }
 }

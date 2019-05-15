@@ -68,7 +68,7 @@ namespace Autobox.Desktop.Activities.Panels
         // Tags creation and adding business
         private void AddTags()
         {
-            TagSource.UnionWith(Library.CreateTagList(InputTextBox.Text));
+            TagSource.UnionWith(Autobox.Core.Data.Tag.CreateTagCollection(InputTextBox.Text));
             InputTextBox.Text = string.Empty;
             TagWrapPanel_Populate();
             TagAdded?.Invoke(this, new TagAddedEventArgs(TagSource));

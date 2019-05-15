@@ -107,17 +107,6 @@ namespace Autobox.Core.Data
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Title"));
             }
         }
-        [JsonIgnore]
-        private string _Artist;
-        public string Artist
-        {
-            get { return _Artist; }
-            set
-            {
-                _Artist = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Artist"));
-            }
-        }
         public string Ext { get; set; }
         public int Rating { get; set; } = 0;
         public TagCollection Tags { get; set; } = new TagCollection();
