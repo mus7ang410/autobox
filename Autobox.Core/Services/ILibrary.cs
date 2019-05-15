@@ -11,17 +11,14 @@ namespace Autobox.Services
     public interface ILibrary
     {
         // ##### Interface
-        Task LoadAllAsync();
+        void Load(string directory, LibraryMetadata metadata);
+
         Task AddTrackAsync(TrackMetadata track);
         Task UpdateTrackAsync(TrackMetadata track);
         Task DeleteTrackAsync(TrackMetadata track);
 
-        string BuildThumbnailFilePath(string trackId);
-        string GetThumbnailFilepath(TrackMetadata track);
-        string BuildVideoFilePath(string trackId, string ext);
-        string GetVideoFilepath(TrackMetadata track);
-
         // ##### Properties
+        LibraryMetadata Metadata { get; }
         Dictionary<string, TrackMetadata> TrackList { get; }
         TagCollection TagList { get; }
     }

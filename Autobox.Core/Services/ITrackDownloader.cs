@@ -9,6 +9,6 @@ namespace Autobox.Services
 {
     public interface ITrackDownloader
     {
-        Task<TrackMetadata> DownloadTrackAsync(ILibrary library, string url);
+        Task<TrackMetadata> DownloadTrackAsync(string url);
     }
 }

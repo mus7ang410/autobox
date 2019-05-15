@@ -16,7 +16,6 @@ using System.Windows.Shapes;
 
 using Autobox.Data;
 using Autobox.Services;
-using Autobox.Desktop.Services;
 
 namespace Autobox.Desktop.Activities.Panels
 {
@@ -48,7 +47,6 @@ namespace Autobox.Desktop.Activities.Panels
         public TagPanel()
         {
             InitializeComponent();
-            Library = ServiceProvider.GetService<ILibrary>();
         }
 
         private void InputTextBox_KeyDown(object sender, KeyEventArgs e)
@@ -165,7 +163,6 @@ namespace Autobox.Desktop.Activities.Panels
         public EventHandler<TagRemovedEventArgs> TagRemoved { get; set; }
 
         // ##### Attributes
-        private readonly ILibrary Library;
         private HashSet<string> TagListCache = new HashSet<string>();
     }
 }

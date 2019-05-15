@@ -16,7 +16,6 @@ using System.Windows.Shapes;
 
 using Autobox.Data;
 using Autobox.Services;
-using Autobox.Desktop.Services;
 
 namespace Autobox.Desktop.Activities.Controls
 {
@@ -28,7 +27,6 @@ namespace Autobox.Desktop.Activities.Controls
         public TrackPlayer()
         {
             InitializeComponent();
-            Library = ServiceProvider.GetService<ILibrary>();
             MediaPlayer.Visibility = Visibility.Hidden;
             FadingTimer = new DispatcherTimer();
             FadingTimer.Tick += FadingTimer_Tick;
@@ -92,14 +90,14 @@ namespace Autobox.Desktop.Activities.Controls
             if (CurrentTrack != null)
             {
                 IsTrackLoaded = false;
-                MediaPlayer.Source = new Uri(Library.GetVideoFilepath(track));
+                MediaPlayer.Source = new Uri(ServiceProvider.GetVideoFilepath(track));
                 MediaPlayer.Visibility = Visibility.Hidden;
                 MediaPlayer.Loaded += MediaPlayer_Loaded;
                 MediaPlayer.MediaEnded += MediaPlayer_MediaEnded;
 
                 BitmapImage thumbnail = new BitmapImage();
                 thumbnail.BeginInit();
-                thumbnail.UriSource = new Uri(Library.GetThumbnailFilepath(track));
+                thumbnail.UriSource = new Uri(ServiceProvider.GetThumbnailFilepath(track));
                 thumbnail.CacheOption = BitmapCacheOption.OnLoad;
                 thumbnail.EndInit();
                 ThumbnailImage.Source = thumbnail;
@@ -211,7 +209,6 @@ namespace Autobox.Desktop.Activities.Controls
         public Duration NaturalDuration => MediaPlayer.NaturalDuration;
         
         // ##### Attributes
-        private readonly ILibrary Library;
         // Fading
         private double FadingDurationFactor = 0;
         private TimeSpan FadingDuration;

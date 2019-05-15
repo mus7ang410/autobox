@@ -15,7 +15,6 @@ using System.Windows.Shapes;
 
 using Autobox.Data;
 using Autobox.Services;
-using Autobox.Desktop.Services;
 
 namespace Autobox.Desktop.Activities.Panels
 {
@@ -52,10 +51,9 @@ namespace Autobox.Desktop.Activities.Panels
             Mouse.OverrideCursor = Cursors.Wait;
             try
             {
-                ILibrary library = ServiceProvider.GetService<ILibrary>();
-                TrackMetadata track = await Downloader.DownloadTrackAsync(library, LinkTextBox.Text);
+                TrackMetadata track = await Downloader.DownloadTrackAsync(LinkTextBox.Text);
                 await Tagger.TagTrackAsync(track);
-                await library?.AddTrackAsync(track);
+                await ServiceProvider.Library.AddTrackAsync(track);
                 CreateTrack?.Invoke(this, new TrackMetadataEventArgs(track));
             }
             catch (Exception exception)

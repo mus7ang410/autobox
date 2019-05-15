@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Windows;
 
 using Autobox.Services;
-using Autobox.Desktop.Services;
 
 namespace Autobox.Desktop
 {
@@ -18,11 +17,7 @@ namespace Autobox.Desktop
     {
         public App()
         {
-            Library = ServiceProvider.AddService<ILibrary, Library>(new Library("Library"));
-            Library.LoadAllAsync().Wait();
+            ServiceProvider.Init("Default");
         }
-
-        // ##### Application singletons
-        private readonly ILibrary Library;
     }
 }

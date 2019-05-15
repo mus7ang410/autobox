@@ -17,7 +17,6 @@ using System.Windows.Shapes;
 
 using Autobox.Data;
 using Autobox.Services;
-using Autobox.Desktop.Services;
 
 namespace Autobox.Desktop.Activities.Panels
 {
@@ -29,8 +28,6 @@ namespace Autobox.Desktop.Activities.Panels
         public TrackPlayerPanel()
         {
             InitializeComponent();
-            Library = ServiceProvider.GetService<ILibrary>();
-            Playlist = ServiceProvider.GetService<IPlaylistManager>();
             Player.Volume = SoundSlider.Value;
             RatingPanel.CanRate = false;
         }
@@ -51,8 +48,8 @@ namespace Autobox.Desktop.Activities.Panels
 
         private async void ShuffleButton_Click(object sender, RoutedEventArgs e)
         {
-            await Playlist.Shuffle();
-            Player.Load(Playlist.TrackList);
+            await ServiceProvider.Generator.Shuffle();
+            Player.Load(ServiceProvider.Generator.TrackList);
         }
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)
@@ -102,15 +99,13 @@ namespace Autobox.Desktop.Activities.Panels
             if (CurrenTrack != null)
             {
                 CurrenTrack.Rating = e.Rating;
-                await Library.UpdateTrackAsync(CurrenTrack);
+                await ServiceProvider.Library.UpdateTrackAsync(CurrenTrack);
             }
         }
 
         // ##### Events
         public EventHandler<TrackMetadataEventArgs> CurrentTrackChanged;
         // ##### Attributes
-        private readonly ILibrary Library;
-        private readonly IPlaylistManager Playlist;
         private enum EState { Playing, Paused };
         private EState State = EState.Paused;
         private TrackMetadata CurrenTrack = null;

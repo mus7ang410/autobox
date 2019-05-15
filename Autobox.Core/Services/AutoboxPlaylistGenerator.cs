@@ -10,9 +10,9 @@ using Autobox.Data;
 
 namespace Autobox.Services
 {
-    public class AutoboxPlaylistManager : IPlaylistManager
+    public class AutoboxPlaylistGenerator : IPlaylistGenerator
     {
-        public AutoboxPlaylistManager(ILibrary library)
+        public AutoboxPlaylistGenerator(ILibrary library)
         {
             Library = library;
             Shuffle();

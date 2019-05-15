@@ -8,7 +8,7 @@ using Autobox.Data;
 
 namespace Autobox.Services
 {
-    public interface IPlaylistManager
+    public interface IPlaylistGenerator
     {
         Task Shuffle();
 

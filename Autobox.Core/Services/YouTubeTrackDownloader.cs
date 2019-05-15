@@ -24,7 +24,7 @@ namespace Autobox.Services
         // ##### DownloadTrackAsync
         // Create a track from a YouTube link and add it to the linked library
         // Throw an exception if track already exists in library
-        public async Task<TrackMetadata> DownloadTrackAsync(ILibrary library, string link)
+        public async Task<TrackMetadata> DownloadTrackAsync(string link)
         {
             string id = ProcessTrackId(link);
             Video video = await Client.GetVideoAsync(link);
@@ -37,8 +37,8 @@ namespace Autobox.Services
                 Ext = video.FileExtension
             };
 
-            await DownloadVideoFile(library, video, id);
-            await DownloadThumbnailFile(library, id);
+            await DownloadVideoFile(video, id);
+            await DownloadThumbnailFile(id);
             return track;
         }
 
@@ -62,9 +62,9 @@ namespace Autobox.Services
         // ##### DownloadVideoFile
         // Download the music video from YouTube
         // Returns the video filename
-        private async Task DownloadVideoFile(ILibrary library, Video video, string id)
+        private async Task DownloadVideoFile(Video video, string id)
         {
-            string filepath = library.BuildVideoFilePath(id, video.FileExtension);
+            string filepath = ServiceProvider.BuildVideoFilePath(id, video.FileExtension);
 
             using (FileStream stream = File.Create(filepath))
             {
@@ -76,9 +76,9 @@ namespace Autobox.Services
         // ##### DownloadThumbnailFile
         // Download the thumbnail associated to a youtube video id
         // Returns the thumbnail filename
-        private async Task DownloadThumbnailFile(ILibrary library, string id)
+        private async Task DownloadThumbnailFile(string id)
         {
-            string filepath = library.BuildThumbnailFilePath(id);
+            string filepath = ServiceProvider.BuildThumbnailFilePath(id);
 
             using (WebClient client = new WebClient())
             using (FileStream stream = File.Create(filepath))

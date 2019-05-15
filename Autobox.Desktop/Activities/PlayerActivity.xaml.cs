@@ -15,7 +15,6 @@ using System.Windows.Shapes;
 
 using Autobox.Data;
 using Autobox.Services;
-using Autobox.Desktop.Services;
 
 namespace Autobox.Desktop.Activities
 {
@@ -26,11 +25,10 @@ namespace Autobox.Desktop.Activities
     {
         public PlayerActivity()
         {
-            Playlist = new AutoboxPlaylistManager(ServiceProvider.GetService<ILibrary>());
             InitializeComponent();
-            NoneOfTagPanel.TagSource = Playlist.Settings.NoneOfTagList;
-            AnyOfTagPanel.TagSource = Playlist.Settings.AnyOfTagList;
-            AllOfTagPanel.TagSource = Playlist.Settings.AllOfTagList;
+            NoneOfTagPanel.TagSource = ServiceProvider.Generator.Settings.NoneOfTagList;
+            AnyOfTagPanel.TagSource = ServiceProvider.Generator.Settings.AnyOfTagList;
+            AllOfTagPanel.TagSource = ServiceProvider.Generator.Settings.AllOfTagList;
             PlayerPanel.CurrentTrackChanged += delegate (object sender, TrackMetadataEventArgs e)
             {
                 Random r = new Random();
@@ -52,7 +50,5 @@ namespace Autobox.Desktop.Activities
 
         // ##### Events
         public EventHandler<ActivityBackgroundChangedEventArgs> ActivityBackgroundChanged { get; set; }
-        // ##### Attributes
-        private IPlaylistManager Playlist;
     }
 }

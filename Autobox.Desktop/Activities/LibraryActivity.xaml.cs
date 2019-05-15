@@ -19,7 +19,6 @@ using Microsoft.Win32;
 
 using Autobox.Data;
 using Autobox.Services;
-using Autobox.Desktop.Services;
 using Autobox.Desktop.Activities.Panels;
 
 namespace Autobox.Desktop.Activities
@@ -31,7 +30,6 @@ namespace Autobox.Desktop.Activities
     {
         public LibraryActivity()
         {
-            Library = ServiceProvider.GetService<ILibrary>();
             InitializeComponent();
             IncludedTagList.CollectionChanged += delegate (object sender, NotifyCollectionChangedEventArgs e) { UpdateFilteredList(); };
             IncludedTagPanel.TagSource = IncludedTagList;
@@ -92,7 +90,7 @@ namespace Autobox.Desktop.Activities
         {
             if (SelectedTracks.Count == 1)
             {
-                await Library.UpdateTrackAsync(SelectedTracks.First());
+                await ServiceProvider.Library.UpdateTrackAsync(SelectedTracks.First());
             }
             else
             {
@@ -100,7 +98,7 @@ namespace Autobox.Desktop.Activities
                 foreach (TrackMetadata track in SelectedTracks)
                 {
                     track.Tags.UnionWith(e.TagList);
-                    tasks.Add(Library.UpdateTrackAsync(track));
+                    tasks.Add(ServiceProvider.Library.UpdateTrackAsync(track));
                 }
                 await Task.WhenAll(tasks);
             }
@@ -112,7 +110,7 @@ namespace Autobox.Desktop.Activities
         {
             if (SelectedTracks.Count == 1)
             {
-                await Library.UpdateTrackAsync(SelectedTracks.First());
+                await ServiceProvider.Library.UpdateTrackAsync(SelectedTracks.First());
             }
             else
             {
@@ -120,7 +118,7 @@ namespace Autobox.Desktop.Activities
                 foreach (TrackMetadata track in SelectedTracks)
                 {
                     track.Tags.Remove(e.Tag);
-                    tasks.Add(Library.UpdateTrackAsync(track));
+                    tasks.Add(ServiceProvider.Library.UpdateTrackAsync(track));
                 }
                 await Task.WhenAll(tasks);
             }
@@ -136,14 +134,13 @@ namespace Autobox.Desktop.Activities
 
         private void UpdateFilteredList()
         {
-            List<TrackMetadata> filtered = Library.TrackList.Values.Where(track => track.MatchFilter(ExcludedTagList, IncludedTagList, TrackMetadata.EIncludeMatchType.Any)).ToList();
+            List<TrackMetadata> filtered = ServiceProvider.Library.TrackList.Values.Where(track => track.MatchFilter(ExcludedTagList, IncludedTagList, TrackMetadata.EIncludeMatchType.Any)).ToList();
             FilteredTrackList.SetTrackRange(filtered);
         }
 
         // ##### Events
         public EventHandler<ActivityBackgroundChangedEventArgs> ActivityBackgroundChanged { get; set; }
         // ##### Attributes
-        private readonly ILibrary Library;
         private readonly TrackCollection FilteredTrackList = new TrackCollection();
         private List<TrackMetadata> SelectedTracks = null;
         private TagCollection ExcludedTagList = new TagCollection();

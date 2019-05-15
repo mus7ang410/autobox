@@ -54,40 +54,52 @@ namespace Autobox.Services
         // Extract artists from recording releases
         private void ExtractArtists(TrackMetadata track, JObject recording)
         {
-            JToken artists = recording["releases"].First["artist-credit"];
-            foreach (JObject artist in artists)
+            try
             {
-                track.Tags.Add(artist["artist"]["name"].ToString().ToLower());
+                JToken artists = recording["releases"].First["artist-credit"];
+                foreach (JObject artist in artists)
+                {
+                    track.Tags.Add(artist["artist"]["name"].ToString().ToLower());
+                }
             }
+            catch (Exception) { }
         }
 
         // ##### ExtractPeriod
         // Generate period tag from recording
         private void ExtractPeriod(TrackMetadata track, JObject recording)
         {
-            JToken date = recording["releases"].First["date"];
-            int year = int.Parse(date.ToString().Substring(0, 4));
-            int decade = (year % 100) / 10;
-            track.Tags.Add($"{decade}0s");
+            try
+            {
+                JToken date = recording["releases"].First["date"];
+                int year = int.Parse(date.ToString().Substring(0, 4));
+                int decade = (year % 100) / 10;
+                track.Tags.Add($"{decade}0s");
+            }
+            catch (Exception) { }
         }
 
         // ##### ExtractTags
         // Extract tag from recording releases
         private void ExtractTags(TrackMetadata track, JObject recording)
         {
-            foreach (JObject release in recording["releases"])
+            try
             {
-                if (int.Parse(release["score"].ToString()) > 50)
+                foreach (JObject release in recording["releases"])
                 {
-                    if (release.ContainsKey("tags"))
+                    if (int.Parse(release["score"].ToString()) > 50)
                     {
-                        foreach (JObject tag in release["tags"])
+                        if (release.ContainsKey("tags"))
                         {
-                            track.Tags.Add(tag["name"].ToString().ToLower());
+                            foreach (JObject tag in release["tags"])
+                            {
+                                track.Tags.Add(tag["name"].ToString().ToLower());
+                            }
                         }
                     }
                 }
             }
+            catch (Exception) { }
         }
 
         // ##### Attributes

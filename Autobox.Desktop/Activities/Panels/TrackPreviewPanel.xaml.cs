@@ -16,7 +16,6 @@ using System.Windows.Shapes;
 
 using Autobox.Data;
 using Autobox.Services;
-using Autobox.Desktop.Services;
 using Autobox.Desktop.Activities.Controls;
 
 namespace Autobox.Desktop.Activities.Panels
@@ -30,7 +29,6 @@ namespace Autobox.Desktop.Activities.Panels
         {
             InitializeComponent();
             DataContext = this;
-            Library = ServiceProvider.GetService<ILibrary>();
             LoadTrack(null);
         }
 
@@ -119,7 +117,7 @@ namespace Autobox.Desktop.Activities.Panels
             if (SelectedTrack != null)
             {
                 SelectedTrack.Rating = e.Rating;
-                await Library.UpdateTrackAsync(SelectedTrack);
+                await ServiceProvider.Library.UpdateTrackAsync(SelectedTrack);
             }
         }
 
@@ -130,7 +128,7 @@ namespace Autobox.Desktop.Activities.Panels
                 try
                 {
                     SelectedTrack.Title = TitleTextBox.Text;
-                    await Library.UpdateTrackAsync(SelectedTrack);
+                    await ServiceProvider.Library.UpdateTrackAsync(SelectedTrack);
                     TrackUpdated?.Invoke(this, new TrackMetadataEventArgs(SelectedTrack));
                 }
                 catch (Exception exception)
@@ -158,7 +156,7 @@ namespace Autobox.Desktop.Activities.Panels
                 if (result == MessageBoxResult.OK)
                 {
                     TrackMetadata deletedTrack = UnloadTrack();
-                    await Library.DeleteTrackAsync(deletedTrack);
+                    await ServiceProvider.Library.DeleteTrackAsync(deletedTrack);
                     TrackDeleted?.Invoke(this, new TrackMetadataEventArgs(deletedTrack));
                 }
             }
@@ -168,7 +166,6 @@ namespace Autobox.Desktop.Activities.Panels
         public EventHandler<TrackMetadataEventArgs> TrackDeleted { get; set; }
         public EventHandler<TrackMetadataEventArgs> TrackUpdated { get; set; }
         // ##### Attributes
-        private readonly ILibrary Library;
         private TrackMetadata SelectedTrack = null;
         private enum EState { Idle, Playing, Failed }
         private EState State = EState.Idle;
