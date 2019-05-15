@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Autobox.Data
 {
-    public class TrackLibraryMetadata
+    public class LibraryMetadata
     {
         public string Name { get; set; }
         public List<TrackMetadata> Tracks { get; set; }

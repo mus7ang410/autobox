@@ -28,7 +28,7 @@ namespace Autobox.Desktop.Activities.Controls
         public TrackPlayer()
         {
             InitializeComponent();
-            Library = ServiceProvider.GetService<ITrackLibrary>();
+            Library = ServiceProvider.GetService<ILibrary>();
             MediaPlayer.Visibility = Visibility.Hidden;
             FadingTimer = new DispatcherTimer();
             FadingTimer.Tick += FadingTimer_Tick;
@@ -211,7 +211,7 @@ namespace Autobox.Desktop.Activities.Controls
         public Duration NaturalDuration => MediaPlayer.NaturalDuration;
         
         // ##### Attributes
-        private readonly ITrackLibrary Library;
+        private readonly ILibrary Library;
         // Fading
         private double FadingDurationFactor = 0;
         private TimeSpan FadingDuration;

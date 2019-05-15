@@ -29,7 +29,7 @@ namespace Autobox.Desktop.Activities.Panels
         public TrackPlayerPanel()
         {
             InitializeComponent();
-            Library = ServiceProvider.GetService<ITrackLibrary>();
+            Library = ServiceProvider.GetService<ILibrary>();
             Playlist = ServiceProvider.GetService<IPlaylistManager>();
             Player.Volume = SoundSlider.Value;
             RatingPanel.CanRate = false;
@@ -109,7 +109,7 @@ namespace Autobox.Desktop.Activities.Panels
         // ##### Events
         public EventHandler<TrackMetadataEventArgs> CurrentTrackChanged;
         // ##### Attributes
-        private readonly ITrackLibrary Library;
+        private readonly ILibrary Library;
         private readonly IPlaylistManager Playlist;
         private enum EState { Playing, Paused };
         private EState State = EState.Paused;

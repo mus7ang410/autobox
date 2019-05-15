@@ -52,7 +52,7 @@ namespace Autobox.Desktop.Activities.Panels
             Mouse.OverrideCursor = Cursors.Wait;
             try
             {
-                ITrackLibrary library = ServiceProvider.GetService<ITrackLibrary>();
+                ILibrary library = ServiceProvider.GetService<ILibrary>();
                 TrackMetadata track = await Downloader.DownloadTrackAsync(library, LinkTextBox.Text);
                 await Tagger.TagTrackAsync(track);
                 await library?.AddTrackAsync(track);

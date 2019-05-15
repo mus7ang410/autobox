@@ -12,7 +12,7 @@ namespace Autobox.Services
 {
     public class AutoboxPlaylistManager : IPlaylistManager
     {
-        public AutoboxPlaylistManager(ITrackLibrary library)
+        public AutoboxPlaylistManager(ILibrary library)
         {
             Library = library;
             Shuffle();
@@ -132,7 +132,7 @@ namespace Autobox.Services
         private int TotalRatingChance => RatingChances.Aggregate(0, (current, item) => { return current + item.Value; });
 
         // ##### Attributes
-        private readonly ITrackLibrary Library;
+        private readonly ILibrary Library;
         private readonly Random Rnd = new Random();
         public List<TrackMetadata> TrackList { get; private set; } = new List<TrackMetadata>();
     }

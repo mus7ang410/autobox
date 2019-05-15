@@ -24,7 +24,7 @@ namespace Autobox.Services
         // ##### DownloadTrackAsync
         // Create a track from a YouTube link and add it to the linked library
         // Throw an exception if track already exists in library
-        public async Task<TrackMetadata> DownloadTrackAsync(ITrackLibrary library, string link)
+        public async Task<TrackMetadata> DownloadTrackAsync(ILibrary library, string link)
         {
             string id = ProcessTrackId(link);
             Video video = await Client.GetVideoAsync(link);
@@ -62,7 +62,7 @@ namespace Autobox.Services
         // ##### DownloadVideoFile
         // Download the music video from YouTube
         // Returns the video filename
-        private async Task DownloadVideoFile(ITrackLibrary library, Video video, string id)
+        private async Task DownloadVideoFile(ILibrary library, Video video, string id)
         {
             string filepath = library.BuildVideoFilePath(id, video.FileExtension);
 
@@ -76,7 +76,7 @@ namespace Autobox.Services
         // ##### DownloadThumbnailFile
         // Download the thumbnail associated to a youtube video id
         // Returns the thumbnail filename
-        private async Task DownloadThumbnailFile(ITrackLibrary library, string id)
+        private async Task DownloadThumbnailFile(ILibrary library, string id)
         {
             string filepath = library.BuildThumbnailFilePath(id);
 

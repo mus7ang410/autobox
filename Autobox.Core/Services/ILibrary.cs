@@ -8,7 +8,7 @@ using Autobox.Data;
 
 namespace Autobox.Services
 {
-    public interface ITrackLibrary
+    public interface ILibrary
     {
         // ##### Interface
         Task LoadAllAsync();

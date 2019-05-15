@@ -18,11 +18,11 @@ namespace Autobox.Desktop
     {
         public App()
         {
-            Library = ServiceProvider.AddService<ITrackLibrary, TrackLibrary>(new TrackLibrary("Library"));
+            Library = ServiceProvider.AddService<ILibrary, Library>(new Library("Library"));
             Library.LoadAllAsync().Wait();
         }
 
         // ##### Application singletons
-        private readonly ITrackLibrary Library;
+        private readonly ILibrary Library;
     }
 }

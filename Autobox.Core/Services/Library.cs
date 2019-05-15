@@ -20,9 +20,9 @@ namespace Autobox.Services
         }
     }
 
-    public class TrackLibrary : ITrackLibrary
+    public class Library : ILibrary
     {
-        public TrackLibrary(string rootPath)
+        public Library(string rootPath)
         {
             RootPath = rootPath;
             if (!Directory.Exists(RootPath))

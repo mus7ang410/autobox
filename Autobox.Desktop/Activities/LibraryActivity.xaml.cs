@@ -31,7 +31,7 @@ namespace Autobox.Desktop.Activities
     {
         public LibraryActivity()
         {
-            Library = ServiceProvider.GetService<ITrackLibrary>();
+            Library = ServiceProvider.GetService<ILibrary>();
             InitializeComponent();
             IncludedTagList.CollectionChanged += delegate (object sender, NotifyCollectionChangedEventArgs e) { UpdateFilteredList(); };
             IncludedTagPanel.TagSource = IncludedTagList;
@@ -143,7 +143,7 @@ namespace Autobox.Desktop.Activities
         // ##### Events
         public EventHandler<ActivityBackgroundChangedEventArgs> ActivityBackgroundChanged { get; set; }
         // ##### Attributes
-        private readonly ITrackLibrary Library;
+        private readonly ILibrary Library;
         private readonly TrackCollection FilteredTrackList = new TrackCollection();
         private List<TrackMetadata> SelectedTracks = null;
         private TagCollection ExcludedTagList = new TagCollection();

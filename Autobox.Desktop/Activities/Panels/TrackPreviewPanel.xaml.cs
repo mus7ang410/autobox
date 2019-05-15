@@ -30,7 +30,7 @@ namespace Autobox.Desktop.Activities.Panels
         {
             InitializeComponent();
             DataContext = this;
-            Library = ServiceProvider.GetService<ITrackLibrary>();
+            Library = ServiceProvider.GetService<ILibrary>();
             LoadTrack(null);
         }
 
@@ -168,7 +168,7 @@ namespace Autobox.Desktop.Activities.Panels
         public EventHandler<TrackMetadataEventArgs> TrackDeleted { get; set; }
         public EventHandler<TrackMetadataEventArgs> TrackUpdated { get; set; }
         // ##### Attributes
-        private readonly ITrackLibrary Library;
+        private readonly ILibrary Library;
         private TrackMetadata SelectedTrack = null;
         private enum EState { Idle, Playing, Failed }
         private EState State = EState.Idle;

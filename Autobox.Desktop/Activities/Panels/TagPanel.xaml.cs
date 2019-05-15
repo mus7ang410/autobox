@@ -48,7 +48,7 @@ namespace Autobox.Desktop.Activities.Panels
         public TagPanel()
         {
             InitializeComponent();
-            Library = ServiceProvider.GetService<ITrackLibrary>();
+            Library = ServiceProvider.GetService<ILibrary>();
         }
 
         private void InputTextBox_KeyDown(object sender, KeyEventArgs e)
@@ -165,7 +165,7 @@ namespace Autobox.Desktop.Activities.Panels
         public EventHandler<TagRemovedEventArgs> TagRemoved { get; set; }
 
         // ##### Attributes
-        private readonly ITrackLibrary Library;
+        private readonly ILibrary Library;
         private HashSet<string> TagListCache = new HashSet<string>();
     }
 }
