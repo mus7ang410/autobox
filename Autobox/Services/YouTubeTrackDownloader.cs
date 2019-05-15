@@ -85,10 +85,13 @@ namespace Autobox.Services
         {
             string filepath = ServiceProvider.BuildVideoFilePath(id, video.FileExtension);
 
-            using (FileStream stream = File.Create(filepath))
+            if (!File.Exists(filepath))
             {
-                byte[] bytes = await video.GetBytesAsync();
-                await stream.WriteAsync(bytes, 0, bytes.Count());
+                using (FileStream stream = File.Create(filepath))
+                {
+                    byte[] bytes = await video.GetBytesAsync();
+                    await stream.WriteAsync(bytes, 0, bytes.Count());
+                }
             }
         }
 
@@ -99,11 +102,14 @@ namespace Autobox.Services
         {
             string filepath = ServiceProvider.BuildThumbnailFilePath(id);
 
-            using (WebClient client = new WebClient())
-            using (FileStream stream = File.Create(filepath))
+            if (!File.Exists(filepath))
             {
-                byte[] bytes = await client.DownloadDataTaskAsync($"http://img.youtube.com/vi/{id}/hqdefault.jpg");
-                await stream.WriteAsync(bytes, 0, bytes.Count());
+                using (WebClient client = new WebClient())
+                using (FileStream stream = File.Create(filepath))
+                {
+                    byte[] bytes = await client.DownloadDataTaskAsync($"http://img.youtube.com/vi/{id}/hqdefault.jpg");
+                    await stream.WriteAsync(bytes, 0, bytes.Count());
+                }
             }
         }
 
