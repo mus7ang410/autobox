@@ -26,7 +26,7 @@ namespace Autobox.Desktop.Activities
     {
         public PlayerActivity()
         {
-            Playlist = ServiceProvider.GetService<IPlaylistManager>();
+            Playlist = new AutoboxPlaylistManager(ServiceProvider.GetService<ITrackLibrary>());
             InitializeComponent();
             NoneOfTagPanel.TagSource = Playlist.Settings.NoneOfTagList;
             AnyOfTagPanel.TagSource = Playlist.Settings.AnyOfTagList;
