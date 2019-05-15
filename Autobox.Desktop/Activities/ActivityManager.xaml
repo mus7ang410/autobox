@@ -1,12 +1,14 @@
-﻿<UserControl x:Class="Autobox.Desktop.Activities.ActivityManager"
+﻿<UserControl
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Autobox.Desktop.Activities"
+             xmlns:Controls="clr-namespace:Autobox.Desktop.Activities.Controls" x:Class="Autobox.Desktop.Activities.ActivityManager"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid x:Name="LayoutGrid" Background="{StaticResource BackColor}">
+
+    <Grid x:Name="LayoutGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="{StaticResource H0.GridLength}"/>
             <RowDefinition/>
@@ -26,5 +28,6 @@
                 </Button.OpacityMask>
             </Button>
         </DockPanel>
+        <Controls:DynamicBackground x:Name="DynamicBackground" Grid.Row="1"/>
     </Grid>
 </UserControl>

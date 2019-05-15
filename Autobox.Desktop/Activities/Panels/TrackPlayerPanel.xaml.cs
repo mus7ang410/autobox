@@ -15,9 +15,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using Autobox.Core.Data;
-using Autobox.Core.Services;
-using Autobox.Desktop.Services;
+using Autobox.Data;
+using Autobox.Services;
 
 namespace Autobox.Desktop.Activities.Panels
 {
@@ -29,8 +28,6 @@ namespace Autobox.Desktop.Activities.Panels
         public TrackPlayerPanel()
         {
             InitializeComponent();
-            Library = ServiceProvider.GetService<ITrackLibrary>();
-            Playlist = ServiceProvider.GetService<IPlaylistManager>();
             Player.Volume = SoundSlider.Value;
             RatingPanel.CanRate = false;
         }
@@ -51,8 +48,8 @@ namespace Autobox.Desktop.Activities.Panels
 
         private async void ShuffleButton_Click(object sender, RoutedEventArgs e)
         {
-            await Playlist.Shuffle();
-            Player.Load(Playlist.TrackList);
+            await ServiceProvider.Generator.Shuffle();
+            Player.Load(ServiceProvider.Generator.TrackList);
         }
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)
@@ -80,7 +77,7 @@ namespace Autobox.Desktop.Activities.Panels
             }
         }
 
-        private void Player_CurrentTrackChanged(object sender, TrackEventArgs e)
+        private void Player_CurrentTrackChanged(object sender, TrackMetadataEventArgs e)
         {
             CurrenTrack = e.Track;
             if (CurrenTrack != null)
@@ -94,6 +91,7 @@ namespace Autobox.Desktop.Activities.Panels
                 CurrentTrackTitle.Content = "NO PLAYING TRACK";
                 RatingPanel.CanRate = false;
             }
+            CurrentTrackChanged?.Invoke(this, e);
         }
 
         private async void RatingPanel_RatingChanged(object sender, RatingChangedEventArgs e)
@@ -101,15 +99,15 @@ namespace Autobox.Desktop.Activities.Panels
             if (CurrenTrack != null)
             {
                 CurrenTrack.Rating = e.Rating;
-                await Library.UpdateTrackAsync(CurrenTrack);
+                await ServiceProvider.Library.UpdateTrackAsync(CurrenTrack);
             }
         }
 
-        // ##### Attrib
-        private readonly ITrackLibrary Library;
-        private readonly IPlaylistManager Playlist;
+        // ##### Events
+        public EventHandler<TrackMetadataEventArgs> CurrentTrackChanged;
+        // ##### Attributes
         private enum EState { Playing, Paused };
         private EState State = EState.Paused;
-        private Track CurrenTrack = null;
+        private TrackMetadata CurrenTrack = null;
     }
 }

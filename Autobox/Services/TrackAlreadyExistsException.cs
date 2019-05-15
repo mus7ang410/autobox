@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Autobox.Core.Services
+namespace Autobox.Services
 {
     public class TrackAlreadyExistsException : Exception
     {

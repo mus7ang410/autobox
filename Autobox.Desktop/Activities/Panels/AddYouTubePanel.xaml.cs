@@ -13,9 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using Autobox.Core.Data;
-using Autobox.Core.Services;
-using Autobox.Desktop.Services;
+using Autobox.Data;
+using Autobox.Services;
 
 namespace Autobox.Desktop.Activities.Panels
 {
@@ -27,7 +26,6 @@ namespace Autobox.Desktop.Activities.Panels
         public AddYouTubePanel()
         {
             InitializeComponent();
-            Library = ServiceProvider.GetService<ITrackLibrary>();
         }
 
         private async void LinkTextBox_KeyDown(object sender, KeyEventArgs e)
@@ -51,8 +49,10 @@ namespace Autobox.Desktop.Activities.Panels
             Mouse.OverrideCursor = Cursors.Wait;
             try
             {
-                Track track = await Library.CreateTrackAsync(LinkTextBox.Text);
-                CreateTrack?.Invoke(this, track);
+                TrackMetadata track = await ServiceProvider.Downloader.DownloadTrackAsync(LinkTextBox.Text);
+                await ServiceProvider.Tagger.TagTrackAsync(track);
+                await ServiceProvider.Library.AddTrackAsync(track);
+                CreateTrack?.Invoke(this, new TrackMetadataEventArgs(track));
             }
             catch (Exception exception)
             {
@@ -72,17 +72,14 @@ namespace Autobox.Desktop.Activities.Panels
         // ##### Properties
         public static readonly DependencyProperty CreateTrackProperty =
             DependencyProperty.Register("CreateTrack", 
-                typeof(EventHandler<Track>),
+                typeof(EventHandler<TrackMetadataEventArgs>),
                 typeof(AddYouTubePanel), 
                 new PropertyMetadata());
 
-        public EventHandler<Track> CreateTrack
+        public EventHandler<TrackMetadataEventArgs> CreateTrack
         {
-            get { return (EventHandler<Track>)GetValue(CreateTrackProperty); }
+            get { return (EventHandler<TrackMetadataEventArgs>)GetValue(CreateTrackProperty); }
             set { SetValue(CreateTrackProperty, value); }
         }
-
-        // ##### Attributes
-        private readonly ITrackLibrary Library;
     }
 }

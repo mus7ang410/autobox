@@ -13,8 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using Autobox.Core.Services;
-using Autobox.Desktop.Services;
+using Autobox.Data;
+using Autobox.Services;
 
 namespace Autobox.Desktop.Activities
 {
@@ -25,11 +25,17 @@ namespace Autobox.Desktop.Activities
     {
         public PlayerActivity()
         {
-            Playlist = ServiceProvider.GetService<IPlaylistManager>();
             InitializeComponent();
-            NoneOfTagPanel.TagSource = Playlist.Settings.NoneOfTagList;
-            AnyOfTagPanel.TagSource = Playlist.Settings.AnyOfTagList;
-            AllOfTagPanel.TagSource = Playlist.Settings.AllOfTagList;
+            NoneOfTagPanel.TagSource = ServiceProvider.Generator.Settings.NoneOfTagList;
+            AnyOfTagPanel.TagSource = ServiceProvider.Generator.Settings.AnyOfTagList;
+            AllOfTagPanel.TagSource = ServiceProvider.Generator.Settings.AllOfTagList;
+            PlayerPanel.CurrentTrackChanged += delegate (object sender, TrackMetadataEventArgs e)
+            {
+                Random r = new Random();
+                ActivityBackgroundChanged?.Invoke(this, new ActivityBackgroundChangedEventArgs(
+                    Color.FromArgb(255, (byte)r.Next(1, 255), (byte)r.Next(1, 255), (byte)r.Next(1, 255))
+                    ));
+            };
         }
 
         public void OnActivated()
@@ -42,7 +48,7 @@ namespace Autobox.Desktop.Activities
             PlayerPanel.Pause();
         }
 
-        // ##### Attributes
-        private IPlaylistManager Playlist;
+        // ##### Events
+        public EventHandler<ActivityBackgroundChangedEventArgs> ActivityBackgroundChanged { get; set; }
     }
 }

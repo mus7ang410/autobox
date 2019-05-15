@@ -14,9 +14,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using Autobox.Core.Data;
-using Autobox.Core.Services;
-using Autobox.Desktop.Services;
+using Autobox.Data;
+using Autobox.Services;
 
 namespace Autobox.Desktop.Activities.Panels
 {
@@ -48,7 +47,6 @@ namespace Autobox.Desktop.Activities.Panels
         public TagPanel()
         {
             InitializeComponent();
-            Library = ServiceProvider.GetService<ITrackLibrary>();
         }
 
         private void InputTextBox_KeyDown(object sender, KeyEventArgs e)
@@ -68,7 +66,7 @@ namespace Autobox.Desktop.Activities.Panels
         // Tags creation and adding business
         private void AddTags()
         {
-            TagSource.UnionWith(Library.CreateTagList(InputTextBox.Text));
+            TagSource.UnionWith(Autobox.Data.Tag.CreateTagCollection(InputTextBox.Text));
             InputTextBox.Text = string.Empty;
             TagWrapPanel_Populate();
             TagAdded?.Invoke(this, new TagAddedEventArgs(TagSource));
@@ -165,7 +163,6 @@ namespace Autobox.Desktop.Activities.Panels
         public EventHandler<TagRemovedEventArgs> TagRemoved { get; set; }
 
         // ##### Attributes
-        private readonly ITrackLibrary Library;
         private HashSet<string> TagListCache = new HashSet<string>();
     }
 }

@@ -14,9 +14,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using Autobox.Core.Data;
-using Autobox.Core.Services;
-using Autobox.Desktop.Services;
+using Autobox.Data;
+using Autobox.Services;
 using Autobox.Desktop.Activities.Controls;
 
 namespace Autobox.Desktop.Activities.Panels
@@ -30,11 +29,10 @@ namespace Autobox.Desktop.Activities.Panels
         {
             InitializeComponent();
             DataContext = this;
-            Library = ServiceProvider.GetService<ITrackLibrary>();
             LoadTrack(null);
         }
 
-        public void LoadTrack(Track track)
+        public void LoadTrack(TrackMetadata track)
         {
             SelectedTrack = track;
             if (SelectedTrack != null)
@@ -58,14 +56,14 @@ namespace Autobox.Desktop.Activities.Panels
             }
         }
 
-        public Track UnloadTrack()
+        public TrackMetadata UnloadTrack()
         {
             TrackPlayer.CurrentTrack = null;
             TitleTextBox.Text = string.Empty;
             TitleTextBox.IsEnabled = false;
             RatingPanel.CanRate = false;
             PlayButton.OpacityMask = FindResource("IconButton.Brushes.Play") as Brush;
-            Track unloadedTrack = SelectedTrack;
+            TrackMetadata unloadedTrack = SelectedTrack;
             SelectedTrack = null;
             return unloadedTrack;
         }
@@ -119,7 +117,7 @@ namespace Autobox.Desktop.Activities.Panels
             if (SelectedTrack != null)
             {
                 SelectedTrack.Rating = e.Rating;
-                await Library.UpdateTrackAsync(SelectedTrack);
+                await ServiceProvider.Library.UpdateTrackAsync(SelectedTrack);
             }
         }
 
@@ -130,8 +128,8 @@ namespace Autobox.Desktop.Activities.Panels
                 try
                 {
                     SelectedTrack.Title = TitleTextBox.Text;
-                    await Library.UpdateTrackAsync(SelectedTrack);
-                    TrackUpdated?.Invoke(this, new TrackEventArgs(SelectedTrack));
+                    await ServiceProvider.Library.UpdateTrackAsync(SelectedTrack);
+                    TrackUpdated?.Invoke(this, new TrackMetadataEventArgs(SelectedTrack));
                 }
                 catch (Exception exception)
                 {
@@ -157,19 +155,18 @@ namespace Autobox.Desktop.Activities.Panels
 
                 if (result == MessageBoxResult.OK)
                 {
-                    Track deletedTrack = UnloadTrack();
-                    await Library.DeleteTrackAsync(deletedTrack);
-                    TrackDeleted?.Invoke(this, new TrackEventArgs(deletedTrack));
+                    TrackMetadata deletedTrack = UnloadTrack();
+                    await ServiceProvider.Library.DeleteTrackAsync(deletedTrack);
+                    TrackDeleted?.Invoke(this, new TrackMetadataEventArgs(deletedTrack));
                 }
             }
         }
 
         // ##### Events
-        public EventHandler<TrackEventArgs> TrackDeleted { get; set; }
-        public EventHandler<TrackEventArgs> TrackUpdated { get; set; }
+        public EventHandler<TrackMetadataEventArgs> TrackDeleted { get; set; }
+        public EventHandler<TrackMetadataEventArgs> TrackUpdated { get; set; }
         // ##### Attributes
-        private readonly ITrackLibrary Library;
-        private Track SelectedTrack = null;
+        private TrackMetadata SelectedTrack = null;
         private enum EState { Idle, Playing, Failed }
         private EState State = EState.Idle;
     }

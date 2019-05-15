@@ -15,19 +15,18 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using Autobox.Core.Data;
-using Autobox.Desktop.Services;
+using Autobox.Data;
 
 namespace Autobox.Desktop.Activities.Panels
 {
     public class TrackSelectionChangedEventArgs : EventArgs
     {
-        public TrackSelectionChangedEventArgs(List<Track> selectedTracks)
+        public TrackSelectionChangedEventArgs(List<TrackMetadata> selectedTracks)
         {
             SelectedTracks = selectedTracks;
         }
 
-        public readonly List<Track> SelectedTracks;
+        public readonly List<TrackMetadata> SelectedTracks;
     }
 
     /// <summary>
@@ -46,10 +45,10 @@ namespace Autobox.Desktop.Activities.Panels
 
         private void TrackListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            List<Track> selectedTracks = new List<Track>();
+            List<TrackMetadata> selectedTracks = new List<TrackMetadata>();
             foreach (object obj in TrackListView.SelectedItems)
             {
-                selectedTracks.Add(obj as Track);
+                selectedTracks.Add(obj as TrackMetadata);
             }
             TrackSelectionChanged?.Invoke(this, new TrackSelectionChangedEventArgs(selectedTracks));
         }
@@ -73,7 +72,7 @@ namespace Autobox.Desktop.Activities.Panels
 
         private void TrackCollection_Filter(object sender, FilterEventArgs e)
         {
-            e.Accepted = (e.Item as Track).MatchFilter(TitleFilter);
+            e.Accepted = (e.Item as TrackMetadata).MatchFilter(TitleFilter);
         }
 
         // ##### Events
@@ -111,13 +110,13 @@ namespace Autobox.Desktop.Activities.Panels
         // SelectedTrack
         public static readonly DependencyProperty SelectedTrackProperty = DependencyProperty.Register(
             "SelectedTrack",
-            typeof(Track),
+            typeof(TrackMetadata),
             typeof(TrackListPanel),
             new PropertyMetadata());
 
-        public Track SelectedTrack
+        public TrackMetadata SelectedTrack
         {
-            get { return GetValue(SelectedTrackProperty) as Track; }
+            get { return GetValue(SelectedTrackProperty) as TrackMetadata; }
             set
             {
                 SetValue(SelectedTrackProperty, value);

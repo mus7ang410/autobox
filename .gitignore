@@ -8,3 +8,5 @@ packages/
 Autobox.Desktop/bin/
 Autobox.Desktop/obj/
 .vs/
+Autobox/obj/
+Autobox/bin/

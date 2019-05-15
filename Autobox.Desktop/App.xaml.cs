@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 
-using Autobox.Core.Services;
-using Autobox.Desktop.Services;
+using Autobox.Services;
 
 namespace Autobox.Desktop
 {
@@ -18,13 +18,7 @@ namespace Autobox.Desktop
     {
         public App()
         {
-            Library = ServiceProvider.AddService<ITrackLibrary, TrackLibrary>(new TrackLibrary("Library"));
-            Library.LoadAllAsync().Wait();
-            Playlist = ServiceProvider.AddService<IPlaylistManager, AutoboxPlaylistManager>(new AutoboxPlaylistManager(Library));
+            ServiceProvider.Init(Path.Combine(Directory.GetCurrentDirectory(), "Library"));
         }
-
-        // ##### Application singletons
-        private readonly ITrackLibrary Library;
-        private readonly IPlaylistManager Playlist;
     }
 }

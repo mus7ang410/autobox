@@ -11,4 +11,9 @@
         <Setter Property="FontSize" Value="14"/>
     </Style>
 
+    <Style x:Key="CardBackground" TargetType="Grid">
+        <Setter Property="Background" Value="{StaticResource PrimaryColor}"/>
+        <Setter Property="Opacity" Value="0.75"/>
+    </Style>
+
 </ResourceDictionary>

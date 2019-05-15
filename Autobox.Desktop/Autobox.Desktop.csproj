@@ -81,6 +81,9 @@
     <Compile Include="Activities\ActivityManager.xaml.cs">
       <DependentUpon>ActivityManager.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Activities\Controls\DynamicBackground.xaml.cs">
+      <DependentUpon>DynamicBackground.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Activities\Controls\SoundSlider.xaml.cs">
       <DependentUpon>SoundSlider.xaml</DependentUpon>
     </Compile>
@@ -122,8 +125,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Services\ServiceProvider.cs" />
     <Page Include="Activities\ActivityManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Activities\Controls\DynamicBackground.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -224,12 +230,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Autobox.Core\Autobox.Core.csproj">
-      <Project>{92000dae-8ef5-47cb-96d7-a537f059f7df}</Project>
-      <Name>Autobox.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\PauseIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -304,6 +304,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Autobox_256.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Autobox\Autobox.csproj">
+      <Project>{863038dd-c312-45e7-9af0-b65bbb7834df}</Project>
+      <Name>Autobox</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

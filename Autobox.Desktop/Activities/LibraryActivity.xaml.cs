@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Specialized;
@@ -14,11 +15,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Microsoft.Win32;
 
-using Autobox.Core.Data;
-using Autobox.Core.Services;
-using Autobox.Desktop.Services;
+using Autobox.Data;
+using Autobox.Services;
 using Autobox.Desktop.Activities.Panels;
 
 namespace Autobox.Desktop.Activities
@@ -30,7 +30,6 @@ namespace Autobox.Desktop.Activities
     {
         public LibraryActivity()
         {
-            Library = ServiceProvider.GetService<ITrackLibrary>();
             InitializeComponent();
             IncludedTagList.CollectionChanged += delegate (object sender, NotifyCollectionChangedEventArgs e) { UpdateFilteredList(); };
             IncludedTagPanel.TagSource = IncludedTagList;
@@ -49,6 +48,54 @@ namespace Autobox.Desktop.Activities
 
         }
 
+        private async void ImportButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog
+            {
+                Multiselect = false,
+                Filter = $"Autobox Libary File (*{ServiceProvider.LibraryMetadataFileExt})| *{ServiceProvider.LibraryMetadataFileExt}",
+                DefaultExt = ServiceProvider.LibraryMetadataFileExt,
+                InitialDirectory = ServiceProvider.LibraryDirectory
+            };
+
+            if (dialog.ShowDialog() == true)
+            {
+                Cursor previousCursor = Mouse.OverrideCursor;
+                Mouse.OverrideCursor = Cursors.Wait;
+                try
+                {
+                    await ServiceProvider.ImportLibraryAsync(dialog.FileName);
+                    UpdateFilteredList();
+                }
+                catch (Exception exception)
+                {
+                    MessageBox.Show(
+                        exception.Message,
+                        "Cannot import library",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                }
+                finally
+                {
+                    Mouse.OverrideCursor = previousCursor;
+                }
+            }
+        }
+
+        private void ExportButton_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog dialog = new SaveFileDialog
+            {
+                Filter = $"Autobox Libary File (*{ServiceProvider.LibraryMetadataFileExt})| *{ServiceProvider.LibraryMetadataFileExt}",
+                InitialDirectory = ServiceProvider.LibraryDirectory
+            };
+
+            if (dialog.ShowDialog() == true)
+            {
+                ServiceProvider.ExportLibrary(dialog.FileName);
+            }
+        }
+
         private void FilteredTrackListPanel_TrackSelectionChanged(object sender, TrackSelectionChangedEventArgs e)
         {
             SelectedTracks = e.SelectedTracks;
@@ -64,11 +111,16 @@ namespace Autobox.Desktop.Activities
                 PreviewPanel.LoadTrack(e.SelectedTracks.First());
                 SelectedTrackTagPanel.IsMultipleSelection = false;
                 SelectedTrackTagPanel.TagSource = SelectedTracks.First()?.Tags;
+
+                Random r = new Random();
+                ActivityBackgroundChanged?.Invoke(this, new ActivityBackgroundChangedEventArgs(
+                    Color.FromArgb(255, (byte)r.Next(1, 255), (byte)r.Next(1, 255), (byte)r.Next(1, 255))
+                    ));
             }
             else
             {
                 MultipleTagList = new TagCollection(SelectedTracks.First().Tags);
-                foreach (Track track in e.SelectedTracks.GetRange(1, e.SelectedTracks.Count - 1))
+                foreach (TrackMetadata track in e.SelectedTracks.GetRange(1, e.SelectedTracks.Count - 1))
                 {
                     MultipleTagList.IntersectWith(track.Tags);
                 }
@@ -77,7 +129,7 @@ namespace Autobox.Desktop.Activities
             }
         }
 
-        private void PreviewPanel_TrackDeleted(object sender, TrackEventArgs e)
+        private void PreviewPanel_TrackDeleted(object sender, TrackMetadataEventArgs e)
         {
             FilteredTrackList.Remove(e.Track);
         }
@@ -86,15 +138,15 @@ namespace Autobox.Desktop.Activities
         {
             if (SelectedTracks.Count == 1)
             {
-                await Library.UpdateTrackAsync(SelectedTracks.First());
+                await ServiceProvider.Library.UpdateTrackAsync(SelectedTracks.First());
             }
             else
             {
                 List<Task> tasks = new List<Task>();
-                foreach (Track track in SelectedTracks)
+                foreach (TrackMetadata track in SelectedTracks)
                 {
                     track.Tags.UnionWith(e.TagList);
-                    tasks.Add(Library.UpdateTrackAsync(track));
+                    tasks.Add(ServiceProvider.Library.UpdateTrackAsync(track));
                 }
                 await Task.WhenAll(tasks);
             }
@@ -106,15 +158,15 @@ namespace Autobox.Desktop.Activities
         {
             if (SelectedTracks.Count == 1)
             {
-                await Library.UpdateTrackAsync(SelectedTracks.First());
+                await ServiceProvider.Library.UpdateTrackAsync(SelectedTracks.First());
             }
             else
             {
                 List<Task> tasks = new List<Task>();
-                foreach (Track track in SelectedTracks)
+                foreach (TrackMetadata track in SelectedTracks)
                 {
                     track.Tags.Remove(e.Tag);
-                    tasks.Add(Library.UpdateTrackAsync(track));
+                    tasks.Add(ServiceProvider.Library.UpdateTrackAsync(track));
                 }
                 await Task.WhenAll(tasks);
             }
@@ -122,22 +174,23 @@ namespace Autobox.Desktop.Activities
             UpdateFilteredList();
         }
 
-        private void AddYouTubePanel_CreateTrack(object sender, Track track)
+        private void AddYouTubePanel_CreateTrack(object sender, TrackMetadataEventArgs e)
         {
-            FilteredTrackList.Add(track);
-            FilteredTrackListPanel.SelectedTrack = track;
+            FilteredTrackList.Add(e.Track);
+            FilteredTrackListPanel.SelectedTrack = e.Track;
         }
 
         private void UpdateFilteredList()
         {
-            List<Track> filtered = Library.TrackList.Values.Where(track => track.MatchFilter(ExcludedTagList, IncludedTagList, Track.EIncludeMatchType.Any)).ToList();
+            List<TrackMetadata> filtered = ServiceProvider.Library.TrackList.Values.Where(track => track.MatchFilter(ExcludedTagList, IncludedTagList, TrackMetadata.EIncludeMatchType.Any)).ToList();
             FilteredTrackList.SetTrackRange(filtered);
         }
 
+        // ##### Events
+        public EventHandler<ActivityBackgroundChangedEventArgs> ActivityBackgroundChanged { get; set; }
         // ##### Attributes
-        private readonly ITrackLibrary Library;
         private readonly TrackCollection FilteredTrackList = new TrackCollection();
-        private List<Track> SelectedTracks = null;
+        private List<TrackMetadata> SelectedTracks = null;
         private TagCollection ExcludedTagList = new TagCollection();
         private TagCollection IncludedTagList = new TagCollection();
         private TagCollection MultipleTagList = new TagCollection();
