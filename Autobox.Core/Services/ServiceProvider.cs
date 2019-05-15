@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 using Autobox.Data;
@@ -48,6 +49,16 @@ namespace Autobox.Services
             Library.Load(LibraryDirectory);
         }
 
+        public static Task ImportLibraryAsync(string filename)
+        {
+            string json = File.ReadAllText(filename);
+            LibraryMetadata metadata = JsonConvert.DeserializeObject<LibraryMetadata>(json);
+            return Task.WhenAll(
+                Downloader.DownloadLibraryAsync(metadata),
+                Library.ImportAsync(metadata)
+                );
+        }
+
         public static void ExportLibrary(string filename)
         {
             File.WriteAllText(filename, JsonConvert.SerializeObject(Library.Export(), Formatting.Indented));
@@ -61,5 +72,7 @@ namespace Autobox.Services
         public static string LibraryDirectory { get; private set; }
         public static readonly ILibrary Library = new Library();
         public static readonly IPlaylistGenerator Generator = new AutoboxPlaylistGenerator(Library);
+        public static readonly ITrackDownloader Downloader = new YouTubeTrackDownloader();
+        public static readonly ITrackTagger Tagger = new MusicBrainzTrackTagger();
     }
 }

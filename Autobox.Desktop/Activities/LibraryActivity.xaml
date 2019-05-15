@@ -15,7 +15,7 @@
         <Rectangle Fill="{StaticResource PrimaryColor}" Panel.ZIndex="-1"/>
         <DockPanel LastChildFill="True">
             <Separator Width="{StaticResource H2.Double}" Background="{x:Null}"/>
-            <Button x:Name="LoadButton" Style="{StaticResource TextButton}" Content="LOAD" Click="LoadButton_Click"/>
+            <Button x:Name="ImportButton" Style="{StaticResource TextButton}" Content="IMPORT" Click="ImportButton_Click"/>
             <Separator Width="{StaticResource H2.Double}" Background="{x:Null}"/>
             <Button x:Name="ExportButton" Style="{StaticResource TextButton}" Content="EXPORT" Click="ExportButton_Click"/>
             <Separator Background="{x:Null}"/>

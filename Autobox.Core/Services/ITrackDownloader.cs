@@ -10,5 +10,6 @@ namespace Autobox.Services
     public interface ITrackDownloader
     {
         Task<TrackMetadata> DownloadTrackAsync(string url);
+        Task DownloadLibraryAsync(LibraryMetadata library);
     }
 }

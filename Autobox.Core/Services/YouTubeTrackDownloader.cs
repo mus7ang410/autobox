@@ -37,9 +37,28 @@ namespace Autobox.Services
                 Ext = video.FileExtension
             };
 
-            await DownloadVideoFile(video, id);
-            await DownloadThumbnailFile(id);
+            await Task.WhenAll(
+                DownloadVideoFile(video, id),
+                DownloadThumbnailFile(id)
+                );
+
             return track;
+        }
+
+        // ##### DownloadLibraryAsync
+        // Download a whole library
+        public async Task DownloadLibraryAsync(LibraryMetadata library)
+        {
+            List<Task> tasks = new List<Task>();
+            foreach (TrackMetadata track in library.Tracks)
+            {
+                Video video = await Client.GetVideoAsync($"https://www.youtube.com/watch?v={track.Id}");
+                string title = ProcessTrackTitle(video);
+
+                tasks.Add(DownloadVideoFile(video, track.Id));
+                tasks.Add(DownloadThumbnailFile(track.Id));
+            }
+            await Task.WhenAll(tasks);
         }
 
         // ##### ProcessTrackId

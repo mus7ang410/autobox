@@ -12,6 +12,7 @@ namespace Autobox.Services
     {
         // ##### Interface
         void Load(string directory);
+        Task ImportAsync(LibraryMetadata library);
         LibraryMetadata Export();
 
         Task AddTrackAsync(TrackMetadata track);

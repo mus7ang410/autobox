@@ -18,7 +18,7 @@ namespace Autobox.Desktop
     {
         public App()
         {
-            ServiceProvider.Init(Path.Combine(Directory.GetCurrentDirectory(), "Default"));
+            ServiceProvider.Init(Path.Combine(Directory.GetCurrentDirectory(), "Library"));
         }
     }
 }

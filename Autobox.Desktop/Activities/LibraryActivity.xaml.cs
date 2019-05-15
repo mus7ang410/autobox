@@ -48,24 +48,39 @@ namespace Autobox.Desktop.Activities
 
         }
 
-
-        private void LoadButton_Click(object sender, RoutedEventArgs e)
+        private async void ImportButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog
             {
                 Multiselect = false,
-                Filter = $"Libary file (*{ServiceProvider.LibraryMetadataFileExt})| *{ServiceProvider.LibraryMetadataFileExt}",
+                Filter = $"Autobox Libary File (*{ServiceProvider.LibraryMetadataFileExt})| *{ServiceProvider.LibraryMetadataFileExt}",
                 DefaultExt = ServiceProvider.LibraryMetadataFileExt,
                 InitialDirectory = ServiceProvider.LibraryDirectory
             };
 
             if (dialog.ShowDialog() == true)
             {
-                ServiceProvider.LoadLibrary(Path.GetDirectoryName(dialog.FileName));
+                Cursor previousCursor = Mouse.OverrideCursor;
+                Mouse.OverrideCursor = Cursors.Wait;
+                try
+                {
+                    await ServiceProvider.ImportLibraryAsync(dialog.FileName);
+                    UpdateFilteredList();
+                }
+                catch (Exception exception)
+                {
+                    MessageBox.Show(
+                        exception.Message,
+                        "Cannot import library",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                }
+                finally
+                {
+                    Mouse.OverrideCursor = previousCursor;
+                }
             }
         }
-
-
 
         private void ExportButton_Click(object sender, RoutedEventArgs e)
         {

@@ -40,6 +40,28 @@ namespace Autobox.Services
             }
         }
 
+        // ##### ImportAsync
+        // Import library from metadata
+        public async Task ImportAsync(LibraryMetadata library)
+        {
+            List<Task> tasks = new List<Task>();
+            foreach (TrackMetadata track in library.Tracks)
+            {
+                if (TrackList.ContainsKey(track.Id))
+                {
+                    TagList.UnionWith(track.Tags);
+                    tasks.Add(UpdateTrackAsync(track));
+                }
+                else
+                {
+                    TrackList[track.Id].Tags.UnionWith(track.Tags);
+                    TagList.UnionWith(track.Tags);
+                    tasks.Add(UpdateTrackAsync(track));
+                }
+            }
+            await Task.WhenAll(tasks);
+        }
+
         // ##### Export
         // Export library metadata
         public LibraryMetadata Export()
