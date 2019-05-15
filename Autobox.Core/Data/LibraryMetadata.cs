@@ -6,6 +6,6 @@ namespace Autobox.Data
 {
     public class LibraryMetadata
     {
-        public readonly List<TrackMetadata> Tracks = new List<TrackMetadata>();
+        public List<TrackMetadata> Tracks { get; set; }
     }
 }

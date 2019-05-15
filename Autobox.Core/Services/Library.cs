@@ -24,23 +24,30 @@ namespace Autobox.Services
     {
         // ##### Load
         // Load the whole library
-        public void Load(string filepath, LibraryMetadata metadata)
+        public void Load(string directory)
         {
-            MetadataFilepath = filepath;
-            Metadata = metadata;
-            TrackList = Metadata.Tracks.ToDictionary(track => track.Id, track => track);
-            foreach (TrackMetadata track in TrackList.Values)
+            List<string> metadataFiles = Directory.EnumerateFiles(directory, "*" + ServiceProvider.MetadataFileExt).ToList();
+
+            foreach (string metadataFile in metadataFiles)
             {
-                TagList.UnionWith(track.Tags);
+                string json = File.ReadAllText(metadataFile);
+                TrackMetadata track = ProcessLoadedTrack(JsonConvert.DeserializeObject<TrackMetadata>(json));
+                if (!TrackList.ContainsKey(track.Title))
+                {
+                    TrackList.Add(track.Title, track);
+                    TagList.UnionWith(track.Tags);
+                }
             }
         }
 
-        // ##### Save
-        // Save metadata file
-        private void Save()
+        // ##### Export
+        // Export library metadata
+        public LibraryMetadata Export()
         {
-            string json = JsonConvert.SerializeObject(Metadata, Formatting.Indented);
-            File.WriteAllText(MetadataFilepath, json);
+            return new LibraryMetadata
+            {
+                Tracks = TrackList.Values.ToList()
+            };
         }
 
         // ##### ProcessLoadedTrack
@@ -64,8 +71,6 @@ namespace Autobox.Services
             await UpdateTrackMetadataAsync(track);
             TrackList.Add(track.Title, track);
             TagList.UnionWith(track.Tags);
-            Metadata.Tracks.Add(track);
-            Save();
         }
 
         // ##### UpdateTrackAsync
@@ -80,8 +85,6 @@ namespace Autobox.Services
             File.Delete(ServiceProvider.GetVideoFilepath(track));
             File.Delete(ServiceProvider.GetThumbnailFilepath(track));
             TrackList.Remove(track.Title);
-            Metadata.Tracks.Remove(track);
-            Save();
             return Task.CompletedTask;
         }
 
@@ -99,9 +102,6 @@ namespace Autobox.Services
         }
 
         // ##### Attributes
-        // library configuration
-        private string MetadataFilepath;
-        public LibraryMetadata Metadata { get; private set; } = new LibraryMetadata();
         // library files
         public Dictionary<string, TrackMetadata> TrackList { get; private set; } = new Dictionary<string, TrackMetadata>();
         public TagCollection TagList { get; protected set; } = new TagCollection();

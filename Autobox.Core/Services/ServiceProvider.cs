@@ -37,35 +37,28 @@ namespace Autobox.Services
             return BuildVideoFilePath(track.Id, track.Ext);
         }
 
-        public static void LoadLibrary(string libraryName)
+        public static void LoadLibrary(string directory)
         {
-            LibraryDirectory = Path.Combine(Directory.GetCurrentDirectory(), libraryName);
+            LibraryDirectory = directory;
             if (!Directory.Exists(LibraryDirectory))
             {
                 Directory.CreateDirectory(LibraryDirectory);
             }
 
-            LibraryMetadata metadata = null;
-            string metadataFilePath = Path.Combine(LibraryDirectory, LibraryMetadataFileName);
-            if (!File.Exists(metadataFilePath))
-            {
-                metadata = new LibraryMetadata();
-                File.WriteAllText(metadataFilePath, JsonConvert.SerializeObject(metadata));
-            }
-            else
-            {
-                string json = File.ReadAllText(metadataFilePath);
-                metadata = JsonConvert.DeserializeObject<LibraryMetadata>(json);
-            }
-            Library.Load(metadataFilePath, metadata);
+            Library.Load(LibraryDirectory);
+        }
+
+        public static void ExportLibrary(string filename)
+        {
+            File.WriteAllText(filename, JsonConvert.SerializeObject(Library.Export(), Formatting.Indented));
         }
 
         // ##### Configuration
-        public static readonly string LibraryMetadataFileName = "library.json";
+        public static readonly string LibraryMetadataFileExt = ".library.json";
         public static readonly string MetadataFileExt = ".metadata.json";
         public static readonly string ThumbnailFileExt = ".thumbnail.jpg";
         // ##### Services
-        private static string LibraryDirectory;
+        public static string LibraryDirectory { get; private set; }
         public static readonly ILibrary Library = new Library();
         public static readonly IPlaylistGenerator Generator = new AutoboxPlaylistGenerator(Library);
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Specialized;
@@ -14,7 +15,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Microsoft.Win32;
 
 using Autobox.Data;
@@ -46,6 +46,39 @@ namespace Autobox.Desktop.Activities
         public void OnDeactivated()
         {
 
+        }
+
+
+        private void LoadButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog
+            {
+                Multiselect = false,
+                Filter = $"Libary file (*{ServiceProvider.LibraryMetadataFileExt})| *{ServiceProvider.LibraryMetadataFileExt}",
+                DefaultExt = ServiceProvider.LibraryMetadataFileExt,
+                InitialDirectory = ServiceProvider.LibraryDirectory
+            };
+
+            if (dialog.ShowDialog() == true)
+            {
+                ServiceProvider.LoadLibrary(Path.GetDirectoryName(dialog.FileName));
+            }
+        }
+
+
+
+        private void ExportButton_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog dialog = new SaveFileDialog
+            {
+                Filter = $"Autobox Libary File (*{ServiceProvider.LibraryMetadataFileExt})| *{ServiceProvider.LibraryMetadataFileExt}",
+                InitialDirectory = ServiceProvider.LibraryDirectory
+            };
+
+            if (dialog.ShowDialog() == true)
+            {
+                ServiceProvider.ExportLibrary(dialog.FileName);
+            }
         }
 
         private void FilteredTrackListPanel_TrackSelectionChanged(object sender, TrackSelectionChangedEventArgs e)
