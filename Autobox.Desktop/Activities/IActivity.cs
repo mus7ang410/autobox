@@ -21,8 +21,5 @@ namespace Autobox.Desktop.Activities
     {
         void OnActivated();
         void OnDeactivated();
-
-        // ##### Events
-        EventHandler<ActivityBackgroundChangedEventArgs> ActivityBackgroundChanged { get; set; }
     }
 }

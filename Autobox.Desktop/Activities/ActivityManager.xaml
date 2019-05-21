@@ -28,6 +28,5 @@
                 </Button.OpacityMask>
             </Button>
         </DockPanel>
-        <Controls:DynamicBackground x:Name="DynamicBackground" Grid.Row="1"/>
     </Grid>
 </UserControl>
