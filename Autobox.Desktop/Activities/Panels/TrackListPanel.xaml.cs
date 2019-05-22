@@ -57,12 +57,12 @@ namespace Autobox.Desktop.Activities.Panels
         {
             if (CurrentSortDirection == ListSortDirection.Ascending)
             {
-                SortButton.OpacityMask = FindResource("IconButton.Brushes.Down") as Brush;
+                SortButton.OpacityMask = FindResource("Button.Icon.Brushes.Down") as Brush;
                 CurrentSortDirection = ListSortDirection.Descending;
             }
             else
             {
-                SortButton.OpacityMask = FindResource("IconButton.Brushes.Up") as Brush;
+                SortButton.OpacityMask = FindResource("Button.Icon.Brushes.Up") as Brush;
                 CurrentSortDirection = ListSortDirection.Ascending;
             }
 

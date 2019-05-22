@@ -47,7 +47,7 @@ namespace Autobox.Desktop.Activities.Panels
                 {
                     TrackPlayer.Pause();
                     State = EState.Idle;
-                    PlayButton.OpacityMask = FindResource("IconButton.Brushes.Play") as Brush;
+                    PlayButton.OpacityMask = FindResource("Button.Icon.Brushes.Play") as Brush;
                 }
             }
             else
@@ -62,7 +62,7 @@ namespace Autobox.Desktop.Activities.Panels
             TitleTextBox.Text = string.Empty;
             TitleTextBox.IsEnabled = false;
             RatingPanel.CanRate = false;
-            PlayButton.OpacityMask = FindResource("IconButton.Brushes.Play") as Brush;
+            PlayButton.OpacityMask = FindResource("Button.Icon.Brushes.Play") as Brush;
             TrackMetadata unloadedTrack = SelectedTrack;
             SelectedTrack = null;
             return unloadedTrack;
@@ -76,13 +76,13 @@ namespace Autobox.Desktop.Activities.Panels
                 {
                     TrackPlayer.Play(0);
                     State = EState.Playing;
-                    PlayButton.OpacityMask = FindResource("IconButton.Brushes.Pause") as Brush;
+                    PlayButton.OpacityMask = FindResource("Button.Icon.Brushes.Pause") as Brush;
                 }
                 else
                 {
                     TrackPlayer.Pause();
                     State = EState.Idle;
-                    PlayButton.OpacityMask = FindResource("IconButton.Brushes.Play") as Brush;
+                    PlayButton.OpacityMask = FindResource("Button.Icon.Brushes.Play") as Brush;
                 }
             }
         }
@@ -98,13 +98,13 @@ namespace Autobox.Desktop.Activities.Panels
         private void MediaPlayer_MediaFailed(object sender, ExceptionRoutedEventArgs e)
         {
             State = EState.Failed;
-            PlayButton.OpacityMask = FindResource("IconButton.Brushes.Play") as Brush;
+            PlayButton.OpacityMask = FindResource("Button.Icon.Brushes.Play") as Brush;
         }
 
         private void MediaPlayer_MediaEnded(object sender, RoutedEventArgs e)
         {
             State = EState.Idle;
-            PlayButton.OpacityMask = FindResource("IconButton.Brushes.Pause") as Brush;
+            PlayButton.OpacityMask = FindResource("Button.Icon.Brushes.Pause") as Brush;
         }
 
         private void SoundSlider_ValueChanged(object sender, double e)

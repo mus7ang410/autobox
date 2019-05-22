@@ -8,25 +8,18 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
-    <Grid x:Name="LayoutGrid">
+    <Grid x:Name="LayoutGrid" Background="{StaticResource Color.Background}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="{StaticResource H0.GridLength}"/>
+            <RowDefinition Height="{StaticResource H1.GridLength}"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Rectangle Fill="{StaticResource PrimaryColor}"/>
-        <DockPanel LastChildFill="False">
+
+        <StackPanel Orientation="Horizontal">
             <Separator Width="{StaticResource H2.Double}" Background="Transparent"/>
-            <Button x:Name="PlayerButton" Style="{StaticResource RibbonButton}" Click="RibbonButton_Click">
-                <Button.OpacityMask>
-                    <ImageBrush ImageSource="/Autobox.Desktop;component/Assets/PlayIcon.png" Stretch="Uniform"/>
-                </Button.OpacityMask>
-            </Button>
-            <Separator Width="{StaticResource H3.Double}" Background="Transparent"/>
-            <Button x:Name="LibraryButton" Style="{StaticResource RibbonButton}"  Click="RibbonButton_Click">
-                <Button.OpacityMask>
-                    <ImageBrush ImageSource="/Autobox.Desktop;component/Assets/DiscIcon.png" Stretch="Uniform"/>
-                </Button.OpacityMask>
-            </Button>
-        </DockPanel>
+            <Button x:Name="PlayerButton" Style="{StaticResource Button.Menu}" Content="PLAYER" Click="RibbonButton_Click"/>
+            <Separator Width="{StaticResource H2.Double}" Background="Transparent"/>
+            <Button x:Name="LibraryButton" Style="{StaticResource Button.Menu}" Content="MY MUSIC" Click="RibbonButton_Click"/>
+            <Separator Background="{x:Null}"/>
+        </StackPanel>
     </Grid>
 </UserControl>

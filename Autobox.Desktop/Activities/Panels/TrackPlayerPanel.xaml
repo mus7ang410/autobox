@@ -34,17 +34,17 @@
             <Controls:SoundSlider x:Name="SoundSlider" Grid.Column="3" Grid.Row="1" Grid.RowSpan="3" ValueChanged="SoundSlider_ValueChanged"/>
 
             <DockPanel Grid.Column="1" Grid.Row="3" LastChildFill="True" >
-                <Button x:Name="ShuffleButton" Style="{StaticResource IconButton}" Click="ShuffleButton_Click">
+                <Button x:Name="ShuffleButton" Style="{StaticResource Button.Icon}" Click="ShuffleButton_Click">
                     <Button.OpacityMask>
                         <ImageBrush ImageSource="/Autobox.Desktop;component/Assets/ShuffleIcon.png" Stretch="Uniform"/>
                     </Button.OpacityMask>
                 </Button>
-                <Button x:Name="PlayButton" Style="{StaticResource IconButton}" Click="PlayButton_Click">
+                <Button x:Name="PlayButton" Style="{StaticResource Button.Icon}" Click="PlayButton_Click">
                     <Button.OpacityMask>
                         <ImageBrush ImageSource="/Autobox.Desktop;component/Assets/PlayIcon.png" Stretch="Uniform"/>
                     </Button.OpacityMask>
                 </Button>
-                <Button x:Name="SkipButton" Style="{StaticResource IconButton}" Click="SkipButton_Click">
+                <Button x:Name="SkipButton" Style="{StaticResource Button.Icon}" Click="SkipButton_Click">
                     <Button.OpacityMask>
                         <ImageBrush ImageSource="/Autobox.Desktop;component/Assets/SkipIcon.png" Stretch="Uniform"/>
                     </Button.OpacityMask>

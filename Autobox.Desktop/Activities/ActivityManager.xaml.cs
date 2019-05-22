@@ -34,12 +34,10 @@ namespace Autobox.Desktop.Activities
             if (CurrentActivityButton != null)
             {
                 (CurrentActivity as IActivity).OnDeactivated();
-                CurrentActivityButton.Background = FindResource("TextSecondaryColor") as Brush;
                 LayoutGrid.Children.Remove(CurrentActivity);
             }
 
             CurrentActivityButton = button;
-            CurrentActivityButton.Background = FindResource("TextDarkColor") as Brush;
             CurrentActivity = Activities[CurrentActivityButton];
             LayoutGrid.Children.Add(CurrentActivity);
             Grid.SetRow(CurrentActivity, 1);

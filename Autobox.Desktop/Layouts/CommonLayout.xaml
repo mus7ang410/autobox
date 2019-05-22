@@ -7,7 +7,7 @@
     <system:Double x:Key="H2.Double">15</system:Double>
     <system:Double x:Key="H3.Double">5</system:Double>
 
-    <GridLength x:Key="H0.GridLength">50</GridLength>
+    <GridLength x:Key="H0.GridLength">150</GridLength>
     <GridLength x:Key="H1.GridLength">30</GridLength>
     <GridLength x:Key="H2.GridLength">15</GridLength>
     <GridLength x:Key="H3.GridLength">5</GridLength>
@@ -16,34 +16,107 @@
     <Thickness x:Key="H2.Thickness">15</Thickness>
     <Thickness x:Key="H3.Thickness">5</Thickness>
 
-    <LinearGradientBrush x:Key="BackColor" StartPoint="0,1" EndPoint="1,0" MappingMode="RelativeToBoundingBox">
-        <LinearGradientBrush.GradientStops>
-            <GradientStopCollection>
-                <GradientStop Color="#476161" />
-                <GradientStop Color="#3b4b59" Offset="1"/>
-            </GradientStopCollection>
-        </LinearGradientBrush.GradientStops>
-    </LinearGradientBrush>
-
-    <SolidColorBrush x:Key="PrimaryColor" Color="#2a3944"/>
-    <SolidColorBrush x:Key="SecondaryColor" Color="#445561"/>
-    <SolidColorBrush x:Key="LightColor" Color="#668195"/>
-    <SolidColorBrush x:Key="AccentColor" Color="#2f3e49"/>
-    <SolidColorBrush x:Key="YouTubeColor" Color="#ee1c1b"/>
-
-    <SolidColorBrush x:Key="TextPrimaryColor" Color="#111315"/>
-    <SolidColorBrush x:Key="TextSecondaryColor" Color="#1a242a"/>
-    <SolidColorBrush x:Key="TextLightColor" Color="#80a2b2"/>
-    <SolidColorBrush x:Key="TextDarkColor" Color="#15191b"/>
+    <!-- Colors -->
+    <SolidColorBrush x:Key="Color.Background" Color="#1e1e1e"/>
+    <SolidColorBrush x:Key="Color.Foreground" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="Color.Accent" Color="#007acc"/>
+    <SolidColorBrush x:Key="Color.YouTube" Color="#ee1c1b"/>
 
     <Style x:Key="H1.Label" TargetType="Label">
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="Height" Value="{StaticResource H1.Double}"/>
-        <Setter Property="FontFamily" Value="AvenirCondensedHand CondensedHand"/>
+        <Setter Property="FontFamily" Value="Arial"/>
         <Setter Property="FontWeight" Value="ExtraBold"/>
         <Setter Property="FontSize" Value="20"/>
-        <Setter Property="Foreground" Value="{StaticResource TextPrimaryColor}"/>
+        <Setter Property="Foreground" Value="{StaticResource Color.Foreground}"/>
     </Style>
 
+    <!-- Menu -->
+    <Style x:Key="Button.Menu" TargetType="Button">
+        <Setter Property="Background" Value="{x:Null}"/>
+        <Setter Property="BorderBrush" Value="{x:Null}"/>
+        <Setter Property="Foreground" Value="{StaticResource Color.Foreground}"/>
+        <Setter Property="FontFamily" Value="Arial Black"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="{TemplateBinding Background}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter Property="Background" Value="{x:Null}"/>
+                <Setter Property="BorderBrush" Value="{x:Null}"/>
+                <Setter Property="Foreground" Value="{StaticResource Color.Accent}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Tags -->
+    <Style x:Key="Button.Tag" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource Color.Accent}"/>
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Foreground" Value="{StaticResource Color.Foreground}"/>
+        <Setter Property="Margin" Value="0, 0, 4, 4" />
+    </Style>
+
+    <!-- Inputs -->
+    <Style x:Key="Button.Icon" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource Color.Foreground}"/>
+        <Setter Property="Foreground" Value="{x:Null}"/>
+        <Setter Property="BorderBrush" Value="{x:Null}"/>
+        <Setter Property="Width" Value="{StaticResource H1.Double}"/>
+        <Setter Property="Height" Value="{StaticResource H1.Double}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid x:Name="Grid"  Background="{TemplateBinding Background}">
+                        <ContentPresenter></ContentPresenter>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Button.IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource Color.Accent}" TargetName="Grid"></Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="Button.Text" TargetType="Button">
+        <Setter Property="Background" Value="{x:Null}"/>
+        <Setter Property="Foreground" Value="{StaticResource Color.Foreground}"/>
+        <Setter Property="BorderBrush" Value="{x:Null}"/>
+        <Setter Property="FontFamily" Value="Arial"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="Height" Value="{StaticResource H1.Double}"/>
+    </Style>
+
+    <Style x:Key="InputTextBox" TargetType="TextBox">
+        <Setter Property="Background" Value="{x:Null}"/>
+        <Setter Property="Foreground" Value="{StaticResource Color.Accent}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Color.Accent}"/>
+        <Setter Property="Height" Value="{StaticResource H1.Double}"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="TextWrapping" Value="NoWrap"/>
+        <Setter Property="MaxLines" Value="1"/>
+        <Setter Property="CharacterCasing" Value="Upper"/>
+    </Style>
+
+    <ImageBrush x:Key="Button.Icon.Brushes.Play" ImageSource="/Autobox.Desktop;component/Assets/PlayIcon.png" Stretch="Uniform"/>
+    <ImageBrush x:Key="Button.Icon.Brushes.Pause" ImageSource="/Autobox.Desktop;component/Assets/PauseIcon.png" Stretch="Uniform"/>
+    <ImageBrush x:Key="Button.Icon.Brushes.Sound" ImageSource="/Autobox.Desktop;component/Assets/SoundIcon.png" Stretch="Uniform"/>
+    <ImageBrush x:Key="Button.Icon.Brushes.Muted" ImageSource="/Autobox.Desktop;component/Assets/MutedIcon.png" Stretch="Uniform"/>
+    <ImageBrush x:Key="Button.Icon.Brushes.Star" ImageSource="/Autobox.Desktop;component/Assets/StarIcon.png" Stretch="Uniform"/>
+    <ImageBrush x:Key="Button.Icon.Brushes.StarFilled" ImageSource="/Autobox.Desktop;component/Assets/StarFilledIcon.png" Stretch="Uniform"/>
+    <ImageBrush x:Key="Button.Icon.Brushes.Up" ImageSource="/Autobox.Desktop;component/Assets/UpIcon.png" Stretch="Uniform"/>
+    <ImageBrush x:Key="Button.Icon.Brushes.Down" ImageSource="/Autobox.Desktop;component/Assets/DownIcon.png" Stretch="Uniform"/>
+
+
+    
 </ResourceDictionary>

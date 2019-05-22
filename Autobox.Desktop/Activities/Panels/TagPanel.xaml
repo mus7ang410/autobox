@@ -30,7 +30,7 @@
             </Grid.RowDefinitions>
             
             <DockPanel Grid.Column="1" Grid.Row="1" LastChildFill="True" FlowDirection="RightToLeft">
-                <Button x:Name="AddButton" Style="{StaticResource IconButton}" Click="AddButton_Click">
+                <Button x:Name="AddButton" Style="{StaticResource Button.Icon}" Click="AddButton_Click">
                     <Button.OpacityMask>
                         <ImageBrush ImageSource="/Autobox.Desktop;component/Assets/AddIcon.png" Stretch="Uniform"/>
                     </Button.OpacityMask>

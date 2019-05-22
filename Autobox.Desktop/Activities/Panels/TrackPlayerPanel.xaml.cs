@@ -35,14 +35,14 @@ namespace Autobox.Desktop.Activities.Panels
         public void Play()
         {
             Player.Play();
-            PlayButton.OpacityMask = FindResource("IconButton.Brushes.Pause") as Brush;
+            PlayButton.OpacityMask = FindResource("Button.Icon.Brushes.Pause") as Brush;
             State = EState.Playing;
         }
 
         public void Pause()
         {
             Player.Pause();
-            PlayButton.OpacityMask = FindResource("IconButton.Brushes.Play") as Brush;
+            PlayButton.OpacityMask = FindResource("Button.Icon.Brushes.Play") as Brush;
             State = EState.Paused;
         }
 
