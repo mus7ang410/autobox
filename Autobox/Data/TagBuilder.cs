@@ -44,21 +44,35 @@ namespace Autobox.Data
             // extract quoted strings
             Regex quoteRgx = new Regex("\"[^\"]*\"");
             MatchCollection quoteMatches = quoteRgx.Matches(text);
-            foreach (Match quoteMatch in quoteMatches)
+            List<string> quotes = new List<string>();
+            for (int i = 0; i < quoteMatches.Count; i++)
             {
-                text = text.Replace(quoteMatch.Value, "");
-                string quote = quoteMatch.Value.Replace("\"", "");
-                tokens.Add(quote);
+                Match quoteMatch = quoteMatches[i];
+                text = text.Replace(quoteMatch.Value, $"%{i}");
+                quotes.Add(quoteMatch.Value.Replace("\"", ""));
             }
 
-            tokens.AddRange(text.Split(' '));
+            foreach (string token in text.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                if (token.StartsWith("%"))
+                {
+                    if (int.TryParse(token.Substring(1), out int index))
+                    {
+                        tokens.Add(quotes[index]);
+                    }
+                }
+                else
+                {
+                    tokens.Add(token);
+                }
+            }
 
             return tokens;
         }
 
         private static Tag.ECategory CategoryFromString(string value)
         {
-            string key = value.ToLower();
+            string key = value.ToLower().Replace("$", "");
             if (Categories.ContainsKey(key))
             {
                 return Categories[key];

@@ -24,9 +24,9 @@ namespace Autobox.Data
 
         private static string Normalize(string value)
         {
-            Regex rgx = new Regex("[^a-zA-Z0-9 -]");
-            string computed = rgx.Replace(value, "");
-            return computed.ToUpper().TrimStart().TrimEnd();
+            //Regex rgx = new Regex("[^a-zA-Z0-9 -]");
+            //string computed = rgx.Replace(value, "");
+            return value.ToUpper().TrimStart().TrimEnd();
         }
 
         // ##### Properties

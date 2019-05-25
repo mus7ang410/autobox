@@ -23,6 +23,12 @@
     <SolidColorBrush x:Key="Color.Accent.Dark" Color="#3072d6"/>
     <SolidColorBrush x:Key="Color.YouTube" Color="#ee1c1b"/>
 
+    <SolidColorBrush x:Key="Color.Tag.Artist" Color="#869a87"/>
+    <SolidColorBrush x:Key="Color.Tag.Period" Color="#9d827b"/>
+    <SolidColorBrush x:Key="Color.Tag.Genre" Color="#57116a"/>
+    <SolidColorBrush x:Key="Color.Tag.Country" Color="#3c5509"/>
+    <SolidColorBrush x:Key="Color.Tag.Custom" Color="#3072d6"/>
+
     <Style x:Key="H1.Label" TargetType="Label">
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -75,26 +81,43 @@
     </Style>
     
     <!-- Tags -->
-    <Style x:Key="Button.Tag" TargetType="Button">
+    <Style x:Key="Button.Tag.Custom" TargetType="Button">
         <Setter Property="Background" Value="{StaticResource Color.Accent.Dark}"/>
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Foreground" Value="{StaticResource Color.Foreground}"/>
         <Setter Property="Margin" Value="0, 0, 4, 4" />
+        <Setter Property="Padding" Value="8,0"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border Background="{TemplateBinding Background}">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="true">
-                <Setter Property="Background" Value="{StaticResource Color.Accent}"/>
+                <Setter Property="Background" Value="{StaticResource Color.YouTube}"/>
                 <Setter Property="BorderBrush" Value="{x:Null}"/>
             </Trigger>
         </Style.Triggers>
+    </Style>
+
+    <Style x:Key="Button.Tag.Artist" BasedOn="{StaticResource Button.Tag.Custom}" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource Color.Tag.Artist}"/>
+    </Style>
+
+    <Style x:Key="Button.Tag.Period" BasedOn="{StaticResource Button.Tag.Custom}" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource Color.Tag.Period}"/>
+    </Style>
+
+    <Style x:Key="Button.Tag.Genre" BasedOn="{StaticResource Button.Tag.Custom}" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource Color.Tag.Genre}"/>
+    </Style>
+
+    <Style x:Key="Button.Tag.Country" BasedOn="{StaticResource Button.Tag.Custom}" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource Color.Tag.Country}"/>
     </Style>
 
     <!-- Inputs -->

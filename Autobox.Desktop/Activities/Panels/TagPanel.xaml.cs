@@ -84,7 +84,7 @@ namespace Autobox.Desktop.Activities.Panels
                         Button button = new Button
                         {
                             Content = tag,
-                            Style = FindResource("Button.Tag") as Style
+                            Style = FindResource($"Button.Tag.{tag.Category}") as Style
                         };
                         button.Click += TagButon_Click;
                         TagWrapPanel.Children.Add(button);
