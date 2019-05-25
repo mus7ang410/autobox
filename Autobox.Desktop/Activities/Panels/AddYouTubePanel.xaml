@@ -6,13 +6,13 @@
              xmlns:local="clr-namespace:Autobox.Desktop.Activities.Panels"
              mc:Ignorable="d" d:DesignWidth="800" Height="Auto">
     
-    <Grid Style="{StaticResource CardBackground}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Label x:Name="TitleLabel" Grid.Row="0" Style="{StaticResource CardHeader}" Background="{StaticResource Color.YouTube}" Foreground="White" Content="ADD FROM YOUTUBE"/>
+        <Label x:Name="TitleLabel" Grid.Row="0" Style="{StaticResource Label.Title.H2}" Content="ADD FROM YOUTUBE"/>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="{StaticResource H3.GridLength}"/>
@@ -32,7 +32,7 @@
                     </Button.OpacityMask>
                 </Button>
                 <Separator Width="{StaticResource H3.Double}" Background="{x:Null}"/>
-                <TextBox x:Name="LinkTextBox" Style="{StaticResource InputTextBox}" CharacterCasing="Normal" FlowDirection="LeftToRight" KeyDown="LinkTextBox_KeyDown"/>
+                <TextBox x:Name="LinkTextBox" Style="{StaticResource TextBox.Flat}" CharacterCasing="Normal" FlowDirection="LeftToRight" KeyDown="LinkTextBox_KeyDown"/>
             </DockPanel>
         </Grid>
     </Grid>

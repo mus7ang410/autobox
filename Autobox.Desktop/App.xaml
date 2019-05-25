@@ -4,11 +4,6 @@
              xmlns:local="clr-namespace:Autobox.Desktop"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Layouts/CommonLayout.xaml"/>
-                <ResourceDictionary Source="Layouts/CardLayout.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
+        <ResourceDictionary Source="Layouts/Layout.xaml"/>
     </Application.Resources>
 </Application>

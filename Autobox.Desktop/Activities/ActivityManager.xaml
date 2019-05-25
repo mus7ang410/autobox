@@ -16,9 +16,9 @@
 
         <StackPanel Orientation="Horizontal">
             <Separator Width="{StaticResource H2.Double}" Background="Transparent"/>
-            <Button x:Name="PlayerButton" Style="{StaticResource Button.Menu}" Content="PLAYER" Click="RibbonButton_Click"/>
+            <Button x:Name="PlayerButton" Style="{StaticResource Button.Menu.H1}" Content="PLAYER" Click="RibbonButton_Click"/>
             <Separator Width="{StaticResource H2.Double}" Background="Transparent"/>
-            <Button x:Name="LibraryButton" Style="{StaticResource Button.Menu}" Content="MY MUSIC" Click="RibbonButton_Click"/>
+            <Button x:Name="LibraryButton" Style="{StaticResource Button.Menu.H1}" Content="MY MUSIC" Click="RibbonButton_Click"/>
             <Separator Background="{x:Null}"/>
         </StackPanel>
     </Grid>

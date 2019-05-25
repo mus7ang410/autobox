@@ -7,19 +7,20 @@
              xmlns:Controls="clr-namespace:Autobox.Desktop.Activities.Controls" x:Class="Autobox.Desktop.Activities.Panels.TrackPlayerPanel"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Style="{StaticResource CardBackground}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Label x:Name="TitleLabel" Grid.Row="0" Style="{StaticResource CardHeader}" Content="PLAYER"/>
+        <Label x:Name="TitleLabel" Grid.Row="0" Style="{StaticResource Label.Title.H1}" Content="PLAYER"/>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition  Width="{StaticResource H3.GridLength}"/>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="{StaticResource H3.GridLength}"/>
-                <ColumnDefinition Width="{StaticResource H1.GridLength}"/>
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="14"/>
                 <ColumnDefinition Width="{StaticResource H3.GridLength}"/>
             </Grid.ColumnDefinitions>
 
@@ -31,7 +32,7 @@
                 <RowDefinition Height="{StaticResource H3.GridLength}"/>
             </Grid.RowDefinitions>
 
-            <Controls:SoundSlider x:Name="SoundSlider" Grid.Column="3" Grid.Row="1" Grid.RowSpan="3" ValueChanged="SoundSlider_ValueChanged"/>
+            <Controls:SoundSlider x:Name="SoundSlider" Grid.Column="3" Grid.Row="1" Grid.RowSpan="3" ValueChanged="SoundSlider_ValueChanged" Grid.ColumnSpan="2"/>
 
             <DockPanel Grid.Column="1" Grid.Row="3" LastChildFill="True" >
                 <Button x:Name="ShuffleButton" Style="{StaticResource Button.Icon}" Click="ShuffleButton_Click">
@@ -53,7 +54,7 @@
                 <DockPanel FlowDirection="RightToLeft" LastChildFill="True">
                     <local:RatingPanel x:Name="RatingPanel" RatingChanged="RatingPanel_RatingChanged"/>
                     <Separator Background="{x:Null}"/>
-                    <Label x:Name="CurrentTrackTitle" Style="{StaticResource H1.Label}" Content="NO PLAYING TRACK"/>
+                    <Label x:Name="CurrentTrackTitle" Style="{StaticResource Label.Title.H2}" HorizontalAlignment="Center" Content="NO PLAYING TRACK"/>
                 </DockPanel>
             </DockPanel>
 

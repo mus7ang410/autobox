@@ -19,7 +19,8 @@
     <!-- Colors -->
     <SolidColorBrush x:Key="Color.Background" Color="#1e1e1e"/>
     <SolidColorBrush x:Key="Color.Foreground" Color="#FFFFFF"/>
-    <SolidColorBrush x:Key="Color.Accent" Color="#007acc"/>
+    <SolidColorBrush x:Key="Color.Accent" Color="#59b0f4"/>
+    <SolidColorBrush x:Key="Color.Accent.Dark" Color="#3072d6"/>
     <SolidColorBrush x:Key="Color.YouTube" Color="#ee1c1b"/>
 
     <Style x:Key="H1.Label" TargetType="Label">
@@ -32,12 +33,13 @@
         <Setter Property="Foreground" Value="{StaticResource Color.Foreground}"/>
     </Style>
 
-    <!-- Menu -->
-    <Style x:Key="Button.Menu" TargetType="Button">
+    <!-- Headers -->
+    <Style x:Key="Button.Menu.H1" TargetType="Button">
         <Setter Property="Background" Value="{x:Null}"/>
         <Setter Property="BorderBrush" Value="{x:Null}"/>
         <Setter Property="Foreground" Value="{StaticResource Color.Foreground}"/>
-        <Setter Property="FontFamily" Value="Arial Black"/>
+        <Setter Property="FontFamily" Value="Arial"/>
+        <Setter Property="FontSize" Value="16"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
@@ -56,12 +58,43 @@
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="Button.Menu.H2" BasedOn="{StaticResource Button.Menu.H1}" TargetType="Button">
+        <Setter Property="FontSize" Value="12"/>
+    </Style>
+
+    <Style x:Key="Label.Title.H1" TargetType="Label">
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Background" Value="{x:Null}"/>
+        <Setter Property="Foreground" Value="{StaticResource Color.Foreground}"/>
+        <Setter Property="FontFamily" Value="Arial"/>
+        <Setter Property="FontSize" Value="18"/>
+    </Style>
+
+    <Style x:Key="Label.Title.H2" BasedOn="{StaticResource Label.Title.H1}" TargetType="Label">
+        <Setter Property="FontSize" Value="14"/>
+    </Style>
+    
     <!-- Tags -->
     <Style x:Key="Button.Tag" TargetType="Button">
-        <Setter Property="Background" Value="{StaticResource Color.Accent}"/>
+        <Setter Property="Background" Value="{StaticResource Color.Accent.Dark}"/>
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Foreground" Value="{StaticResource Color.Foreground}"/>
         <Setter Property="Margin" Value="0, 0, 4, 4" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="{TemplateBinding Background}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter Property="Background" Value="{StaticResource Color.Accent}"/>
+                <Setter Property="BorderBrush" Value="{x:Null}"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <!-- Inputs -->
@@ -87,20 +120,11 @@
         </Setter>
     </Style>
 
-    <Style x:Key="Button.Text" TargetType="Button">
-        <Setter Property="Background" Value="{x:Null}"/>
-        <Setter Property="Foreground" Value="{StaticResource Color.Foreground}"/>
-        <Setter Property="BorderBrush" Value="{x:Null}"/>
-        <Setter Property="FontFamily" Value="Arial"/>
-        <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="FontSize" Value="18"/>
-        <Setter Property="Height" Value="{StaticResource H1.Double}"/>
-    </Style>
-
-    <Style x:Key="InputTextBox" TargetType="TextBox">
+    <Style x:Key="TextBox.Flat" TargetType="TextBox">
         <Setter Property="Background" Value="{x:Null}"/>
         <Setter Property="Foreground" Value="{StaticResource Color.Accent}"/>
         <Setter Property="BorderBrush" Value="{StaticResource Color.Accent}"/>
+        <Setter Property="CaretBrush" Value="{StaticResource Color.Accent}"/>
         <Setter Property="Height" Value="{StaticResource H1.Double}"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="TextWrapping" Value="NoWrap"/>
