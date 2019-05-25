@@ -34,28 +34,19 @@ namespace Autobox.Desktop.Activities
             if (CurrentActivityButton != null)
             {
                 (CurrentActivity as IActivity).OnDeactivated();
-                (CurrentActivity as IActivity).ActivityBackgroundChanged -= CurrentActivity_ActivityBackgroundChanged;
-                CurrentActivityButton.Background = FindResource("TextSecondaryColor") as Brush;
                 LayoutGrid.Children.Remove(CurrentActivity);
             }
 
             CurrentActivityButton = button;
-            CurrentActivityButton.Background = FindResource("TextDarkColor") as Brush;
             CurrentActivity = Activities[CurrentActivityButton];
             LayoutGrid.Children.Add(CurrentActivity);
             Grid.SetRow(CurrentActivity, 1);
             (CurrentActivity as IActivity).OnActivated();
-            (CurrentActivity as IActivity).ActivityBackgroundChanged += CurrentActivity_ActivityBackgroundChanged;
         }
 
         private void AddActivity<TActivity>(Button button, TActivity activity) where TActivity : UserControl, IActivity
         {
             Activities.Add(button, activity);
-        }
-
-        private void CurrentActivity_ActivityBackgroundChanged(object sender, ActivityBackgroundChangedEventArgs e)
-        {
-            DynamicBackground.SetBackgroundTargetColor(e.RequestedColor);
         }
 
         // ##### Attributes

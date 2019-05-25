@@ -8,13 +8,13 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
-    <Grid Style="{StaticResource CardBackground}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Label x:Name="TitleLabel" Grid.Row="0" Style="{StaticResource CardHeader}" Content="TRACK PREVIEW"/>
+        <Label x:Name="TitleLabel" Grid.Row="0" Style="{StaticResource Label.Title.H2}" Content="TRACK PREVIEW"/>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="{StaticResource H3.GridLength}"/>
@@ -37,7 +37,7 @@
             <Controls:TrackPlayer x:Name="TrackPlayer" Grid.Column="1" Grid.Row="1"/>
 
             <DockPanel Grid.Column="1" Grid.Row="3" LastChildFill="True" >
-                <Button x:Name="PlayButton" Style="{StaticResource IconButton}" Click="PlayButton_Click">
+                <Button x:Name="PlayButton" Style="{StaticResource Button.Icon}" Click="PlayButton_Click">
                     <Button.OpacityMask>
                         <ImageBrush ImageSource="/Autobox.Desktop;component/Assets/PlayIcon.png" Stretch="Uniform"/>
                     </Button.OpacityMask>
@@ -47,10 +47,10 @@
                     <Separator Background="{x:Null}"/>
                 </DockPanel>
             </DockPanel>
-            <TextBox x:Name="TitleTextBox" Style="{StaticResource InputTextBox}" Grid.Column="1" Grid.Row="5" CharacterCasing="Normal" KeyDown="TitleTextBox_KeyDown"/>
+            <TextBox x:Name="TitleTextBox" Style="{StaticResource TextBox.Flat}" Grid.Column="1" Grid.Row="5" CharacterCasing="Normal" KeyDown="TitleTextBox_KeyDown"/>
 
             <Controls:SoundSlider x:Name="SoundSlider" Grid.Column="3" Grid.Row="1" Grid.RowSpan="3" ValueChanged="SoundSlider_ValueChanged"/>
-            <Button x:Name="DeleteButton" Style="{StaticResource IconButton}" Grid.Column="3" Grid.Row="5" Background="{StaticResource YouTubeColor}" Click="DeleteButton_Click">
+            <Button x:Name="DeleteButton" Style="{StaticResource Button.Icon}" Grid.Column="3" Grid.Row="5" Background="{StaticResource Color.YouTube}" Click="DeleteButton_Click">
                 <Button.OpacityMask>
                     <ImageBrush ImageSource="/Autobox.Desktop;component/Assets/RemoveIcon.png" Stretch="Uniform"/>
                 </Button.OpacityMask>

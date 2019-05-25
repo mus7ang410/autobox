@@ -13,7 +13,7 @@
             <RowDefinition Height="{StaticResource H1.GridLength}"/>
         </Grid.RowDefinitions>
         <Slider x:Name="Slider" Orientation="Vertical" HorizontalAlignment="Center" TickFrequency="0.1" Value="0.2" Maximum="1" ValueChanged="Slider_ValueChanged"/>
-        <Button x:Name="MuteButton" Grid.Row="2" Style="{StaticResource IconButton}" Click="MuteButton_Click">
+        <Button x:Name="MuteButton" Grid.Row="2" Style="{StaticResource Button.Icon}" Click="MuteButton_Click">
             <Button.OpacityMask>
                 <ImageBrush ImageSource="/Autobox.Desktop;component/Assets/SoundIcon.png" Stretch="Uniform"/>
             </Button.OpacityMask>

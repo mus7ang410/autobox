@@ -17,13 +17,13 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid Style="{StaticResource CardBackground}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Label x:Name="TitleLabel" Grid.Row="0" Style="{StaticResource CardHeader}" Content="FILTERED TRACKS"/>
+        <Label x:Name="TitleLabel" Grid.Row="0" Style="{StaticResource Label.Title.H1}" Content="FILTERED TRACKS"/>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="{StaticResource H3.GridLength}"/>
@@ -39,15 +39,15 @@
                 <RowDefinition Height="{StaticResource H3.GridLength}"/>
             </Grid.RowDefinitions>
             <DockPanel Grid.Column="1" Grid.Row="1" LastChildFill="True">
-                <Button x:Name="SortButton" Style="{StaticResource IconButton}" Click="SortButton_Click">
+                <Button x:Name="SortButton" Style="{StaticResource Button.Icon}" Click="SortButton_Click">
                     <Button.OpacityMask>
                         <ImageBrush ImageSource="/Autobox.Desktop;component/Assets/UpIcon.png" Stretch="Uniform"/>
                     </Button.OpacityMask>
                 </Button>
                 <Separator Width="{StaticResource H3.Double}" Background="{x:Null}"/>
-                <TextBox x:Name="FilterTextBox" Style="{StaticResource InputTextBox}" Text="{Binding TitleFilter, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox x:Name="FilterTextBox" Style="{StaticResource TextBox.Flat}" Text="{Binding TitleFilter, UpdateSourceTrigger=PropertyChanged}"/>
             </DockPanel>
-            <ListView x:Name="TrackListView" Grid.Column="1" Grid.Row="3" ItemsSource="{Binding FilteredView}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{DynamicResource TextLightColor}" SelectionMode="Extended"  SelectionChanged="TrackListView_SelectionChanged" AlternationCount="2">
+            <ListView x:Name="TrackListView" Grid.Column="1" Grid.Row="3" ItemsSource="{Binding FilteredView}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{StaticResource Color.Foreground}" SelectionMode="Extended"  SelectionChanged="TrackListView_SelectionChanged" AlternationCount="2">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <WrapPanel Orientation="Horizontal">

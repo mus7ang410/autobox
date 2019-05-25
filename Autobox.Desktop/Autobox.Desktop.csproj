@@ -81,9 +81,6 @@
     <Compile Include="Activities\ActivityManager.xaml.cs">
       <DependentUpon>ActivityManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Activities\Controls\DynamicBackground.xaml.cs">
-      <DependentUpon>DynamicBackground.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Activities\Controls\SoundSlider.xaml.cs">
       <DependentUpon>SoundSlider.xaml</DependentUpon>
     </Compile>
@@ -126,10 +123,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Activities\ActivityManager.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Activities\Controls\DynamicBackground.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -177,23 +170,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Layouts\CardLayout.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Layouts\CommonLayout.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Layouts\RibbonLayout.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Layouts\TagLayout.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Layouts\InputLayout.xaml">
+    <Page Include="Layouts\Layout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

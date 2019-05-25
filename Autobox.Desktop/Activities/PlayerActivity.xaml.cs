@@ -29,13 +29,6 @@ namespace Autobox.Desktop.Activities
             NoneOfTagPanel.TagSource = ServiceProvider.Generator.Settings.NoneOfTagList;
             AnyOfTagPanel.TagSource = ServiceProvider.Generator.Settings.AnyOfTagList;
             AllOfTagPanel.TagSource = ServiceProvider.Generator.Settings.AllOfTagList;
-            PlayerPanel.CurrentTrackChanged += delegate (object sender, TrackMetadataEventArgs e)
-            {
-                Random r = new Random();
-                ActivityBackgroundChanged?.Invoke(this, new ActivityBackgroundChangedEventArgs(
-                    Color.FromArgb(255, (byte)r.Next(1, 255), (byte)r.Next(1, 255), (byte)r.Next(1, 255))
-                    ));
-            };
         }
 
         public void OnActivated()
@@ -47,8 +40,5 @@ namespace Autobox.Desktop.Activities
         {
             PlayerPanel.Pause();
         }
-
-        // ##### Events
-        public EventHandler<ActivityBackgroundChangedEventArgs> ActivityBackgroundChanged { get; set; }
     }
 }

@@ -9,15 +9,15 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="{StaticResource H1.GridLength}"/>
+            <RowDefinition Height="{StaticResource H2.GridLength}"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Rectangle Fill="{StaticResource PrimaryColor}" Panel.ZIndex="-1"/>
+        <Rectangle Fill="{StaticResource Color.Background}" Panel.ZIndex="-1"/>
         <DockPanel LastChildFill="True">
             <Separator Width="{StaticResource H2.Double}" Background="{x:Null}"/>
-            <Button x:Name="ImportButton" Style="{StaticResource TextButton}" Content="IMPORT" Click="ImportButton_Click"/>
+            <Button x:Name="ImportButton" Style="{StaticResource Button.Menu.H2}" Content="IMPORT" Click="ImportButton_Click"/>
             <Separator Width="{StaticResource H2.Double}" Background="{x:Null}"/>
-            <Button x:Name="ExportButton" Style="{StaticResource TextButton}" Content="EXPORT" Click="ExportButton_Click"/>
+            <Button x:Name="ExportButton" Style="{StaticResource Button.Menu.H2}" Content="EXPORT" Click="ExportButton_Click"/>
             <Separator Background="{x:Null}"/>
         </DockPanel>
         

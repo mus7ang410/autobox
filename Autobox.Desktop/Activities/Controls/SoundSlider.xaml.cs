@@ -30,12 +30,12 @@ namespace Autobox.Desktop.Activities.Controls
             {
                 if (Slider.Value == 0)
                 {
-                    MuteButton.OpacityMask = FindResource("IconButton.Brushes.Muted") as Brush;
+                    MuteButton.OpacityMask = FindResource("Button.Icon.Brushes.Muted") as Brush;
                     IsMuted = true;
                 }
                 else
                 {
-                    MuteButton.OpacityMask = FindResource("IconButton.Brushes.Sound") as Brush;
+                    MuteButton.OpacityMask = FindResource("Button.Icon.Brushes.Sound") as Brush;
                     IsMuted = false;
                 }
                 ValueChanged?.Invoke(this, Slider.Value);
@@ -46,13 +46,13 @@ namespace Autobox.Desktop.Activities.Controls
         {
             if (IsMuted)
             {
-                MuteButton.OpacityMask = FindResource("IconButton.Brushes.Sound") as Brush;
+                MuteButton.OpacityMask = FindResource("Button.Icon.Brushes.Sound") as Brush;
                 Slider.Value = MutedValue > 0 ? MutedValue : 0.1;
                 IsMuted = false;
             }
             else
             {
-                MuteButton.OpacityMask = FindResource("IconButton.Brushes.Muted") as Brush;
+                MuteButton.OpacityMask = FindResource("Button.Icon.Brushes.Muted") as Brush;
                 MutedValue = Slider.Value;
                 Slider.Value = 0;
                 IsMuted = true;

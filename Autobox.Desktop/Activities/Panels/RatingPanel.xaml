@@ -19,31 +19,31 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Button x:Name="Star1Button" Style="{StaticResource IconButton}" Click="StarButton_Click">
+        <Button x:Name="Star1Button" Style="{StaticResource Button.Icon}" Click="StarButton_Click">
             <Button.OpacityMask>
                 <ImageBrush ImageSource="/Autobox.Desktop;component/Assets/StarIcon.png" Stretch="Uniform"/>
             </Button.OpacityMask>
         </Button>
 
-        <Button x:Name="Star2Button" Grid.Column="2" Style="{StaticResource IconButton}" Click="StarButton_Click">
+        <Button x:Name="Star2Button" Grid.Column="2" Style="{StaticResource Button.Icon}" Click="StarButton_Click">
             <Button.OpacityMask>
                 <ImageBrush ImageSource="/Autobox.Desktop;component/Assets/StarIcon.png" Stretch="Uniform"/>
             </Button.OpacityMask>
         </Button>
 
-        <Button x:Name="Star3Button" Grid.Column="4" Style="{StaticResource IconButton}" Click="StarButton_Click">
+        <Button x:Name="Star3Button" Grid.Column="4" Style="{StaticResource Button.Icon}" Click="StarButton_Click">
             <Button.OpacityMask>
                 <ImageBrush ImageSource="/Autobox.Desktop;component/Assets/StarIcon.png" Stretch="Uniform"/>
             </Button.OpacityMask>
         </Button>
 
-        <Button x:Name="Star4Button" Grid.Column="6" Style="{StaticResource IconButton}" Click="StarButton_Click">
+        <Button x:Name="Star4Button" Grid.Column="6" Style="{StaticResource Button.Icon}" Click="StarButton_Click">
             <Button.OpacityMask>
                 <ImageBrush ImageSource="/Autobox.Desktop;component/Assets/StarIcon.png" Stretch="Uniform"/>
             </Button.OpacityMask>
         </Button>
 
-        <Button x:Name="Star5Button" Grid.Column="8" Style="{StaticResource IconButton}" Click="StarButton_Click">
+        <Button x:Name="Star5Button" Grid.Column="8" Style="{StaticResource Button.Icon}" Click="StarButton_Click">
             <Button.OpacityMask>
                 <ImageBrush ImageSource="/Autobox.Desktop;component/Assets/StarIcon.png" Stretch="Uniform"/>
             </Button.OpacityMask>
