@@ -160,7 +160,7 @@ namespace Autobox.Desktop.Activities
                 List<Task> tasks = new List<Task>();
                 foreach (TrackMetadata track in SelectedTracks)
                 {
-                    track.Tags.Remove(e.Tag);
+                    track.Tags.Remove(e.RemovedTag);
                     tasks.Add(ServiceProvider.Library.UpdateTrackAsync(track));
                 }
                 await Task.WhenAll(tasks);

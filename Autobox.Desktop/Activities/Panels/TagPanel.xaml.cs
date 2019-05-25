@@ -31,12 +31,12 @@ namespace Autobox.Desktop.Activities.Panels
 
     public class TagRemovedEventArgs : EventArgs
     {
-        public TagRemovedEventArgs(string tag)
+        public TagRemovedEventArgs(Tag removedTag)
         {
-            Tag = tag;
+            RemovedTag = removedTag;
         }
 
-        public readonly string Tag;
+        public readonly Tag RemovedTag;
     }
 
     /// <summary>
@@ -66,7 +66,7 @@ namespace Autobox.Desktop.Activities.Panels
         // Tags creation and adding business
         private void AddTags()
         {
-            TagSource.UnionWith(Autobox.Data.Tag.CreateTagCollection(InputTextBox.Text));
+            TagSource.UnionWith(TagBuilder.ParseText(InputTextBox.Text));
             InputTextBox.Text = string.Empty;
             TagWrapPanel_Populate();
             TagAdded?.Invoke(this, new TagAddedEventArgs(TagSource));
@@ -79,17 +79,17 @@ namespace Autobox.Desktop.Activities.Panels
                 TagWrapPanel.Children.Clear();
                 if (TagSource != null)
                 {
-                    foreach (string tag in TagSource)
+                    foreach (Tag tag in TagSource)
                     {
                         Button button = new Button
                         {
-                            Content = "  " + tag.ToUpper() + "  ",
+                            Content = tag,
                             Style = FindResource("Button.Tag") as Style
                         };
                         button.Click += TagButon_Click;
                         TagWrapPanel.Children.Add(button);
                     }
-                    TagListCache = new HashSet<string>(TagSource);
+                    TagListCache = new TagCollection(TagSource);
                 }
                 else
                 {
@@ -107,7 +107,7 @@ namespace Autobox.Desktop.Activities.Panels
         {
             Button button = sender as Button;
             TagWrapPanel.Children.Remove(button);
-            string tag = (button.Content as string).TrimStart().TrimEnd().ToUpper();
+            Tag tag = (button.Content as Tag);
             TagSource.Remove(tag);
             TagRemoved?.Invoke(this, new TagRemovedEventArgs(tag));
         }
@@ -163,6 +163,6 @@ namespace Autobox.Desktop.Activities.Panels
         public EventHandler<TagRemovedEventArgs> TagRemoved { get; set; }
 
         // ##### Attributes
-        private HashSet<string> TagListCache = new HashSet<string>();
+        private TagCollection TagListCache = new TagCollection();
     }
 }
