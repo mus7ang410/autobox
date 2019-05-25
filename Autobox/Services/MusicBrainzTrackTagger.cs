@@ -79,7 +79,7 @@ namespace Autobox.Services
                 string artists = string.Empty;
                 foreach (JObject artist in GetBestRecording(recordings)["artist-credit"])
                 {
-                    track.Tags.Add(artist["artist"]["name"].ToString());
+                    track.Tags.Add(new Tag(Tag.ECategory.Artist, artist["artist"]["name"].ToString()));
                     artists += artist["artist"]["name"].ToString();
                     if (artist.ContainsKey("joinphrase"))
                     {
@@ -132,7 +132,7 @@ namespace Autobox.Services
                 if (minYear < MaxYear)
                 {
                     int decade = (minYear % 100) / 10;
-                    track.Tags.Add($"{decade}0S");
+                    track.Tags.Add(new Tag(Tag.ECategory.Period, $"{decade}0S"));
                 }
             }
             catch (Exception) { }
@@ -152,7 +152,7 @@ namespace Autobox.Services
                         {
                             foreach (JObject tag in recording["tags"])
                             {
-                                track.Tags.Add(tag["name"].ToString());
+                                track.Tags.Add(new Tag(Tag.ECategory.Genre, tag["name"].ToString()));
                             }
                         }
                     }

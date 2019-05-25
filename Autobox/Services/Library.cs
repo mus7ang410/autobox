@@ -31,7 +31,7 @@ namespace Autobox.Services
             foreach (string metadataFile in metadataFiles)
             {
                 string json = File.ReadAllText(metadataFile);
-                TrackMetadata track = ProcessLoadedTrack(JsonConvert.DeserializeObject<TrackMetadata>(json));
+                TrackMetadata track = JsonConvert.DeserializeObject<TrackMetadata>(json);
                 if (!TrackList.ContainsKey(track.Id))
                 {
                     TrackList.Add(track.Id, track);
@@ -70,14 +70,6 @@ namespace Autobox.Services
             {
                 Tracks = TrackList.Values.ToList()
             };
-        }
-
-        // ##### ProcessLoadedTrack
-        // Process a newly loaded track to ensure is content is compatible
-        private TrackMetadata ProcessLoadedTrack(TrackMetadata track)
-        {
-            track.Tags = new TagCollection(track.Tags.ToList().ConvertAll(str => str.ToUpper()));
-            return track;
         }
 
         // ##### AddTrackAsync

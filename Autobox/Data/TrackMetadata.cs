@@ -38,7 +38,7 @@ namespace Autobox.Data
         // EIncludeMatchType.All: Track needs to match the whole list of included tags
         // Empty include list is not checked
         public enum EIncludeMatchType { Optional, Any, All }
-        public bool MatchFilter(HashSet<string> toExclude, HashSet<string> toInclude, EIncludeMatchType matchType)
+        public bool MatchFilter(HashSet<Tag> toExclude, HashSet<Tag> toInclude, EIncludeMatchType matchType)
         {
             if (toExclude != null && Tags.Intersect(toExclude).Any())
             {
