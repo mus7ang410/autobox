@@ -17,17 +17,20 @@ namespace Autobox.Data
             Value = value;
         }
 
-        public override string ToString()
+        public override bool Equals(object obj)
         {
-            return Value;
+            Tag tag = obj as Tag;
+            if (tag == null)
+            {
+                return false;
+            }
+
+            return tag.Category == Category && tag.Value == Value;
         }
 
-        private static string Normalize(string value)
-        {
-            //Regex rgx = new Regex("[^a-zA-Z0-9 -]");
-            //string computed = rgx.Replace(value, "");
-            return value.ToUpper().TrimStart().TrimEnd();
-        }
+        public override string ToString() { return Value; }
+        public override int GetHashCode() { return $"{Category}:{Value}".GetHashCode(); }
+        private static string Normalize(string value) { return value.ToUpper().TrimStart().TrimEnd(); }
 
         // ##### Properties
         public bool Automatic { get; set; }
