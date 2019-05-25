@@ -47,7 +47,7 @@ namespace Autobox.Services
             List<Task> tasks = new List<Task>();
             foreach (TrackMetadata track in library.Tracks)
             {
-                if (TrackList.ContainsKey(track.Id))
+                if (!TrackList.ContainsKey(track.Id))
                 {
                     TagList.UnionWith(track.Tags);
                     tasks.Add(UpdateTrackAsync(track));
